@@ -38,7 +38,11 @@ function useRegister() {
       })
       .catch((error) => {
         const errorMessage = error.message;
-        toast.error(errorMessage);
+        if (errorMessage == "Firebase: Error (auth/email-already-in-use).") {
+          toast.error("This email already signed up!");
+        } else {
+          toast.error(errorMessage);
+        }
       });
   };
 
@@ -51,7 +55,15 @@ function useRegister() {
       })
       .catch((error) => {
         const errorMessage = error.message;
-        toast.error(errorMessage);
+        if (errorMessage == "Firebase: Error (auth/invalid-credential).") {
+          toast.error("User is not defined!");
+        } else if (errorMessage == "Firebase: Error (auth/missing-password).") {
+          toast.error("Please enter correct password!");
+        } else if (errorMessage == "Firebase: Error (auth/invalid-email).") {
+          toast.error("Please enter your email!");
+        } else {
+          toast.error(errorMessage);
+        }
       });
   };
   return { LoginWithGoogle, LoginWithEmail, LoginWithEmailAndPassword };
