@@ -4,8 +4,32 @@ import { Form, Link } from "react-router-dom";
 import useRegister from "../hooks/useRegister";
 //icons
 import { FcGoogle } from "react-icons/fc";
+
+//useActionData
+import { useActionData } from "react-router-dom";
+
+//react
+import { useEffect } from "react";
+//action
+export const action = async ({ request }) => {
+  const form = await request.formData();
+  let email = form.get("email");
+  let password = form.get("password");
+
+  return { email, password };
+};
+
 function Login() {
-  const { LoginWithGoogle } = useRegister();
+  const { LoginWithGoogle, LoginWithEmailAndPassword } = useRegister();
+  //actionData
+  const formData = useActionData();
+
+  useEffect(() => {
+    if (formData) {
+      LoginWithEmailAndPassword(formData.email, formData.password);
+    }
+  }, [formData]);
+
   return (
     <div className="w-full min-h-[100vh] flex ">
       <div className="bg-image md:block hidden w-[40%] bg-[url('https://picsum.photos/600')] bg-center bg-cover"></div>
@@ -23,6 +47,7 @@ function Login() {
               <span>email</span>
               <input
                 type="email"
+                name="email"
                 className="w-full border border-black rounded-xl px-3 py-2 "
                 placeholder="Enter email"
               />
@@ -31,6 +56,7 @@ function Login() {
             <label>
               password
               <input
+                name="password"
                 type="password"
                 className="w-full border border-black rounded-xl px-3 py-2 "
                 placeholder="Enter password"

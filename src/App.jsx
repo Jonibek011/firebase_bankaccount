@@ -22,12 +22,18 @@ import {
   ProtectedRoutes,
   Login,
   Products,
+  Register,
 } from "./pages";
 
 //loader
 import { loader as HomeLoader } from "./pages/home";
 import { loader as ProductsLoader } from "./pages/products";
+
+//action
 import { action as HomeAction } from "./pages/home";
+import { action as RegisterAction } from "./pages/Register";
+import { action as LoginAction } from "./pages/login";
+//react
 import { useEffect } from "react";
 function App() {
   const { user, dispatch, readyState } = useGlobalContext();
@@ -65,6 +71,12 @@ function App() {
     {
       path: "/login",
       element: user ? <Navigate to="/" /> : <Login />,
+      action: LoginAction,
+    },
+    {
+      path: "/register",
+      element: user ? <Navigate to="/" /> : <Register />,
+      action: RegisterAction,
     },
   ]);
 

@@ -28,7 +28,7 @@ function home() {
   }, [inputData]);
 
   return (
-    <div key={1}>
+    <div>
       <div>
         <Form method="POST">
           <input

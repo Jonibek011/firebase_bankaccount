@@ -4,3 +4,4 @@ export { default as Contact } from "./contact";
 export { default as ProtectedRoutes } from "./ProtectedRouts";
 export { default as Login } from "./login";
 export { default as Products } from "./products";
+export { default as Register } from "./Register";
