@@ -9,6 +9,9 @@ export const loader = async () => {
   return data;
 };
 
+//firestore
+import { useFirestore } from "../hooks/useFirestore";
+
 //action
 export const action = async ({ request }) => {
   let formData = await request.formData();
@@ -19,6 +22,7 @@ export const action = async ({ request }) => {
 };
 
 function home() {
+  const { addDocument } = useFirestore();
   const { products } = useLoaderData();
   const inputData = useActionData();
 
@@ -27,6 +31,10 @@ function home() {
       console.log(inputData);
     }
   }, [inputData]);
+
+  useEffect(() => {
+    addDocument("product", "123", { name: "Jonibek", age: 29 });
+  }, []);
 
   return (
     <div>

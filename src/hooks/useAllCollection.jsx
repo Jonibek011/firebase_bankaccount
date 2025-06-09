@@ -11,7 +11,6 @@ export function useAllCollection(collectionName) {
       const queryData = [];
       querySnapshot.forEach((doc) => {
         queryData.push({ id: doc.id, ...doc.data() });
-
         setData(queryData);
       });
     });

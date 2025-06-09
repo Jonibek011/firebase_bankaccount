@@ -51,6 +51,7 @@ function useRegister() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+
         dispatch({ type: "LOGIN", payload: user });
       })
       .catch((error) => {
