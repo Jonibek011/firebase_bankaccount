@@ -74,7 +74,7 @@ function Navbar() {
               </div>
             </div>
           </div>
-          <h1>{user.displayName}</h1>
+
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}

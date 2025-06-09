@@ -4,6 +4,7 @@ import { Form, Link, useLoaderData, useActionData } from "react-router-dom";
 //loader
 export const loader = async () => {
   const req = await fetch("https://dummyjson.com/products");
+
   const data = req.json();
   return data;
 };
@@ -43,6 +44,7 @@ function home() {
           <button className="border">submit</button>
         </Form>
       </div>
+
       {products.map((product) => {
         return (
           <>
