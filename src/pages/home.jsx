@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { Form, Link, useLoaderData, useActionData } from "react-router-dom";
+import { Form, Link, useLoaderData } from "react-router-dom";
 
 //loader
 export const loader = async () => {
@@ -8,11 +7,6 @@ export const loader = async () => {
   const data = req.json();
   return data;
 };
-
-//useGlobalContext
-import useGlobalContext from "../hooks/useGlobalContext";
-//firestore
-import { useFirestore } from "../hooks/useFirestore";
 
 //action
 export const action = async ({ request }) => {
@@ -24,21 +18,7 @@ export const action = async ({ request }) => {
 };
 
 function home() {
-  const { addDocument } = useFirestore();
   const { products } = useLoaderData();
-  const inputData = useActionData();
-
-  const { user } = useGlobalContext();
-
-  useEffect(() => {
-    if (inputData) {
-      console.log(inputData);
-    }
-  }, [inputData]);
-
-  useEffect(() => {
-    addDocument("product", { name: "Jonibek", age: 29, uid: user.uid });
-  }, []);
 
   return (
     <div>
