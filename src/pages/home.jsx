@@ -9,6 +9,8 @@ export const loader = async () => {
   return data;
 };
 
+//useGlobalContext
+import useGlobalContext from "../hooks/useGlobalContext";
 //firestore
 import { useFirestore } from "../hooks/useFirestore";
 
@@ -26,6 +28,8 @@ function home() {
   const { products } = useLoaderData();
   const inputData = useActionData();
 
+  const { user } = useGlobalContext();
+
   useEffect(() => {
     if (inputData) {
       console.log(inputData);
@@ -33,7 +37,7 @@ function home() {
   }, [inputData]);
 
   useEffect(() => {
-    addDocument("product", "123", { name: "Jonibek", age: 29 });
+    addDocument("product", { name: "Jonibek", age: 29, uid: user.uid });
   }, []);
 
   return (

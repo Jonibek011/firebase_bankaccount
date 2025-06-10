@@ -5,3 +5,4 @@ export { default as ProtectedRoutes } from "./ProtectedRouts";
 export { default as Login } from "./login";
 export { default as Products } from "./products";
 export { default as Register } from "./Register";
+export { default as Profile } from "./Profile";

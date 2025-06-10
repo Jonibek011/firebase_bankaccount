@@ -27,9 +27,6 @@ export function GlobalContextProvider({ children }) {
     name: "Jonibek",
   });
 
-  const { data } = useAllCollection("images");
-  console.log(data);
-
   return (
     <mainContext.Provider value={{ ...state, dispatch }}>
       {children}

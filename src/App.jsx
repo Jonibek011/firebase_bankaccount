@@ -23,6 +23,7 @@ import {
   Login,
   Products,
   Register,
+  Profile,
 } from "./pages";
 
 //loader
@@ -65,6 +66,10 @@ function App() {
           path: "product/:id",
           element: <Products />,
           loader: ProductsLoader,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
         },
       ],
     },
