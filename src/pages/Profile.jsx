@@ -10,9 +10,7 @@ function Profile() {
   console.log(user);
 
   const sendVerification = () => {
-    sendEmailVerification(auth.currentUser, {
-      url: "https://lifehub.netlify.app/profile",
-    }).then(() => {
+    sendEmailVerification(auth.currentUser).then(() => {
       toast.success("Verification sended!");
     });
   };
