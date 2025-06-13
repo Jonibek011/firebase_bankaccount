@@ -3,7 +3,6 @@ import { createContext, useReducer } from "react";
 export const mainContext = createContext();
 
 //firestore
-import { useAllCollection } from "../hooks/useAllCollection";
 
 const changeState = (state, action) => {
   const { type, payload } = action;
@@ -24,7 +23,7 @@ export function GlobalContextProvider({ children }) {
   const [state, dispatch] = useReducer(changeState, {
     user: null,
     readyState: false,
-    name: "Jonibek",
+    loading: false,
   });
 
   return (
