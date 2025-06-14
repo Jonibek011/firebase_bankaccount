@@ -6,10 +6,15 @@ import { sendEmailVerification } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import toast from "react-hot-toast";
 import { useState } from "react";
+
+//hooks
+import { useStorage } from "../hooks/useStorage";
 //main function
 function Profile() {
   const { user, loading } = useGlobalContext();
   const [inputValue, setInputValue] = useState(null);
+
+  const { UploadUserImage } = useStorage();
 
   const sendVerification = () => {
     sendEmailVerification(auth.currentUser).then(() => {
@@ -27,9 +32,14 @@ function Profile() {
         setInputValue(reader.result);
       });
     } else {
-      toast.warn("Image size should be less than 1MB");
+      toast.error("Image size should be less than 1MB");
     }
     reader.readAsDataURL(file);
+  };
+
+  const savaNewProfileImage = () => {
+    UploadUserImage(inputValue);
+    setInputValue(null);
   };
 
   return (
@@ -38,7 +48,7 @@ function Profile() {
         <div className="w-40 h-40   flex flex-col justify-between items-center">
           <div className="relative">
             <img
-              className=" rounded-full w-28 h-28"
+              className=" rounded-full object-cover h-28 w-28"
               src={inputValue ?? user.photoURL}
               alt={user.displayName + " profile"}
             />
@@ -61,7 +71,12 @@ function Profile() {
 
           {inputValue && (
             <div className="flex gap-2">
-              <button className="btn btn-primary btn-sm">Save</button>
+              <button
+                onClick={savaNewProfileImage}
+                className="btn btn-primary btn-sm"
+              >
+                Save
+              </button>
               <button
                 onClick={() => setInputValue(null)}
                 className="btn btn-neutral btn-sm"
@@ -79,7 +94,7 @@ function Profile() {
           <p className="flex md:flex-col  text-xl gap-1">
             <span className="font-medium">Email:</span> {user.email}
           </p>
-          <p className="flex items-center gap-2 md:flex-col  text-xl gap-1">
+          <p className="flex items-center gap-2 md:flex-col  text-xl ">
             <span className="font-medium">Verification: </span>{" "}
             {user.emailVerified ? (
               <span className="flex items-center gap-1">

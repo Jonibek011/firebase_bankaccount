@@ -14,6 +14,8 @@ const changeState = (state, action) => {
       return { ...state, readyState: true };
     case "LOGOUT":
       return { ...state, user: null };
+    case "LOADING":
+      return { ...state, loading: payload };
     default:
       return state;
   }
