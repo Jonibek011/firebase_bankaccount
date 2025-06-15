@@ -23,10 +23,10 @@ function MdNavMenu({ toggleBtn, setToggleBtn }) {
   return (
     <div
       style={{ left: toggleBtn ? "0px" : "-100%" }}
-      className="absolute z-50 py-10  top-[9vh] transition-all duration-200 w-[40vw] h-full bg-white border flex flex-col items-center"
+      className="absolute z-50 py-10  top-[8vh] transition-all duration-200 w-[40vw] h-full bg-transparent backdrop-blur-lg border flex flex-col items-center"
     >
       <div className="navMenu flex items-center">
-        <ul className="flex flex-col  gap-5 ">
+        <ul className="flex flex-col  gap-7 ">
           <li>
             <Link
               onClick={() => setToggleBtn(false)}

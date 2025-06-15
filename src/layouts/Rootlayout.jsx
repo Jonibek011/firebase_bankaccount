@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Sidebar } from "../components";
+import { Footer, Sidebar } from "../components";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 
@@ -9,8 +8,9 @@ function Rootlayout() {
       <Sidebar />
       <div className="flex flex-col flex-1 transition-all duration-300 bg-base-200   ">
         <Navbar />
-        <main className="px-[3%] max-w-screen-xl mx-auto  w-full overflow-y-auto h-full">
+        <main className="px-[3%] max-w-screen-xl mx-auto  w-full overflow-y-auto h-auto">
           <Outlet />
+          <Footer />
         </main>
       </div>
     </div>

@@ -44,7 +44,7 @@ function Navbar() {
         <div className="toggle-button">
           <button
             onClick={() => setToggleBtn(true)}
-            className="btn btn-xs md:hidden"
+            className="p-2 bg-gray-100 rounded-lg md:hidden "
           >
             <RxHamburgerMenu className="w-5 h-5" />
           </button>
@@ -62,7 +62,7 @@ function Navbar() {
             <span className="ml-2 text-sm hidden ">Dark Mode</span>
           </label>
 
-          <div className="new-task-button btn">New Task</div>
+          <div className="new-task-button btn hidden md:block">New Task</div>
 
           {/* ================ Notification ======================== */}
           <div className="notification">

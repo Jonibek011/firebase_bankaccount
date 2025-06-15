@@ -4,10 +4,10 @@ import { Chart } from "../components";
 
 function home() {
   return (
-    <div className=" grid grid-cols-2 grid-row-8 sm:grid-rows-10 lg:grid-rows-11 min-h-screen h-[110vh] sm:h-[140vh] min-w-full gap-2 md:gap-5 py-5 md:py-10">
+    <div className=" grid grid-cols-2 grid-row-8 sm:grid-rows-10 lg:grid-rows-11 min-h-screen h-auto  min-w-full gap-2 md:gap-5 py-5 md:py-10">
       {/* ======================= First content ==================================== */}
       <div className="layouts border border-base-200 shadow-sm rounded-md   col-span-full bg-yellow-50 px-4  md:px-5 lg:px-10   flex items-center">
-        <div className="upper-content flex justify-between items-center   w-full">
+        <div className="upper-content flex justify-between items-center   w-full py-3">
           <h2 className="flex gap-2 md:gap-3 items-center text-black ">
             <MdError className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-yellow-500" />{" "}
             <span className="text-black text-lg sm:text-3xl md:text-3xl lg:text-4xl font-semibold flex md:flex-col lg:flex-col lg:gap-2">
@@ -16,7 +16,7 @@ function home() {
             </span>
           </h2>
           <div className="buttons flex gap-4">
-            <button className="btn bg-indigo-600 hover:bg-indigo-500 text-sm  sm:text-lg lg:text-lg text-base-100 btn-md xl:btn-lg">
+            <button className="btn bg-indigo-600 hover:bg-indigo-500 text-sm  sm:text-lg lg:text-lg text-base-100 btn-sm md:btn-md xl:btn-lg">
               NewTask
             </button>
             <button className=" hidden sm:inline-block btn bg-blue-700 text-base-100 hover:bg-blue-600 text- lg:text-lg btn-md xl:btn-lg">
@@ -27,16 +27,16 @@ function home() {
       </div>
 
       {/* ==================== Second Content ============================== */}
-      <div className="rounded-md border border-base-200 bg-base-100 shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4">
-        <h2 className="text-lg md:text-3xl font-medium text-gray-500">
+      <div className="rounded-md border border-base-200 bg-blue-400  shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4">
+        <h2 className="text-lg md:text-3xl font-medium text-base-content">
           Task Completed
         </h2>
         <p className="font-medium text-4xl md:text-6xl">32</p>
       </div>
 
       {/* ========== third content ========================================== */}
-      <div className="rounded-md border border-base-200 bg-base-100 shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4">
-        <h2 className="text-lg md:text-3xl font-medium text-gray-500">
+      <div className="rounded-md border border-base-200 bg-green-400 shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4">
+        <h2 className="text-lg md:text-3xl font-medium text-base-content">
           Monthly Expenses
         </h2>
         <p className="font-medium text-4xl md:text-6xl">$4,500</p>

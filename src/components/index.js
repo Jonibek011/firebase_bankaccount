@@ -5,3 +5,4 @@ export { default as Sidebar } from "./Sidebar";
 export { default as LogoutModal } from "./LogoutModal";
 export { default as MdNavMenu } from "./MdNavMenu";
 export { default as Chart } from "./Chart";
+export { default as Footer } from "./Footer";
