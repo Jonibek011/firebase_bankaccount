@@ -19,3 +19,15 @@ body,
 #root {
   height: 100%;
 }
+
+@layer components {
+  .nav-link {
+    @apply flex items-center gap-2 text-xs;
+  }
+}
+
+@layer components {
+  .sm-icons {
+    @apply w-4 h-4;
+  }
+}

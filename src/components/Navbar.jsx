@@ -8,11 +8,13 @@ import useGlobalContext from "../hooks/useGlobalContext";
 import { useEffect, useState } from "react";
 //useLogout
 import { useLogout } from "../hooks/useLogout";
+import MdNavMenu from "./MdNavMenu";
 
 //Data from localstorage
 const themeFromLocal = localStorage.getItem("dark_mode") || "light";
 //Main function
 function Navbar() {
+  const [toggleBtn, setToggleBtn] = useState(false);
   const [theme, setTheme] = useState(themeFromLocal);
   const { user } = useGlobalContext();
   //signout function
@@ -34,7 +36,7 @@ function Navbar() {
     <>
       <div className="navbar bg-base-200 px-[5%] flex justify-between md:justify-end">
         <div className="toggle-button">
-          <button className="btn btn-xs">
+          <button onClick={() => setToggleBtn(true)} className="btn btn-xs">
             <RxHamburgerMenu className="w-5 h-5" />
           </button>
         </div>
@@ -96,6 +98,7 @@ function Navbar() {
           </div>
         </div>
       </div>
+      <MdNavMenu toggleBtn={toggleBtn} setToggleBtn={setToggleBtn} />
     </>
   );
 }
