@@ -36,7 +36,10 @@ function Navbar() {
     <>
       <div className="navbar bg-base-200 px-[5%] flex justify-between md:justify-end">
         <div className="toggle-button">
-          <button onClick={() => setToggleBtn(true)} className="btn btn-xs">
+          <button
+            onClick={() => setToggleBtn(true)}
+            className="btn btn-xs md:hidden"
+          >
             <RxHamburgerMenu className="w-5 h-5" />
           </button>
         </div>
