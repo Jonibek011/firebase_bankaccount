@@ -9,7 +9,6 @@ import RootLayout from "./layouts/Rootlayout";
 import useGlobalContext from "./hooks/useGlobalContext";
 
 //toastify
-import { toast } from "react-hot-toast";
 //firebase
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebaseConfig";
@@ -27,11 +26,9 @@ import {
 } from "./pages";
 
 //loader
-import { loader as HomeLoader } from "./pages/home";
 import { loader as ProductsLoader } from "./pages/products";
 
 //action
-import { action as HomeAction } from "./pages/home";
 import { action as RegisterAction } from "./pages/Register";
 import { action as LoginAction } from "./pages/login";
 //react
@@ -51,8 +48,6 @@ function App() {
         {
           index: true,
           element: <Home />,
-          loader: HomeLoader,
-          action: HomeAction,
         },
         {
           path: "/about",

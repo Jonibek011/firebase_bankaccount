@@ -1,55 +1,12 @@
-import { Form, Link, useLoaderData } from "react-router-dom";
-
-//loader
-export const loader = async () => {
-  const req = await fetch("https://dummyjson.com/products");
-
-  const data = req.json();
-  return data;
-};
-
-//action
-export const action = async ({ request }) => {
-  let formData = await request.formData();
-  let firstName = formData.get("first-name");
-  let lastName = formData.get("last-name");
-
-  return { firstName, lastName };
-};
-
 function home() {
-  const { products } = useLoaderData();
-
   return (
-    <div>
-      <div>
-        <Form method="POST">
-          <input
-            type="text"
-            className="border border-black"
-            name="first-name"
-          />
-          <br />
-          <br />
-          <input type="text" className="border border-black" name="last-name" />
-          <br />
-          <button className="border">submit</button>
-        </Form>
-      </div>
-
-      {products.map((product) => {
-        return (
-          <>
-            <Link
-              className="block"
-              to={`product/${product.id}`}
-              key={product.id}
-            >
-              {product.title}
-            </Link>
-          </>
-        );
-      })}
+    <div className=" grid grid-cols-2 grid-rows-10 min-h-screen h-[130vh] min-w-full gap-2 md:gap-5 py-5 md:py-10">
+      <div className="border border-red-500 col-span-full">1</div>
+      <div className="border border-red-500 row-span-2">2</div>
+      <div className="border border-red-500 row-span-2">3</div>
+      <div className="border border-red-500 col-span-full row-span-5">4</div>
+      <div className="border border-red-500 row-span-2">5</div>
+      <div className="border border-red-500 row-span-2">6</div>
     </div>
   );
 }
