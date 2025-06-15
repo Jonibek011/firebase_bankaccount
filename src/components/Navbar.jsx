@@ -34,7 +34,13 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar  px-[5%] flex justify-between md:justify-end items-center bg-base-100">
+      <div className="navbar  px-[5%] flex justify-between  items-center bg-base-100 relative z-50">
+        <div className="navLogo hidden md:flex justify-center items-center bg-transparent">
+          <h1 className=" text-3xl font-bold">
+            <span className="text-blue-700">Life</span>
+            <span>Hub</span>
+          </h1>
+        </div>
         <div className="toggle-button">
           <button
             onClick={() => setToggleBtn(true)}

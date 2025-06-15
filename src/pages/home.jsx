@@ -1,5 +1,6 @@
 //react-icons
 import { MdError } from "react-icons/md";
+import { Chart } from "../components";
 
 function home() {
   return (
@@ -18,7 +19,7 @@ function home() {
             <button className="btn bg-indigo-600 hover:bg-indigo-500 text-sm  sm:text-lg lg:text-lg text-base-100 btn-md xl:btn-lg">
               NewTask
             </button>
-            <button className=" hidden sm:inline-block btn bg-green-700 text-base-100 hover:bg-green-600 text- lg:text-lg btn-md xl:btn-lg">
+            <button className=" hidden sm:inline-block btn bg-blue-700 text-base-100 hover:bg-blue-600 text- lg:text-lg btn-md xl:btn-lg">
               Add Expense
             </button>
           </div>
@@ -42,10 +43,10 @@ function home() {
       </div>
 
       {/* ======================== Forth content ====================================== */}
-      <div className="rounded-md border border-base-200 bg-base-100 shadow-sm  col-span-full row-span-3 sm:row-span-4 lg:row-span-5 ">
-        <h2 className="text-2xl md:text-4xl font-medium pl-3">Tasks</h2>
+      <div className="rounded-md border border-base-200 bg-base-100 shadow-sm md:py-7 lg:py-10 col-span-full row-span-3 sm:row-span-4 lg:row-span-5 ">
+        <h2 className="text-2xl md:text-4xl font-medium pl-5">Tasks</h2>
         <div className="overflow-x-auto">
-          <table className="table table-sm  sm:table-lg">
+          <table className="table table-sm  sm:table-md">
             {/* head */}
             <thead>
               <tr className="text-lg md:text-3xl">
@@ -59,7 +60,7 @@ function home() {
               <tr className="hover  ">
                 <td className="tabel-row ">Design homepage</td>
                 <td>
-                  <button className="btn bg-gray-400 btn-sm lg:btn-md text-xs md:text-md text-base-100 ">
+                  <button className="btn bg-blue-700 hover:bg-blue-600 btn-sm lg:btn-md text-xs md:text-md text-base-100 ">
                     In Progress
                   </button>
                 </td>
@@ -69,7 +70,7 @@ function home() {
               <tr className="hover tabel-row">
                 <td className="tabel-row ">Whrite documentation</td>
                 <td>
-                  <button className="btn bg-indigo-500 btn-sm lg:btn-md border-none text-base-100">
+                  <button className="btn bg-indigo-600 hover:bg-indigo-500 btn-sm lg:btn-md border-none text-base-100">
                     Review
                   </button>
                 </td>
@@ -79,7 +80,7 @@ function home() {
               <tr className="hover tabel-row">
                 <td className="tabel-row ">Update dependencies</td>
                 <td>
-                  <button className="btn bg-gray-500  btn-sm lg:btn-md  border-none text-base-100">
+                  <button className="btn bg-blue-800 hover:bg-blue-700  btn-sm lg:btn-md  border-none text-base-100">
                     {" "}
                     Completed
                   </button>
@@ -90,7 +91,7 @@ function home() {
               <tr className="hover tabel-row">
                 <td className="tabel-row ">Fix navbar issue</td>
                 <td>
-                  <button className="btn bg-slate-500 btn-sm lg:btn-md text-xs border-none text-base-100 ">
+                  <button className="btn bg-slate-500 hover:bg-slate-400 btn-sm lg:btn-md text-xs border-none text-base-100 ">
                     {" "}
                     In Progress
                   </button>
@@ -101,11 +102,34 @@ function home() {
           </table>
         </div>
       </div>
-      <div className="rounded-md border border-base-200 bg-base-100 shadow-sm row-span-2 sm:row-span-3 lg:row-span-4">
-        5
+      <div className="rounded-md border border-base-200 bg-base-100 p-5 shadow-sm row-span-2 sm:row-span-3 lg:row-span-4">
+        <h3 className="text-3xl font-medium">Expenses</h3>
+        <Chart />
       </div>
-      <div className="rounded-md  border border-base-200 bg-base-100 shadow-sm row-span-2 sm:row-span-3 lg:row-span-4">
-        6
+      <div className="rounded-md  border p-8 border-base-200 bg-base-100 shadow-sm row-span-2 sm:row-span-3 lg:row-span-4">
+        <h3 className="text-3xl font-medium">Expenses</h3>
+        <div className="chart-info flex flex-col justify-evenly w-full h-full ">
+          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
+            <span className="min-w-4 h-4 rounded-full bg-[#0088FE] inline-block border"></span>{" "}
+            Marketing
+          </p>
+          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
+            <span className="min-w-4 h-4 rounded-full bg-[#00C49F] inline-block border"></span>{" "}
+            Salaries
+          </p>
+          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
+            <span className="min-w-4 h-4 rounded-full bg-[#FFBB28] inline-block border"></span>{" "}
+            Office
+          </p>
+          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
+            <span className="min-w-4 h-4 rounded-full bg-[#FF8042] inline-block border"></span>{" "}
+            Software
+          </p>
+          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
+            <span className="min-w-4 h-4 rounded-full bg-[#AA00FF] inline-block border"></span>{" "}
+            Other
+          </p>
+        </div>
       </div>
     </div>
   );
