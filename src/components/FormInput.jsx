@@ -6,7 +6,7 @@ import { RiLockPasswordFill } from "react-icons/ri";
 function FormInput({ type, name, placeholder }) {
   return (
     <>
-      <label className="input input-bordered flex items-center gap-2 input-sm md:input-md w-full outline-none">
+      <label className="input input-bordered flex items-center gap-2  md:input-md w-full outline-none">
         <input
           type={type}
           className="grow w-full "
