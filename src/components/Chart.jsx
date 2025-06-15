@@ -19,7 +19,7 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AA00FF"];
 
 function Chart() {
   return (
-    <div className="w-full h-full ">
+    <div className="w-full max-w-80 h-full max-h-80 ">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie

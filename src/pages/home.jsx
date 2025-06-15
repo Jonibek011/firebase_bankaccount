@@ -102,11 +102,11 @@ function home() {
           </table>
         </div>
       </div>
-      <div className="rounded-md border border-base-200 bg-base-100 p-5 shadow-sm row-span-2 sm:row-span-3 lg:row-span-4">
+      <div className="rounded-md border border-base-200 bg-base-100 p-5 shadow-sm col-span-2 sm:col-span-1 row-span-2 sm:row-span-3 lg:row-span-4">
         <h3 className="text-3xl font-medium">Expenses</h3>
         <Chart />
       </div>
-      <div className="rounded-md  border p-8 border-base-200 bg-base-100 shadow-sm row-span-2 sm:row-span-3 lg:row-span-4">
+      <div className="rounded-md  border p-8 border-base-200 bg-base-100 shadow-sm col-span-2 sm:col-span-1 row-span-2 sm:row-span-3 lg:row-span-4">
         <h3 className="text-3xl font-medium">Expenses</h3>
         <div className="chart-info flex flex-col justify-evenly w-full h-full ">
           <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
