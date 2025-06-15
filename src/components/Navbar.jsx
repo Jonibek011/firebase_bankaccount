@@ -34,7 +34,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar bg-base-200 px-[5%] flex justify-between md:justify-end">
+      <div className="navbar  px-[5%] flex justify-between md:justify-end items-center bg-base-100">
         <div className="toggle-button">
           <button
             onClick={() => setToggleBtn(true)}
@@ -51,15 +51,17 @@ function Navbar() {
               onChange={toggleDarkMode}
               type="checkbox"
               value="synthwave"
-              className="toggle theme-controller scale-75 md:scale-100 "
+              className="toggle theme-controller scale-75 md:scale-75 "
             />
             <span className="ml-2 text-sm hidden ">Dark Mode</span>
           </label>
 
+          <div className="new-task-button btn">New Task</div>
+
           {/* ================ Notification ======================== */}
           <div className="notification">
             <Link className="relative">
-              <IoNotifications className="w-6 h-6 md:w-8 md:h-8" />
+              <IoNotifications className="w-6 h-6 text-gray-400 " />
               <div className="badge badge-ghost badge-xs absolute -top-2 -right-2">
                 0
               </div>

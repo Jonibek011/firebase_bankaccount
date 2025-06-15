@@ -31,3 +31,16 @@ body,
     @apply w-4 h-4;
   }
 }
+
+@layer components {
+  .tabel-row {
+    @apply md:text-lg lg:text-2xl xl:text-3xl font-semibold text-base-content;
+  }
+}
+
+/* Responsiveness */
+@media screen and (min-width: 930px) {
+  .upper-content h2 span {
+    flex-direction: row;
+  }
+}
