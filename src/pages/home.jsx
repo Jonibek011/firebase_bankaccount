@@ -5,6 +5,17 @@ import useGlobalContext from "../hooks/useGlobalContext";
 import { IoMdMailUnread } from "react-icons/io";
 import { FaTelegramPlane } from "react-icons/fa";
 import { PiLinkedinLogoFill } from "react-icons/pi";
+
+//action
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const city = formData.get("cityName");
+  if (city?.trim()) {
+    return { city };
+  }
+};
+//components
+import { Weather } from "../components";
 function home() {
   //user
   const { user } = useGlobalContext();
@@ -48,22 +59,18 @@ function home() {
               Your all-in-one platform for a better life.
             </p>
             <div>
-              <button className="btn bg-blue-600 border-none text-slate-50 hover:bg-blue-700 text-xl btn-md font-normal px-10">
+              <Link
+                to="dashboard"
+                className="btn bg-blue-600 border-none text-slate-50 hover:bg-blue-700 text-xl btn-md font-normal px-10"
+              >
                 Get Started
-              </button>
+              </Link>
             </div>
           </div>
 
           {/* ============= Weather ========================= */}
-          <div className="weather-container flex-1 w-40 ">
-            <div className="weather w-[80%] max-w-[80%] h-auto p-10 mx-auto border border-base-100 rounded-3xl ">
-              <img src="" alt="image" />
-              <p className="text-6xl font-bold ">21</p>
-              <p>Sunny-tashkent</p>
-            </div>
-          </div>
+          <Weather />
         </div>
-
         {/* =============== About us ====================================== */}
         <div className="about w-ful rounded-3xl bg-base-100 p-10 flex flex-col">
           <div className="about-content-1 flex flex-col md:flex-row">
@@ -72,8 +79,10 @@ function home() {
                 <img src="./megaphone.png" alt="img" className="max-w-[90%]" />
               </div>
               <div>
-                <h2 className="font-medium text-3xl">What we do</h2>
-                <p className="text-2xl">Providing life-management support</p>
+                <h2 className="font-medium text-2xl md:text-3xl">What we do</h2>
+                <p className="text-xl md:text-2xl">
+                  Providing life-management support
+                </p>
               </div>
             </div>
 
@@ -82,8 +91,12 @@ function home() {
                 <img src="star-medal.png" alt="" className="max-w-[90%]" />
               </div>
               <div>
-                <h2 className="font-medium text-3xl">Our Mission</h2>
-                <p className="text-2xl">Empowering people to live better</p>
+                <h2 className="font-medium text-2xl md:text-3xl">
+                  Our Mission
+                </h2>
+                <p className="text-xl md:text-2xl">
+                  Empowering people to live better
+                </p>
               </div>
             </div>
           </div>
@@ -97,8 +110,10 @@ function home() {
               />
             </div>
             <div>
-              <h2 className="text-3xl ml-2 md:ml-0 font-medium">Our Values</h2>
-              <p className="text-2xl ml-2 md:ml-0">
+              <h2 className=" text-2xl md:text-3xl ml-2 md:ml-0 font-medium">
+                Our Values
+              </h2>
+              <p className="text-xl md:text-2xl ml-2 md:ml-0">
                 Commitment to health, education, and innovation
               </p>
             </div>
@@ -109,12 +124,14 @@ function home() {
         <div className="card-section grid grid-rows-4 md:grid-rows-2 grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 ">
           {/* ========================= Card 1 ================================================= */}
           <div className="card-1 p-10 flex rounded-3xl bg-base-100 gap-3">
-            <div className="img-container w-[30%]">
+            <div className="img-container w-[30%] lg:w-[20%]">
               <img src="checked.png" alt="img" />
             </div>
             <div className="flex flex-col gap-3">
               <h2 className="font-medium text-3xl">Track your tasks</h2>
-              <p className="text-2xl pr-10">Stay organizes and productive</p>
+              <p className="text-2xl pr-10 lg:text-center">
+                Stay organizes and productive
+              </p>
             </div>
           </div>
           {/* ============================ Card 2 ============================================== */}
@@ -124,7 +141,9 @@ function home() {
               <h2 className="font-medium text-3xl">Manage your finances</h2>
             </div>
             <div className="">
-              <p className="text-2xl ">Gain-control of your monay</p>
+              <p className="text-2xl lg:text-center">
+                Gain-control of your monay
+              </p>
             </div>
           </div>
           {/* ================================ Card 3 ============================================= */}
@@ -134,7 +153,7 @@ function home() {
               <h2 className="font-medium text-3xl">Scadule your time</h2>
             </div>
             <div className="">
-              <p className="text-2xl ">Pro-saving your time</p>
+              <p className="text-2xl lg:text-center">Pro-saving your time</p>
             </div>
           </div>
           {/* ===================================== Card 4 ================================================ */}
@@ -144,7 +163,9 @@ function home() {
               <h2 className="font-medium text-3xl">Explore new ideas</h2>
             </div>
             <div className="">
-              <p className="text-2xl ">Learn and grow every day</p>
+              <p className="text-2xl lg:text-center">
+                Learn and grow every day
+              </p>
             </div>
           </div>
         </div>

@@ -62,9 +62,12 @@ function Navbar() {
             <span className="ml-2 text-sm hidden ">Dark Mode</span>
           </label>
 
-          <div className="new-task-button btn hidden md:flex justify-center items-center">
+          <Link
+            to="/tasks"
+            className="new-task-button btn hidden md:flex justify-center items-center"
+          >
             New Task
-          </div>
+          </Link>
 
           {/* ================ Notification ======================== */}
           <div className="notification">

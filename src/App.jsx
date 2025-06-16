@@ -23,11 +23,13 @@ import {
   Register,
   Profile,
   Dashboard,
+  Tasks,
 } from "./pages";
 
 //action
 import { action as RegisterAction } from "./pages/Register";
 import { action as LoginAction } from "./pages/login";
+import { action as HomeAction } from "./pages/home";
 //react
 import { useEffect } from "react";
 function App() {
@@ -45,6 +47,7 @@ function App() {
         {
           index: true,
           element: <Home />,
+          action: HomeAction,
         },
         {
           path: "/about",
@@ -62,6 +65,10 @@ function App() {
         {
           path: "dashboard",
           element: <Dashboard />,
+        },
+        {
+          path: "tasks",
+          element: <Tasks />,
         },
       ],
     },

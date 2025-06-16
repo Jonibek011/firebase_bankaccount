@@ -1,6 +1,7 @@
 //react-icons
 import { MdError } from "react-icons/md";
 import { Chart } from "../components";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
   return (
@@ -16,9 +17,12 @@ function Dashboard() {
             </span>
           </h2>
           <div className="buttons flex gap-4">
-            <button className="btn bg-indigo-600 hover:bg-indigo-500 text-sm  sm:text-lg lg:text-lg text-base-100 btn-sm md:btn-md xl:btn-lg">
+            <Link
+              to="/tasks"
+              className="btn  bg-indigo-600 hover:bg-indigo-500 text-sm  sm:text-lg lg:text-lg text-base-100 btn-sm md:btn-md xl:btn-lg"
+            >
               NewTask
-            </button>
+            </Link>
             <button className=" hidden sm:inline-block btn bg-blue-700 text-base-100 hover:bg-blue-600 text- lg:text-lg btn-md xl:btn-lg">
               Add Expense
             </button>

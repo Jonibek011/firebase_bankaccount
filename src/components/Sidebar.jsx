@@ -55,7 +55,7 @@ function Sidebar() {
               </Link>
             </li>
             <li>
-              <Link>
+              <Link to="tasks">
                 <TbSubtask className="icons" />
                 <span
                   className={`transition-all duration-200 font-semibold text-[16px] ${

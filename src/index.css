@@ -50,5 +50,6 @@ body,
 }
 
 .weather {
-  background: linear-gradient(0deg, #ffeeee, #d3c4ff);
+  background: rgba(182, 182, 182, 0.2);
+  backdrop-filter: blur(50px);
 }

@@ -39,7 +39,11 @@ function MdNavMenu({ toggleBtn, setToggleBtn }) {
             </Link>
           </li>
           <li>
-            <Link onClick={() => setToggleBtn(false)} className="nav-link">
+            <Link
+              to="dashboard"
+              onClick={() => setToggleBtn(false)}
+              className="nav-link"
+            >
               <MdDashboardCustomize className="sm-icons" />
 
               <span>Dashboard</span>
