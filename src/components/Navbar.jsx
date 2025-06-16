@@ -34,7 +34,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar  px-[5%] flex justify-between  items-center bg-base-100 relative z-50">
+      <div className="navbar shadow-sm  px-[5%] flex justify-between  items-center bg-base-100 relative z-50">
         <div className="navLogo hidden md:flex justify-center items-center bg-transparent">
           <h1 className=" text-3xl font-bold">
             <span className="text-blue-700">Life</span>
@@ -62,7 +62,9 @@ function Navbar() {
             <span className="ml-2 text-sm hidden ">Dark Mode</span>
           </label>
 
-          <div className="new-task-button btn hidden md:block">New Task</div>
+          <div className="new-task-button btn hidden md:flex justify-center items-center">
+            New Task
+          </div>
 
           {/* ================ Notification ======================== */}
           <div className="notification">

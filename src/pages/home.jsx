@@ -1,137 +1,155 @@
-//react-icons
-import { MdError } from "react-icons/md";
-import { Chart } from "../components";
+import { Link } from "react-router-dom";
+import useGlobalContext from "../hooks/useGlobalContext";
 
+//react-icons
+import { IoMdMailUnread } from "react-icons/io";
+import { FaTelegramPlane } from "react-icons/fa";
+import { PiLinkedinLogoFill } from "react-icons/pi";
 function home() {
+  //user
+  const { user } = useGlobalContext();
   return (
-    <div className=" grid grid-cols-2 grid-row-8 sm:grid-rows-10 lg:grid-rows-11 min-h-screen h-auto  min-w-full gap-2 md:gap-5 py-5 md:py-10">
-      {/* ======================= First content ==================================== */}
-      <div className="layouts border border-base-200 shadow-sm rounded-md   col-span-full bg-yellow-50 px-4  md:px-5 lg:px-10   flex items-center">
-        <div className="upper-content flex justify-between items-center   w-full py-3">
-          <h2 className="flex gap-2 md:gap-3 items-center text-black ">
-            <MdError className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-yellow-500" />{" "}
-            <span className="text-black text-lg sm:text-3xl md:text-3xl lg:text-4xl font-semibold flex md:flex-col lg:flex-col lg:gap-2">
-              {" "}
-              2 tasks due <span> tomorrow</span>
-            </span>
+    <section className="home w-full min-h-screen bg-base-100 bg-[url('./main_bg2.png')] bg-cover bg-no-repea p-5 md:p-10 relative  ">
+      {/* <img
+        src="./main_bg2.png"
+        alt=""
+        className="absolute top-0 left-0 right-0  -z-0"
+      /> */}
+
+      <div className="home-container relative z-10 flex flex-col gap-14">
+        <div className="flex  items-center ">
+          <div className="social-media ps-5  flex-1 flex items-center mt-5 md:mt-0 gap-5  md:gap-10   ">
+            <Link className="h-8 w-8 md:w-12 md:h-12  bg-[rgba(249,249,249,0.3)] rounded-full inline-flex justify-center items-center">
+              <span className="">
+                <IoMdMailUnread className="md:w-6 md:h-6 text-base-200" />
+              </span>
+            </Link>
+            <Link className=" h-8 w-8 md:w-12 md:h-12  bg-[rgba(249,249,249,0.3)] rounded-full inline-flex justify-center items-center">
+              <span>
+                <FaTelegramPlane className="md:w-6 md:h-6 text-base-200" />
+              </span>
+            </Link>
+            <Link className=" h-8 w-8 md:w-12 md:h-12  bg-[rgba(249,249,249,0.3)] rounded-full inline-flex justify-center items-center">
+              <span>
+                <PiLinkedinLogoFill className="md:w-6 md:h-6 text-base-200" />
+              </span>
+            </Link>
+          </div>
+          <h2 className="hidden  md:flex justify-end font-semibold text-sm pe-4 md:text-lg text-white">
+            Wellcome {user.displayName}
           </h2>
-          <div className="buttons flex gap-4">
-            <button className="btn bg-indigo-600 hover:bg-indigo-500 text-sm  sm:text-lg lg:text-lg text-base-100 btn-sm md:btn-md xl:btn-lg">
-              NewTask
-            </button>
-            <button className=" hidden sm:inline-block btn bg-blue-700 text-base-100 hover:bg-blue-600 text- lg:text-lg btn-md xl:btn-lg">
-              Add Expense
-            </button>
+        </div>
+        <div className="home-content w-full flex ">
+          <div className="wellcome-section flex-1 flex flex-col gap-5">
+            <h1 className="font-medium text-4xl md:text-7xl text-slate-50">
+              Hello, <br /> Wellcome to <br /> LifeHub
+            </h1>
+            <p className="font-normal text-lg text-gray-50">
+              Your all-in-one platform for a better life.
+            </p>
+            <div>
+              <button className="btn bg-blue-600 border-none text-slate-50 hover:bg-blue-700 text-xl btn-md font-normal px-10">
+                Get Started
+              </button>
+            </div>
+          </div>
+
+          {/* ============= Weather ========================= */}
+          <div className="weather-container flex-1 w-40 ">
+            <div className="weather w-[80%] max-w-[80%] h-auto p-10 mx-auto border border-base-100 rounded-3xl ">
+              <img src="" alt="image" />
+              <p className="text-6xl font-bold ">21</p>
+              <p>Sunny-tashkent</p>
+            </div>
+          </div>
+        </div>
+
+        {/* =============== About us ====================================== */}
+        <div className="about w-ful rounded-3xl bg-base-100 p-10 flex flex-col">
+          <div className="about-content-1 flex flex-col md:flex-row">
+            <div className="what-we-do flex flex-1 border-b pb-3 md:pb-0 md:border-r mb-4">
+              <div className="img-container w-[30%]">
+                <img src="./megaphone.png" alt="img" className="max-w-[90%]" />
+              </div>
+              <div>
+                <h2 className="font-medium text-3xl">What we do</h2>
+                <p className="text-2xl">Providing life-management support</p>
+              </div>
+            </div>
+
+            <div className="our-mission flex-1 flex pb-3 md:pb-0">
+              <div className="img-container w-[25%]">
+                <img src="star-medal.png" alt="" className="max-w-[90%]" />
+              </div>
+              <div>
+                <h2 className="font-medium text-3xl">Our Mission</h2>
+                <p className="text-2xl">Empowering people to live better</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="about-content-2 border-t pt-5 flex">
+            <div className="w-[30%] md:w-[13%] ">
+              <img
+                src="targeted.png"
+                className="max-w-[90%] md:max-w-[70%]"
+                alt="img"
+              />
+            </div>
+            <div>
+              <h2 className="text-3xl ml-2 md:ml-0 font-medium">Our Values</h2>
+              <p className="text-2xl ml-2 md:ml-0">
+                Commitment to health, education, and innovation
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ====================== Card section ================================== */}
+        <div className="card-section grid grid-rows-4 md:grid-rows-2 grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 ">
+          {/* ========================= Card 1 ================================================= */}
+          <div className="card-1 p-10 flex rounded-3xl bg-base-100 gap-3">
+            <div className="img-container w-[30%]">
+              <img src="checked.png" alt="img" />
+            </div>
+            <div className="flex flex-col gap-3">
+              <h2 className="font-medium text-3xl">Track your tasks</h2>
+              <p className="text-2xl pr-10">Stay organizes and productive</p>
+            </div>
+          </div>
+          {/* ============================ Card 2 ============================================== */}
+          <div className="card-2 p-10 flex flex-col rounded-3xl bg-base-100 gap-3">
+            <div className="img-container flex  gap-4">
+              <img src="graph.png" alt="img" className="w-[23%]" />
+              <h2 className="font-medium text-3xl">Manage your finances</h2>
+            </div>
+            <div className="">
+              <p className="text-2xl ">Gain-control of your monay</p>
+            </div>
+          </div>
+          {/* ================================ Card 3 ============================================= */}
+          <div className="card-2 p-10 flex flex-col rounded-3xl bg-base-100 gap-3">
+            <div className="img-container flex  gap-4">
+              <img src="timetable.png" alt="img" className="w-[23%]" />
+              <h2 className="font-medium text-3xl">Scadule your time</h2>
+            </div>
+            <div className="">
+              <p className="text-2xl ">Pro-saving your time</p>
+            </div>
+          </div>
+          {/* ===================================== Card 4 ================================================ */}
+          <div className="card-2 p-10 flex flex-col rounded-3xl bg-base-100 gap-3">
+            <div className="img-container flex  gap-4">
+              <img src="seo.png" alt="img" className="w-[23%]" />
+              <h2 className="font-medium text-3xl">Explore new ideas</h2>
+            </div>
+            <div className="">
+              <p className="text-2xl ">Learn and grow every day</p>
+            </div>
           </div>
         </div>
       </div>
-
-      {/* ==================== Second Content ============================== */}
-      <div className="rounded-md border border-base-200 bg-blue-400  shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4">
-        <h2 className="text-lg md:text-3xl font-medium text-base-content">
-          Task Completed
-        </h2>
-        <p className="font-medium text-4xl md:text-6xl">32</p>
-      </div>
-
-      {/* ========== third content ========================================== */}
-      <div className="rounded-md border border-base-200 bg-green-400 shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4">
-        <h2 className="text-lg md:text-3xl font-medium text-base-content">
-          Monthly Expenses
-        </h2>
-        <p className="font-medium text-4xl md:text-6xl">$4,500</p>
-      </div>
-
-      {/* ======================== Forth content ====================================== */}
-      <div className="rounded-md border border-base-200 bg-base-100 shadow-sm md:py-7 lg:py-10 col-span-full row-span-3 sm:row-span-4 lg:row-span-5 ">
-        <h2 className="text-2xl md:text-4xl font-medium pl-5">Tasks</h2>
-        <div className="overflow-x-auto">
-          <table className="table table-sm  sm:table-md">
-            {/* head */}
-            <thead>
-              <tr className="text-lg md:text-3xl">
-                <th>Task</th>
-                <th>Status</th>
-                <th>Due Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
-              <tr className="hover  ">
-                <td className="tabel-row ">Design homepage</td>
-                <td>
-                  <button className="btn bg-blue-700 hover:bg-blue-600 btn-sm lg:btn-md text-xs md:text-md text-base-100 ">
-                    In Progress
-                  </button>
-                </td>
-                <td className="tabel-row ">May 25</td>
-              </tr>
-              {/* row 2 */}
-              <tr className="hover tabel-row">
-                <td className="tabel-row ">Whrite documentation</td>
-                <td>
-                  <button className="btn bg-indigo-600 hover:bg-indigo-500 btn-sm lg:btn-md border-none text-base-100">
-                    Review
-                  </button>
-                </td>
-                <td className="tabel-row ">May 24</td>
-              </tr>
-              {/* row 3 */}
-              <tr className="hover tabel-row">
-                <td className="tabel-row ">Update dependencies</td>
-                <td>
-                  <button className="btn bg-blue-800 hover:bg-blue-700  btn-sm lg:btn-md  border-none text-base-100">
-                    {" "}
-                    Completed
-                  </button>
-                </td>
-                <td className="tabel-row "> 22 May</td>
-              </tr>
-              {/* row 4*/}
-              <tr className="hover tabel-row">
-                <td className="tabel-row ">Fix navbar issue</td>
-                <td>
-                  <button className="btn bg-slate-500 hover:bg-slate-400 btn-sm lg:btn-md text-xs border-none text-base-100 ">
-                    {" "}
-                    In Progress
-                  </button>
-                </td>
-                <td className="tabel-row ">20 May</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div className="rounded-md border border-base-200 bg-base-100 p-5 shadow-sm col-span-2 sm:col-span-1 row-span-2 sm:row-span-3 lg:row-span-4">
-        <h3 className="text-3xl font-medium">Expenses</h3>
-        <Chart />
-      </div>
-      <div className="rounded-md  border p-8 border-base-200 bg-base-100 shadow-sm col-span-2 sm:col-span-1 row-span-2 sm:row-span-3 lg:row-span-4">
-        <h3 className="text-3xl font-medium">Expenses</h3>
-        <div className="chart-info flex flex-col justify-evenly w-full h-full ">
-          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
-            <span className="min-w-4 h-4 rounded-full bg-[#0088FE] inline-block border"></span>{" "}
-            Marketing
-          </p>
-          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
-            <span className="min-w-4 h-4 rounded-full bg-[#00C49F] inline-block border"></span>{" "}
-            Salaries
-          </p>
-          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
-            <span className="min-w-4 h-4 rounded-full bg-[#FFBB28] inline-block border"></span>{" "}
-            Office
-          </p>
-          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
-            <span className="min-w-4 h-4 rounded-full bg-[#FF8042] inline-block border"></span>{" "}
-            Software
-          </p>
-          <p className="px-[50%] text-lg font-semibold flex items-center gap-3">
-            <span className="min-w-4 h-4 rounded-full bg-[#AA00FF] inline-block border"></span>{" "}
-            Other
-          </p>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }
 

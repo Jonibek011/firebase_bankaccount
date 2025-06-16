@@ -8,7 +8,7 @@ function Rootlayout() {
       <Sidebar />
       <div className="flex flex-col flex-1 transition-all duration-300 bg-base-200   ">
         <Navbar />
-        <main className="px-[3%] max-w-screen-xl mx-auto  w-full overflow-y-auto h-auto">
+        <main className="px-[3%] max-w-screen-2xl mx-auto  w-full overflow-y-auto h-auto">
           <Outlet />
           <Footer />
         </main>

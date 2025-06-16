@@ -20,13 +20,10 @@ import {
   Contact,
   ProtectedRoutes,
   Login,
-  Products,
   Register,
   Profile,
+  Dashboard,
 } from "./pages";
-
-//loader
-import { loader as ProductsLoader } from "./pages/products";
 
 //action
 import { action as RegisterAction } from "./pages/Register";
@@ -57,14 +54,14 @@ function App() {
           path: "/contact",
           element: <Contact />,
         },
-        {
-          path: "product/:id",
-          element: <Products />,
-          loader: ProductsLoader,
-        },
+
         {
           path: "profile",
           element: <Profile />,
+        },
+        {
+          path: "dashboard",
+          element: <Dashboard />,
         },
       ],
     },

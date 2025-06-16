@@ -42,7 +42,7 @@ function Sidebar() {
         <div className="menu flex gap-5 justify-center ">
           <ul className="flex flex-col  gap-7 ">
             <li>
-              <Link>
+              <Link to="dashboard">
                 <MdDashboardCustomize className="icons" />
 
                 <span
