@@ -9,7 +9,7 @@ function home() {
   //user
   const { user } = useGlobalContext();
   return (
-    <section className="home w-full min-h-screen bg-base-100 bg-[url('./main_bg2.png')] bg-cover bg-no-repea p-5 md:p-10 relative  ">
+    <section className="home w-full min-h-screen bg-base-100 bg-[url('/main_bg2.png')] bg-cover bg-no-repea p-5 md:p-10 relative  ">
       {/* <img
         src="./main_bg2.png"
         alt=""
@@ -67,7 +67,7 @@ function home() {
         {/* =============== About us ====================================== */}
         <div className="about w-ful rounded-3xl bg-base-100 p-10 flex flex-col">
           <div className="about-content-1 flex flex-col md:flex-row">
-            <div className="what-we-do flex flex-1 border-b pb-3 md:pb-0 md:border-r mb-4">
+            <div className="what-we-do flex flex-1 border-b md:border-b-0 pb-3 md:pb-0 md:border-r mb-4">
               <div className="img-container w-[30%]">
                 <img src="./megaphone.png" alt="img" className="max-w-[90%]" />
               </div>
