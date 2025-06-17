@@ -30,6 +30,7 @@ import {
 import { action as RegisterAction } from "./pages/Register";
 import { action as LoginAction } from "./pages/login";
 import { action as HomeAction } from "./pages/home";
+import { action as TaskAction } from "./pages/Tasks";
 //react
 import { useEffect } from "react";
 function App() {
@@ -69,6 +70,7 @@ function App() {
         {
           path: "tasks",
           element: <Tasks />,
+          action: TaskAction,
         },
       ],
     },
