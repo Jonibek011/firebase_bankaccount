@@ -3,6 +3,7 @@ import { createContext, useReducer } from "react";
 export const mainContext = createContext();
 
 //firestore
+import { useAllCollection } from "../hooks/useAllCollection";
 
 const changeState = (state, action) => {
   const { type, payload } = action;
@@ -16,6 +17,8 @@ const changeState = (state, action) => {
       return { ...state, user: null };
     case "LOADING":
       return { ...state, loading: payload };
+    case "ADDTASK":
+      return { ...state, tasks: payload };
     default:
       return state;
   }
@@ -26,8 +29,11 @@ export function GlobalContextProvider({ children }) {
     user: null,
     readyState: false,
     loading: false,
+    tasks: [],
   });
 
+  // const data = useAllCollection("tasks", ["userId", "==", state.user.uid]);
+  // console.log(state.user.uid);
   return (
     <mainContext.Provider value={{ ...state, dispatch }}>
       {children}

@@ -5,18 +5,19 @@ import { collection, query, where } from "firebase/firestore";
 //useEffect
 import { useEffect, useState } from "react";
 
-export function useAllCollection(collectionName, Arr) {
-  console.log(Arr);
+export function useAllCollection(collectionName, filterArr) {
   const [data, setData] = useState(null);
   useEffect(() => {
-    const q = query(collection(db, collectionName), where(...Arr));
+    // himoya: agar Arr hali undefined bo‘lsa yoki to‘liq emas
+    if (!filterArr || filterArr.length !== 3) return;
+    const q = query(collection(db, collectionName), where(...filterArr));
 
-    onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const queryData = [];
       querySnapshot.forEach((doc) => {
-        queryData.push(doc.data().name);
-        setData(queryData);
+        queryData.push({ _id: doc.id, ...doc.data() });
       });
+      setData(queryData);
     });
 
     // onSnapshot(collection(db, collectionName), (querySnapshot) => {
@@ -26,7 +27,9 @@ export function useAllCollection(collectionName, Arr) {
     //     setData(queryData);
     //   });
     // });
-  }, []);
+
+    return () => unsubscribe();
+  }, [collectionName, JSON.stringify(filterArr)]);
 
   return { data };
 }
