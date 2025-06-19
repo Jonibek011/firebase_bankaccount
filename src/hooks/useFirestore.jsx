@@ -1,4 +1,4 @@
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { doc, deleteDoc } from "firebase/firestore";
 
@@ -11,5 +11,13 @@ export const useFirestore = () => {
     await deleteDoc(doc(db, collectionName, id));
   };
 
-  return { addDocument, deleteDocument };
+  const updateDocument = async (collectionName, id, key, value) => {
+    const docRef = doc(db, collectionName, id);
+
+    await updateDoc(docRef, {
+      [key]: value,
+    });
+  };
+
+  return { addDocument, deleteDocument, updateDocument };
 };

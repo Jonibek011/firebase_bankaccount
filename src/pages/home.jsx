@@ -11,7 +11,7 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const city = formData.get("cityName");
   if (city?.trim()) {
-    return { city };
+    return { city, result: "success" };
   }
 };
 //components

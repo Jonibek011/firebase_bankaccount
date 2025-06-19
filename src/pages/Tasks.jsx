@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
-
+import { useFirestore } from "../hooks/useFirestore";
 // Icons & Assets
 import { CiMenuKebab } from "react-icons/ci";
 import emptyBox from "../assets/images/empty-box.png";
@@ -30,11 +30,11 @@ export const action = async ({ request }) => {
     userId,
   };
 };
-
+//main function
 function Tasks() {
   const { user, dispatch } = useGlobalContext();
   const result = useActionData();
-  const navigation = useNavigation();
+  const { deleteDocument, updateDocument } = useFirestore();
   const modalRef = useRef();
   const formRef = useRef();
 
@@ -80,6 +80,7 @@ function Tasks() {
           ...result,
           date: formattedDate,
           taskId: uuidv4(),
+          status: "Pending",
         };
 
         try {
@@ -97,6 +98,30 @@ function Tasks() {
     addTaskToFirestore();
   }, [result]);
 
+  //delete tasks
+  const deleteTask = (id) => {
+    deleteDocument("Tasks", id);
+  };
+
+  //changestatus
+  const changeStatus = (id, currentStatus) => {
+    if (currentStatus === "Completed") {
+      const ConfirmMessage = window.confirm(
+        "Do you want to uncomplete this task"
+      );
+
+      if (!ConfirmMessage) return;
+    }
+
+    const newStatus = currentStatus === "Completed" ? "Pending" : "Completed";
+
+    updateDocument("Tasks", id, "status", newStatus);
+  };
+
+  //titleni qisqartirish
+  const shortenText = (text, maxLength) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
   return (
     <div className="w-full min-h-[70vh] py-14 px-10 bg-base-100 border relative">
       <div className="flex justify-between items-center">
@@ -134,28 +159,90 @@ function Tasks() {
         <table className="table">
           <thead>
             <tr>
-              <th></th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Created</th>
-              <th>Due</th>
-              <th>Options</th>
+              <th className=" max-w-20  lg:font-bold lg:text-xl  ">Complete</th>
+              <th className=" lg:text-xl">Title</th>
+              <th className=" lg:text-xl ">Status</th>
+              <th className=" lg:text-xl">Created</th>
+              <th className="lg:text-xl">Due Date</th>
+              <th className="lg:text-xl">Options</th>
             </tr>
           </thead>
           <tbody>
             {collectionData?.map((task) => (
-              <tr key={task.taskId}>
+              <tr
+                key={task.taskId}
+                className={`  ${
+                  task.status === "Completed" ? "bg-gray-50" : ""
+                }`}
+              >
                 <td>
-                  <input type="radio" />
+                  <div className="flex flex-col gap-1 items-start">
+                    <input
+                      type="checkbox"
+                      checked={task.status === "Completed"}
+                      onChange={() => changeStatus(task._id, task.status)}
+                      className={`checkbox ${
+                        task.status === "completed" ? "opasity-50" : ""
+                      } `}
+                    />
+                  </div>
                 </td>
-                <td>{task.taskTitle}</td>
-                <td>{user.displayName}</td>
-                <td>{task.date}</td>
-                <td>
-                  {task.taskTime}, {task.taskDate}
+                <td
+                  className={`lg:font-semibold lg:text-xl ${
+                    task.status === "Completed" && "line-through opacity-50"
+                  } `}
+                >
+                  {shortenText(task.taskTitle, 25)}
                 </td>
-                <td>
-                  <CiMenuKebab />
+                <td
+                  className={`lg:font-semibold lg:text-lg  ${
+                    task.status === "Completed" ? "opacity-100" : "opacity-50"
+                  } `}
+                >
+                  {task.status}
+                </td>
+                <td
+                  className={`lg:font-semibold lg:text-lg opacity-50   ${
+                    task.status === "Completed" && "line-through "
+                  }`}
+                >
+                  {task.date}
+                </td>
+                <td className="lg:font-semibold lg:text-lg opacity-50">
+                  {task.taskTime ? (
+                    <span
+                      className={` ${
+                        task.status === "Completed" && "line-through "
+                      }`}
+                    >
+                      {task.taskTime}, {task.taskDate}
+                    </span>
+                  ) : (
+                    "----"
+                  )}
+                </td>
+                <td className="inline-flex justify-center items-center  w-full ">
+                  <div className="dropdown dropdown-end">
+                    <div tabIndex={0} role="button" className=" m-1 ">
+                      <CiMenuKebab className="w-5 h-5 lg:w-7 lg:h-7 " />
+                    </div>
+
+                    <ul
+                      tabIndex={-1}
+                      className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                    >
+                      {task.status !== "Completed" && (
+                        <li>
+                          <button>Edit</button>
+                        </li>
+                      )}
+                      <li>
+                        <button onClick={() => deleteTask(task._id)}>
+                          Delete
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
             ))}

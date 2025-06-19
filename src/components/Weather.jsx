@@ -40,6 +40,13 @@ function Weather() {
     getData(API);
   }, [API]);
 
+  useEffect(() => {
+    if (cityName && cityName.result == "success") {
+      const form = document.getElementById("form");
+      form.reset();
+    }
+  }, [cityName]);
+
   let image = "";
 
   if (data && data.weather[0].description === "mist") {
