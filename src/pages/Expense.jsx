@@ -1,5 +1,5 @@
 import { Form } from "react-router-dom";
-import { Chart } from "../components";
+import { CiMenuKebab } from "react-icons/ci";
 
 //icons
 import { SlWallet } from "react-icons/sl";
@@ -145,7 +145,7 @@ function Expense() {
          */}
         <div className="expenses col-span-10 p-3 sm:p-4 bg-base-100 min-h-[50vh] rounded-xl overflow-x-auto md:overflow-x-hidden ">
           <h1 className="font-bold md:text-3xl md-4 md:mb-10">Expense List</h1>
-          <div className="overflow-x-auto md:overflow-x-hidden min-w-[600px] overflow-y-hidden">
+          <div className="min-w-[500px]">
             {/* ==================== table ====================================== */}
             <table className="table">
               {/* head */}
@@ -192,18 +192,20 @@ function Expense() {
                   </td>
                   <th>
                     <div className="dropdown dropdown-end">
-                      <div tabIndex={0} role="button" className="btn m-1">
-                        Click
+                      <div tabIndex={0} role="button" className=" m-1 ">
+                        <CiMenuKebab className="w-5 h-5 lg:w-7 lg:h-7 " />
                       </div>
+
                       <ul
-                        tabIndex={0}
-                        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                        tabIndex={-1}
+                        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow"
                       >
                         <li>
-                          <a>Item 1</a>
+                          <button>Edit</button>
                         </li>
+
                         <li>
-                          <a>Item 2</a>
+                          <button>Delete</button>
                         </li>
                       </ul>
                     </div>
