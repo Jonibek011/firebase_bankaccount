@@ -50,7 +50,11 @@ function MdNavMenu({ toggleBtn, setToggleBtn }) {
             </Link>
           </li>
           <li>
-            <Link onClick={() => setToggleBtn(false)} className="nav-link">
+            <Link
+              to="tasks"
+              onClick={() => setToggleBtn(false)}
+              className="nav-link"
+            >
               <TbSubtask className="sm-icons" />
               <span>Tasks</span>
             </Link>
