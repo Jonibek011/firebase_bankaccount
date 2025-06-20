@@ -2,8 +2,23 @@
 import { MdError } from "react-icons/md";
 import { Chart } from "../components";
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
+
+import useGlobalContext from "../hooks/useGlobalContext";
 
 function Dashboard() {
+  const { tasks } = useGlobalContext();
+
+  const complete = useMemo(() => {
+    if (!tasks) return;
+
+    if (tasks) {
+      return tasks.filter((t) => t.status === "Completed");
+    }
+
+    return [];
+  }, []);
+
   return (
     <div className=" grid grid-cols-2 grid-row-8 sm:grid-rows-10 lg:grid-rows-11 min-h-screen h-auto  min-w-full gap-2 md:gap-5 py-5 md:py-10">
       {/* ======================= First content ==================================== */}
@@ -19,7 +34,7 @@ function Dashboard() {
           <div className="buttons flex gap-4">
             <Link
               to="/tasks"
-              className="btn  bg-indigo-600 hover:bg-indigo-500 text-sm  sm:text-lg lg:text-lg text-base-100 btn-sm md:btn-md xl:btn-lg"
+              className="btn   bg-indigo-600 hover:bg-indigo-500 text-sm  sm:text-lg lg:text-lg text-base-100 btn-sm md:btn-md xl:btn-lg"
             >
               NewTask
             </Link>
@@ -31,20 +46,26 @@ function Dashboard() {
       </div>
 
       {/* ==================== Second Content ============================== */}
-      <div className="rounded-md border border-base-200 bg-blue-400 md:bg-base-100  shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4">
+      <Link
+        to="/tasks"
+        className="rounded-md border border-base-200 bg-blue-400 md:bg-base-100  shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4"
+      >
         <h2 className="text-lg md:text-3xl font-medium text-base-content">
           Task Completed
         </h2>
-        <p className="font-medium text-4xl md:text-6xl">32</p>
-      </div>
+        <p className="font-medium text-4xl md:text-6xl">{complete.length}</p>
+      </Link>
 
       {/* ========== third content ========================================== */}
-      <div className="rounded-md border border-base-200 bg-green-400 md:bg-base-100 shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4">
+      <Link
+        to="/expense"
+        className="rounded-md border border-base-200 bg-green-400 md:bg-base-100 shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4"
+      >
         <h2 className="text-lg md:text-3xl font-medium text-base-content">
           Monthly Expenses
         </h2>
         <p className="font-medium text-4xl md:text-6xl">$4,500</p>
-      </div>
+      </Link>
 
       {/* ======================== Forth content ====================================== */}
       <div className="rounded-md border border-base-200 bg-base-100 shadow-sm md:py-7 lg:py-10 col-span-full row-span-3 sm:row-span-4 lg:row-span-5 ">

@@ -67,7 +67,7 @@ function Sidebar() {
               </Link>
             </li>
             <li>
-              <Link>
+              <Link to="/expense">
                 <RiMoneyDollarCircleLine className="icons" />
                 <span
                   className={`transition-all duration-200 font-semibold text-[16px] ${

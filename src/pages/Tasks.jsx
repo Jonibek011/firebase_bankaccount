@@ -1,5 +1,5 @@
 // Tasks.jsx
-import { Form, useActionData, useNavigation } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, updateDoc, doc, collection } from "firebase/firestore";
@@ -12,6 +12,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { GrEdit } from "react-icons/gr";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { IoEyeOffOutline } from "react-icons/io5";
+import { FaFilter } from "react-icons/fa6";
 
 // Context and hooks
 import useGlobalContext from "../hooks/useGlobalContext";
@@ -61,7 +62,6 @@ function Tasks() {
 
   // Firebase ga yozish faqat form submit qilingandan so‘ng
   useEffect(() => {
-    setEditingModalLoading(true);
     const addTaskToFirestore = async () => {
       if (result?.taskTitle && !sendingData) {
         setSendingData(true);
@@ -104,7 +104,6 @@ function Tasks() {
           console.error("Firebasega yozishda xatolik:", err);
         } finally {
           setSendingData(false);
-          setEditingModalLoading(false);
         }
       }
     };
@@ -208,6 +207,7 @@ function Tasks() {
               role="button"
               className="btn btn-xs md:btn-sm m-1"
             >
+              <FaFilter />
               Sort by
             </div>
             <ul className="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow z-[1]">
@@ -299,13 +299,13 @@ function Tasks() {
                   </span>
                 </td>
                 <td
-                  className={` lg:font-semibold lg:text-lg opacity-50 text-[9px] md:text-md   ${
+                  className={` lg:font-semibold  opacity-50 text-[9px] md:text-sm   ${
                     task.status === "Completed" && "line-through "
                   }`}
                 >
                   {task.date}
                 </td>
-                <td className="hidden md:table-cell lg:font-semibold lg:text-lg opacity-50 ">
+                <td className="hidden md:table-cell lg:font-semibold  opacity-50 ">
                   {task.taskTime ? (
                     <span
                       className={` ${

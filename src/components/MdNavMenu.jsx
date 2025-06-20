@@ -23,7 +23,7 @@ function MdNavMenu({ toggleBtn, setToggleBtn }) {
   return (
     <div
       style={{ left: toggleBtn ? "0px" : "-100%" }}
-      className="absolute z-50 py-10  top-[8vh] transition-all duration-200 w-[40vw] h-full bg-transparent backdrop-blur-3xl border flex flex-col items-center"
+      className="absolute z-50 py-10  top-14 transition-all duration-200 w-[40vw] h-full bg-transparent backdrop-blur-3xl border flex flex-col items-center"
     >
       <div className="navMenu flex items-center">
         <ul className="flex flex-col  gap-7 ">
@@ -60,7 +60,11 @@ function MdNavMenu({ toggleBtn, setToggleBtn }) {
             </Link>
           </li>
           <li>
-            <Link onClick={() => setToggleBtn(false)} className="nav-link">
+            <Link
+              to="/expense"
+              onClick={() => setToggleBtn(false)}
+              className="nav-link"
+            >
               <RiMoneyDollarCircleLine className="sm-icons" />
               <span>Expense Tracker</span>
             </Link>

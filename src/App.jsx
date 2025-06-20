@@ -24,6 +24,7 @@ import {
   Profile,
   Dashboard,
   Tasks,
+  Expense,
 } from "./pages";
 
 //action
@@ -71,6 +72,10 @@ function App() {
           path: "tasks",
           element: <Tasks />,
           action: TaskAction,
+        },
+        {
+          path: "expense",
+          element: <Expense />,
         },
       ],
     },

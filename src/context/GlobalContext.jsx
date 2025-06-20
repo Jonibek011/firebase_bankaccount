@@ -2,9 +2,6 @@ import { createContext, useReducer } from "react";
 
 export const mainContext = createContext();
 
-//firestore
-import { useAllCollection } from "../hooks/useAllCollection";
-
 const changeState = (state, action) => {
   const { type, payload } = action;
 
