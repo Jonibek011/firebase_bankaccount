@@ -187,27 +187,30 @@ function Tasks() {
   }, [collectionData, sortCompleted, sortPending]);
 
   return (
-    <div className="w-full min-h-[70vh] py-8 px-2 sm:px-4 md:px-10 bg-base-100 border relative">
-      {/* Header */}
-      <div className="flex flex-wrap gap-2 justify-between items-center mb-6">
-        <h2 className="text-3xl md:text-5xl font-bold text-blue-700 hidden md:block">
+    <div className="w-full min-h-[70vh] py-14 px-10 bg-base-100 border relative">
+      <div className="flex justify-end md:justify-between items-center">
+        <h2 className="text-5xl font-bold text-blue-700 hidden md:block">
           Tasks.
         </h2>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex gap-4 items-center">
           <button
             onClick={() => {
               setSortCompleted(false);
               setSortPending(false);
             }}
-            className="btn btn-sm"
+            className="btn btn-xs md:btn-sm"
           >
             All
           </button>
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-sm">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-xs md:btn-sm m-1"
+            >
               Sort by
             </div>
-            <ul className="dropdown-content menu bg-base-100 rounded-box w-36 p-2 shadow z-[1]">
+            <ul className="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow z-[1]">
               <li>
                 <button
                   onClick={() => {
@@ -232,48 +235,59 @@ function Tasks() {
           </div>
           <button
             onClick={() => modalRef.current?.showModal()}
-            className="btn btn-primary btn-sm"
+            className="btn btn-primary btn-xs md:btn-sm"
           >
             + Add task
           </button>
         </div>
       </div>
-
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="table min-w-[650px]">
+      <hr className="my-6" />
+      <div className="mt-10 relative">
+        <table className="table min-w-[500px] overflow-x-auto">
           <thead>
-            <tr>
-              <th className="text-xs sm:text-sm">Complete</th>
-              <th className="text-xs sm:text-sm">Title</th>
-              <th className="text-xs sm:text-sm">Status</th>
-              <th className="text-xs sm:text-sm">Created</th>
-              <th className="text-xs sm:text-sm">Due Date</th>
-              <th className="text-xs sm:text-sm">Options</th>
+            <tr className="">
+              <th className=" max-w-14 md:max-w-28  lg:font-bold lg:text-xl  w-14 ">
+                Complete
+              </th>
+              <th className=" lg:text-xl">Title</th>
+              <th className="hidden md:table-cell lg:text-xl ">Status</th>
+              <th className=" lg:text-xl">Created</th>
+              <th className=" hidden md:table-cell lg:text-xl ">Due Date</th>
+              <th className="lg:text-xl">Options</th>
             </tr>
           </thead>
           <tbody>
             {mapData?.map((task) => (
               <tr
                 key={task.taskId}
-                className={task.status === "Completed" ? "bg-base-200" : ""}
+                className={`  ${
+                  task.status === "Completed" ? "bg-base-200" : ""
+                }`}
               >
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={task.status === "Completed"}
-                    onChange={() => changeStatus(task._id, task.status)}
-                    className="checkbox checkbox-xs sm:checkbox-sm"
-                  />
+                <td className=" ">
+                  <div className="flex flex-col gap-1 items-start">
+                    <input
+                      type="checkbox"
+                      checked={task.status === "Completed"}
+                      onChange={() => changeStatus(task._id, task.status)}
+                      className={`checkbox ${
+                        task.status === "completed" ? "opasity-50" : ""
+                      } checkbox-xs md:checkbox-md `}
+                    />
+                  </div>
                 </td>
                 <td
-                  className={`${
+                  className={`lg:font-semibold lg:text-xl ${
                     task.status === "Completed" && "line-through opacity-50"
-                  } text-sm`}
+                  } `}
                 >
                   {shortenText(task.taskTitle, 25)}
                 </td>
-                <td className="text-sm">
+                <td
+                  className={`hidden md:table-cell lg:font-semibold lg:text-lg  ${
+                    task.status === "Completed" ? "opacity-100" : "opacity-50"
+                  } `}
+                >
                   <span
                     className={`badge ${
                       task.status === "Completed"
@@ -284,30 +298,52 @@ function Tasks() {
                     {task.status}
                   </span>
                 </td>
-                <td className="text-xs opacity-50">{task.date}</td>
-                <td className="text-xs opacity-50">
-                  {task.taskTime
-                    ? `${task.taskTime}, ${task.taskDate}`
-                    : "----"}
+                <td
+                  className={` lg:font-semibold lg:text-lg opacity-50 text-[9px] md:text-md   ${
+                    task.status === "Completed" && "line-through "
+                  }`}
+                >
+                  {task.date}
                 </td>
-                <td className="flex gap-2 items-center">
-                  {task.status === "Completed" ? (
-                    <IoEyeOffOutline className="w-5 h-5 opacity-50" />
-                  ) : (
-                    <button
-                      onClick={() => {
-                        document.getElementById("my_modal_3").showModal();
-                        setEditingData(task);
-                      }}
+                <td className="hidden md:table-cell lg:font-semibold lg:text-lg opacity-50 ">
+                  {task.taskTime ? (
+                    <span
+                      className={` ${
+                        task.status === "Completed" && "line-through "
+                      } `}
                     >
-                      <MdOutlineRemoveRedEye className="w-5 h-5 opacity-75" />
-                    </button>
+                      {task.taskTime}, {task.taskDate}
+                    </span>
+                  ) : (
+                    "----"
                   )}
+                </td>
+                <td className="inline-flex  items-center  w-full  gap-5">
+                  <div>
+                    {task.status === "Completed" ? (
+                      <span>
+                        <IoEyeOffOutline className="w-5 h-5 opacity-50" />
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          document.getElementById("my_modal_3").showModal();
+                          setEditingData(task);
+                        }}
+                      >
+                        <MdOutlineRemoveRedEye className="w-3 h-3 md:w-5 md:h-5 opacity-75" />
+                      </button>
+                    )}
+                  </div>
                   <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button">
-                      <CiMenuKebab className="w-5 h-5" />
+                    <div tabIndex={0} role="button" className=" m-1 ">
+                      <CiMenuKebab className="w-5 h-5 lg:w-7 lg:h-7 " />
                     </div>
-                    <ul className="dropdown-content menu bg-base-100 rounded-box w-28 p-2 shadow z-[1]">
+
+                    <ul
+                      tabIndex={-1}
+                      className="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow"
+                    >
                       {task.status !== "Completed" && (
                         <li>
                           <button onClick={() => editFunction(task)}>
@@ -328,10 +364,9 @@ function Tasks() {
           </tbody>
         </table>
       </div>
-
-      {/* Add/Edit Modal */}
+      {/* Modal */}
       <dialog ref={modalRef} id="my_modal_2" className="modal">
-        <div className="modal-box w-full max-w-md">
+        <div className="modal-box">
           <h3 className="text-lg font-bold text-center mb-4">
             {editingModal ? "Edit task" : "New Task"}
           </h3>
@@ -349,7 +384,7 @@ function Tasks() {
                 name="title"
                 defaultValue={editingModal ? editingData.taskTitle : ""}
                 type="text"
-                className="input input-bordered w-full"
+                className="input input-bordered"
               />
             </label>
             <label className="flex flex-col">
@@ -359,7 +394,7 @@ function Tasks() {
                 name="date"
                 defaultValue={editingModal ? editingData.taskDate : ""}
                 type="date"
-                className="input input-bordered w-full"
+                className="input input-bordered"
               />
             </label>
             <label className="flex flex-col">
@@ -368,7 +403,7 @@ function Tasks() {
                 name="time"
                 defaultValue={editingModal ? editingData.taskTime : ""}
                 type="time"
-                className="input input-bordered w-full"
+                className="input input-bordered"
               />
             </label>
             <label className="flex flex-col">
@@ -376,15 +411,15 @@ function Tasks() {
               <textarea
                 name="body"
                 defaultValue={editingModal ? editingData.taskBody : ""}
-                className="textarea textarea-bordered w-full"
+                className="textarea textarea-bordered"
               ></textarea>
             </label>
             <input type="hidden" name="userId" value={user.uid} />
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex gap-4">
               <button
                 disabled={editingModalLoading}
                 type="submit"
-                className="btn btn-neutral w-full"
+                className="btn btn-neutral flex-1"
               >
                 {editingData ? "Save changes" : "Save"}
               </button>
@@ -396,7 +431,7 @@ function Tasks() {
                   modalRef.current?.close();
                   setEditingData(null);
                 }}
-                className="btn btn-outline w-full"
+                className="btn btn-outline flex-1"
               >
                 Cancel
               </button>
@@ -404,24 +439,29 @@ function Tasks() {
           </Form>
         </div>
       </dialog>
-
-      {/* View Modal */}
+      {/* ======================== task view modal ======================================= */}
       <dialog id="my_modal_3" className="modal max-w-5xl mx-auto">
-        <div className="modal-box w-full">
-          <h3 className="font-bold text-xl text-primary mb-4">Task</h3>
-          <p className="text-sm">
-            <strong>Title:</strong> {editingData?.taskTitle}
+        <div className="modal-box">
+          <h3 className="font-bold text-2xl text-primary">Task</h3>
+          <p className="font-semibold text-xl">
+            <span className="font-bold text-gray-400">Title:</span>{" "}
+            {editingData?.taskTitle}
           </p>
-          <p className="text-sm">
-            <strong>Date:</strong> {editingData?.taskDate}
+          <p className="">
+            <span className="font-bold text-gray-400">Date:</span>{" "}
+            {editingData?.taskDate}
           </p>
-          <p className="text-sm">
-            <strong>Time:</strong> {editingData?.taskTime}
+          <p className="">
+            <span className="font-bold text-gray-400">Date:</span>{" "}
+            {editingData?.taskTime}
           </p>
-          <p className="text-sm">
-            <strong>Description:</strong> {editingData?.taskBody}
+          <p className="">
+            <span className="font-bold text-gray-400">Date:</span>{" "}
+            {editingData?.taskBody}
           </p>
+
           <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
             <button
               onClick={() => {
                 setEditingData(null);
@@ -434,8 +474,6 @@ function Tasks() {
           </div>
         </div>
       </dialog>
-
-      {/* Loaders or Empty State */}
       {!collectionData && (
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
