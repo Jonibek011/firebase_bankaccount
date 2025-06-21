@@ -365,8 +365,8 @@ function Tasks() {
         </table>
       </div>
       {/* Modal */}
-      <dialog ref={modalRef} id="my_modal_2" className="modal">
-        <div className="modal-box">
+      <dialog ref={modalRef} id="my_modal_2" className="modal ">
+        <div className="modal-box max-w-sm lg:max-w-md">
           <h3 className="text-lg font-bold text-center mb-4">
             {editingModal ? "Edit task" : "New Task"}
           </h3>

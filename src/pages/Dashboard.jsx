@@ -38,9 +38,12 @@ function Dashboard() {
             >
               NewTask
             </Link>
-            <button className=" hidden sm:inline-block btn bg-blue-700 text-base-100 hover:bg-blue-600 text- lg:text-lg btn-md xl:btn-lg">
+            <Link
+              to="/expense"
+              className=" hidden sm:inline-flex btn bg-blue-700 text-base-100 hover:bg-blue-600 text- lg:text-lg btn-md xl:btn-lg"
+            >
               Add Expense
-            </button>
+            </Link>
           </div>
         </div>
       </div>

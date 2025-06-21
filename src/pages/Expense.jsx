@@ -1,13 +1,120 @@
 import { Form } from "react-router-dom";
 import { CiMenuKebab } from "react-icons/ci";
-
+import { useActionData } from "react-router-dom";
 //icons
 import { SlWallet } from "react-icons/sl";
 import { RiMoneyPoundCircleLine } from "react-icons/ri";
+import box from "../assets/images/folder.png";
+import { PiEyeBold } from "react-icons/pi";
+import { FaFilter } from "react-icons/fa6";
+
 //components
 import { ExtensesPieChart } from "../components";
 
+//firebase
+import { useFirestore } from "../hooks/useFirestore";
+import { useAllCollection } from "../hooks/useAllCollection";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
+
+//react
+import { useEffect, useMemo, useRef, useState } from "react";
+//Global context
+import useGlobalContext from "../hooks/useGlobalContext";
+import toast from "react-hot-toast";
+//action
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const expenseTitle = formData.get("expenseTitle");
+  const amaunt = formData.get("amaunt");
+  const category = formData.get("category");
+  const expenseDate = formData.get("date");
+  const note = formData.get("note");
+
+  return { expenseDate, expenseTitle, amaunt, category, note, submitted: true };
+};
+//main function
 function Expense() {
+  const { user } = useGlobalContext();
+  //action data
+  const actionData = useActionData();
+  //addDocument
+  const { addDocument, deleteDocument } = useFirestore();
+  const formRef = useRef();
+  const lastHandledAction = useRef(null);
+  const modalFormRef = useRef();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [expenseData, setExpenseData] = useState(null);
+
+  useEffect(() => {
+    if (!actionData?.submitted) return;
+
+    // Agar actionData o‘zgarmagan bo‘lsa — skip
+    const isSameAction =
+      JSON.stringify(lastHandledAction.current) === JSON.stringify(actionData);
+
+    if (isSameAction) return;
+    setIsSubmitted(true);
+
+    // Agar yangi actionData kelsa — ishga tushur
+    lastHandledAction.current = actionData;
+
+    (async () => {
+      await addDocument("Expenses", { ...actionData, userId: user.uid });
+      toast.success("Success !");
+      formRef.current.reset();
+    })();
+  }, [actionData]);
+
+  //firebasedan data olish
+  const { data: collectionData } = useAllCollection("Expenses", [
+    "userId",
+    "==",
+    user.uid,
+  ]);
+
+  const mapData = useMemo(() => {
+    if (Array.isArray(collectionData) && collectionData.length > 0) {
+      setIsSubmitted(false);
+      return collectionData;
+    }
+  }, [collectionData]);
+
+  //title ni qisqartirish
+  const shortTitle = (text, maxLength) => {
+    if (!text) return "";
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
+
+  //delete expense
+  const deleteExpense = (id) => {
+    deleteDocument("Expenses", id);
+  };
+
+  //expense edit
+  const modalFormSubmit = async (e) => {
+    setIsSubmitted(true);
+    const newTitle = e.target.modalTitle.value;
+    const newAmaunt = e.target.cost.value;
+    const newCategory = e.target.modalCategory.value;
+    const newDate = e.target.modalDate.value;
+    const newNote = e.target.modalNote.value;
+
+    const EditingData = doc(db, "Expenses", expenseData._id);
+
+    await updateDoc(EditingData, {
+      expenseTitle: newTitle,
+      amaunt: newAmaunt,
+      category: newCategory,
+      expenseDate: newDate,
+      note: newNote,
+    });
+    setIsSubmitted(false);
+    modalFormRef.current.reset();
+    document.getElementById("expense_modal").close();
+    setExpenseData(null);
+  };
+
   return (
     <div className="w-full h-auto mb-20">
       <h2 className="hidden sm:block font-semibold text-3xl sm:text-5xl my-6">
@@ -20,28 +127,38 @@ function Expense() {
             Add Expense
           </h3>
           <Form
-            action="."
+            ref={formRef}
             method="post"
             className="grid grid-cols-2 lg:grid-cols-3 grid-rows-4 lg:grid-rows-3 gap-2 sm:gap-5 "
           >
             <input
+              required
               type="text"
               name="expenseTitle"
               placeholder="Title"
               className=" col-span-2 lg:col-span-2 input input-bordered w-full "
             />
             <input
+              required
               type="number"
               name="amaunt"
-              placeholder="Amaunt"
+              placeholder="Amaunt ($)"
               className="col-span-1 row-span-1 input input-bordered w-full "
             />
-            <select className="select select-bordered w-full  col-span-1 row-span-1">
-              <option disabled selected>
+            <select
+              className="select select-bordered w-full  col-span-1 row-span-1"
+              required
+              name="category"
+              defaultValue=""
+            >
+              <option value="" disabled>
                 Category
               </option>
-              <option>Han Solo</option>
-              <option>Greedo</option>
+              <option>Food</option>
+              <option>Transport</option>
+              <option>Entertainment</option>
+              <option>Technologia</option>
+              <option>Other</option>
             </select>
 
             <label className="input input-bordered flex items-center col-span-1 lg:col-span-2 gap-2">
@@ -55,16 +172,22 @@ function Expense() {
             <div className="col-span-1 lg:col-span-3 row-span-1 w-full flex  gap-4">
               <input
                 type="text"
-                name="category"
+                name="note"
                 placeholder="Note"
                 className=" input input-bordered w-full flex-grow flex-1"
               />
-              <button className="btn  bg-sky-600 text-white hidden lg:inline-block">
+              <button
+                disabled={isSubmitted}
+                className="btn  bg-sky-600 hover:bg-sky-500 text-white hidden lg:inline-block"
+              >
                 Add
               </button>
             </div>
 
-            <button className="lg:hidden btn col-span-2 row-span-1 bg-sky-600 text-white">
+            <button
+              disabled={isSubmitted}
+              className="lg:hidden btn col-span-2 row-span-1 bg-sky-600 hover:bg-sky-500 text-white"
+            >
               Add
             </button>
           </Form>
@@ -72,7 +195,7 @@ function Expense() {
 
         {/* =========================== Chart card =============================================================== */}
         <div className="col-span-10 rounded-xl sm:col-span-5 lg:col-span-4 xl:col-span-3 bg-base-100 lg:row-span-2 p-2 lg:p-4">
-          <h2 className="font-bold md:text-2xl lg:text-3xl">
+          <h2 className="font-bold md:text-2xl lg:text-3xl ps-4">
             Expenses by Category
           </h2>
           <ExtensesPieChart />
@@ -98,42 +221,78 @@ function Expense() {
           </div>
         </div>
         {/* ==================================== Filter section ===================================================================== */}
-        <div className="filter-senction col-span-10 sm:col-span-6 xl:col-span-5 bg-base-100 rounded-lg p-4 flex gap-3">
-          <select
-            defaultValue="Category"
-            className="select select-bordered font-medium"
-          >
-            <option disabled={true}>Category</option>
-            <option>Crimson</option>
-            <option>Amber</option>
-            <option>Velvet</option>
-          </select>
-
-          <select
-            defaultValue="From"
-            className="select select-bordered font-medium"
-          >
-            <option disabled={true}>From</option>
-            <option>Crimson</option>
-            <option>Amber</option>
-            <option>Velvet</option>
-          </select>
-
-          <label className="input input-bordered flex items-center gap-2 flex-1 min-w-20">
-            <input type="text" className="grow" placeholder="Search" />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70"
+        <div className="filter-senction  col-span-10 sm:col-span-6 xl:col-span-5 bg-base-100 rounded-lg p-4 flex  items-center gap-1 md:gap-3">
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn m-1">
+              <span className="hidden md:inline-block">Category</span>{" "}
+              <span className="md:hidden">
+                <FaFilter />
+              </span>
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-auto p-2 shadow"
             >
-              <path
-                fillRule="evenodd"
-                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </label>
+              <li>
+                <button>All</button>
+              </li>
+              <li>
+                <button>Food</button>
+              </li>
+              <li>
+                <button>Transport</button>
+              </li>
+              <li>
+                <button>Entertainment</button>
+              </li>
+              <li>
+                <button>Technologia</button>
+              </li>
+            </ul>
+          </div>
+
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn m-1">
+              From
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
+            >
+              <li>
+                <button>All</button>
+              </li>
+              <li>
+                <button>Last a day</button>
+              </li>
+              <li>
+                <button>Last 7 days</button>
+              </li>
+              <li>
+                <button>Last a month</button>
+              </li>
+            </ul>
+          </div>
+
+          <Form method="post" className="w-full flex ">
+            <label className="input input-bordered w-full max-w-xl pe-10 flex relative">
+              <input type=" text" className="w-full" placeholder="Search" />
+              <button className="bg-gray-50 h-full rounded-e-lg absolute border-none btn-sm right-0 bottom-0 top-0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="h-4 w-4 opacity-70"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </label>
+          </Form>
         </div>
 
         {/* ===================== Some content ======================================== */}
@@ -143,15 +302,23 @@ function Expense() {
 
         {/* =============================== Expenses ===================================================
          */}
-        <div className="expenses col-span-10 p-3 sm:p-4 bg-base-100 min-h-[50vh] rounded-xl overflow-x-auto md:overflow-x-hidden ">
+        <div className="expenses relative  min-h-[65vh] col-span-10 p-3 sm:p-4 bg-base-100  h-auto rounded-xl overflow-x-auto md:overflow-x-hidden ">
+          {!collectionData && (
+            <span className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+              <span className="loading loading-spinner loading-lg"></span>
+            </span>
+          )}
           <h1 className="font-bold md:text-3xl md-4 md:mb-10">Expense List</h1>
-          <div className="min-w-[500px]">
+          <div className="min-w-[500px] md:min-w-fit  pb-20">
             {/* ==================== table ====================================== */}
-            <table className="table">
+            <table className="table table-fixed">
               {/* head */}
               <thead>
                 <tr>
-                  <th className="md:text-xl">Title</th>
+                  <th colSpan={2} className="md:text-xl text-center">
+                    Title
+                  </th>
+                  <th className=" w-14"></th>
                   <th className="hidden lg:table-cell lg:text-xl">Category</th>
                   <th className="md:text-xl">Price</th>
                   <th className="hidden lg:table-cell md:text-xl">Date</th>
@@ -159,64 +326,211 @@ function Expense() {
                 </tr>
               </thead>
               {/* =============== table body =================================================== */}
-              <tbody>
+              <tbody className="border-b">
                 {/* row 1 */}
-                <tr>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div>
-                        <div className="font-bold lg:text-lg">
-                          Expense title Titlt tltlt elt t
+                {mapData?.map((collect) => {
+                  return (
+                    <tr key={collect._id}>
+                      <td className="ps-10" colSpan={2}>
+                        <div className="flex items-center gap-3">
+                          <div>
+                            <div className="font-bold lg:text-xl opacity-80">
+                              {shortTitle(collect.expenseTitle, 35)}
+                            </div>
+                            <div className="text-sm opacity-50 lg:hidden">
+                              {collect.category}
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-sm opacity-50 lg:hidden">
-                          Category
+                      </td>
+                      <td className="w-14"></td>
+                      <td className="hidden lg:table-cell lg:font-medium text-lg text-warning">
+                        {collect.category}
+                      </td>
+                      <td className="lg:hidden ">
+                        $ {collect.amaunt}
+                        <br />
+                        <span className="badge badge-ghost badge-sm">
+                          {collect.expenseDate}
+                        </span>
+                      </td>
+                      <td className="hidden lg:table-cell lg:font-semibold text-lg text-red-400">
+                        $ {collect.amaunt}
+                      </td>
+                      <td className="hidden lg:table-cell lg:font-semibold text-lg text-gray-400">
+                        {collect.expenseDate}
+                      </td>
+                      <th className="relative flex justify-start gap-5 items-center">
+                        <button
+                          onClick={() => {
+                            setExpenseData(collect);
+                            document.getElementById("expense_view").showModal();
+                          }}
+                        >
+                          <PiEyeBold className="w-5 h-5" />
+                        </button>
+                        <div className="dropdown  dropdown-end">
+                          <div tabIndex={0} role="button" className="m-1">
+                            <CiMenuKebab className="w-5 h-5 lg:w-7 lg:h-7" />
+                          </div>
+
+                          <ul
+                            tabIndex={-1}
+                            className="dropdown-content overflow-auto z-50 menu bg-base-100 rounded-box w-32 p-2 shadow absolute"
+                          >
+                            <li>
+                              <button
+                                onClick={() => {
+                                  document
+                                    .getElementById("expense_modal")
+                                    .showModal();
+                                  setExpenseData(collect);
+                                }}
+                              >
+                                Edit
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                onClick={() => deleteExpense(collect._id)}
+                              >
+                                Delete
+                              </button>
+                            </li>
+                          </ul>
                         </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="hidden lg:table-cell lg:font-medium text-lg text-warning">
-                    Food
-                  </td>
-                  <td className="lg:hidden ">
-                    $ 14.90
-                    <br />
-                    <span className="badge badge-ghost badge-sm">
-                      13:42, 20.06.2025
-                    </span>
-                  </td>
-                  <td className="hidden lg:table-cell lg:font-semibold text-lg text-red-400">
-                    $ 14.90
-                  </td>
-                  <td className="hidden lg:table-cell lg:font-semibold text-lg text-gray-400">
-                    13:42, 20.06.2025
-                  </td>
-                  <th>
-                    <div className="dropdown dropdown-end">
-                      <div tabIndex={0} role="button" className=" m-1 ">
-                        <CiMenuKebab className="w-5 h-5 lg:w-7 lg:h-7 " />
-                      </div>
-
-                      <ul
-                        tabIndex={-1}
-                        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow"
-                      >
-                        <li>
-                          <button>Edit</button>
-                        </li>
-
-                        <li>
-                          <button>Delete</button>
-                        </li>
-                      </ul>
-                    </div>
-                  </th>
-                </tr>
+                      </th>
+                    </tr>
+                  );
+                })}
               </tbody>
               {/* foot */}
             </table>
           </div>
+          {collectionData?.length === 0 && (
+            <div className="w-full   flex flex-col justify-center items-center">
+              <img src={box} className="w-48" alt="empty box" />
+              <p className="font-medium text-2xl opacity-75 ">No expenses</p>
+              <p className="text-center opacity-50 font-semibold">
+                Get started by adding <br /> your first expense
+              </p>
+            </div>
+          )}
         </div>
       </div>
+      <dialog id="expense_modal" className="modal">
+        <div className="modal-box max-w-sm lg:max-w-md">
+          <h3 className="font-bold text-lg">Edit expense!</h3>
+
+          <div className="modal-action">
+            <Form
+              onSubmit={modalFormSubmit}
+              ref={modalFormRef}
+              method="post"
+              className="grid grid-cols-2  grid-rows-4  gap-2 sm:gap-5 "
+            >
+              <input
+                required
+                type="text"
+                name="modalTitle"
+                defaultValue={expenseData?.expenseTitle}
+                placeholder="Title"
+                className=" col-span-2  input input-bordered w-full "
+              />
+              <input
+                required
+                type="number"
+                name="cost"
+                defaultValue={expenseData?.amaunt}
+                placeholder="Amaunt ($)"
+                className="col-span-1 row-span-1 input input-bordered w-full "
+              />
+              <select
+                className="select select-bordered w-full  col-span-1 row-span-1"
+                required
+                name="modalCategory"
+                defaultValue={expenseData?.category}
+              >
+                <option value="" disabled>
+                  Category
+                </option>
+                <option>Food</option>
+                <option>Transport</option>
+                <option>Entertainment</option>
+                <option>Technologia</option>
+                <option>Other</option>
+              </select>
+
+              <label className="input input-bordered flex items-center col-span-1  gap-2">
+                <input
+                  type="date"
+                  className="grow"
+                  placeholder="Date"
+                  name="modalDate"
+                  defaultValue={expenseData?.expenseDate}
+                />
+              </label>
+              <div className="col-span-1  row-span-1 w-full flex  gap-4">
+                <input
+                  type="text"
+                  name="modalNote"
+                  defaultValue={expenseData?.note}
+                  placeholder="Note"
+                  className=" input input-bordered w-full flex-grow flex-1"
+                />
+              </div>
+
+              <div className="col-span-2 row-span-1 flex gap-4">
+                <button
+                  disabled={isSubmitted}
+                  className="btn  bg-sky-600 hover:bg-sky-500 text-white flex-1"
+                >
+                  Save changes
+                </button>
+
+                <button
+                  onClick={() => {
+                    document.getElementById("expense_modal").close();
+                    setExpenseData(null);
+                  }}
+                  className="btn  bg-sky-600 hover:bg-sky-500 text-white flex-1 "
+                >
+                  Cancel
+                </button>
+              </div>
+            </Form>
+          </div>
+        </div>
+      </dialog>
+      {/* ============== Expense view modal ===================================== */}
+      <dialog id="expense_view" className="modal">
+        <div className="modal-box max-w-sm lg:max-w-md">
+          <h3 className="font-bold text-xl text-center">
+            "{expenseData?.expenseTitle}"
+          </h3>
+          <p className="py-4 text-center"> {expenseData?.note}</p>
+          <p>
+            <span className="opacity-50 font-bold">Category:</span>{" "}
+            {expenseData?.category}
+          </p>
+          <p>
+            <span className="text-sm opacity-50 font-bold">Date: </span>
+            <span className="text-xs"> {expenseData?.expenseDate}</span>
+          </p>
+
+          <div className="modal-action">
+            <button
+              className="btn"
+              onClick={() => {
+                setExpenseData(null);
+                document.getElementById("expense_view").close();
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 }

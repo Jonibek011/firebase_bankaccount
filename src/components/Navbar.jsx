@@ -44,7 +44,7 @@ function Navbar() {
         <div className="toggle-button">
           <button
             onClick={() => setToggleBtn(true)}
-            className="p-2 bg-gray-100 rounded-lg md:hidden "
+            className="p-2 bg-base-200 rounded-lg md:hidden "
           >
             <RxHamburgerMenu className="w-5 h-5" />
           </button>
