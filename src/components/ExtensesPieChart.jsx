@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   PieChart,
   Pie,
@@ -7,10 +8,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const ExpensesPieChart = ({ mapData = [] }) => {
+const ExpensesPieChart = ({ mapDataForChart = [] }) => {
   const obj = {};
 
-  mapData.forEach((data) => {
+  mapDataForChart.forEach((data) => {
     if (Object.hasOwn(obj, data.category)) {
       obj[data.category] += Number(data.amaunt);
     } else {

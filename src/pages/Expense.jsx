@@ -22,6 +22,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 //Global context
 import useGlobalContext from "../hooks/useGlobalContext";
 import toast from "react-hot-toast";
+
+//date-fns - library
+import { differenceInDays, differenceInHours, parseISO } from "date-fns";
 //action
 export const action = async ({ request }) => {
   const formData = await request.formData();
@@ -47,6 +50,14 @@ function Expense() {
   const [expenseData, setExpenseData] = useState(null);
   const [totalSum, setTotalSum] = useState(0);
   const [maxSum, setMaxSum] = useState(0);
+  const [foodCategory, setFoodCategory] = useState(false);
+  const [transportCategory, setTransportCategory] = useState(false);
+  const [technologiaCategory, setTecnologiaCategory] = useState(false);
+  const [entertainmentCategory, setEntertainmentCategory] = useState(false);
+  const [otherCategory, setOtherCategory] = useState(false);
+  const [lastDay, setLastDay] = useState(false);
+  const [last7Days, setLast7Days] = useState(false);
+  const [lastMonth, setLastMonth] = useState(false);
 
   useEffect(() => {
     if (!actionData?.submitted) return;
@@ -75,8 +86,67 @@ function Expense() {
     "==",
     user.uid,
   ]);
-
+  //=========== Map main data =====================================================================
   const mapData = useMemo(() => {
+    if (Array.isArray(collectionData) && collectionData.length > 0) {
+      if (foodCategory) {
+        return collectionData.filter((data) => data.category === "Food");
+      }
+      if (transportCategory) {
+        return collectionData.filter((data) => data.category === "Transport");
+      }
+      if (technologiaCategory) {
+        return collectionData.filter((data) => data.category === "Technologia");
+      }
+      if (entertainmentCategory) {
+        return collectionData.filter(
+          (data) => data.category === "Entertainment"
+        );
+      }
+      if (otherCategory) {
+        return collectionData.filter((data) => data.category === "Other");
+      }
+
+      if (lastDay) {
+        return collectionData.filter((data) => {
+          const today = new Date();
+          const date = parseISO(data.expenseDate);
+          const diff = differenceInDays(today, date);
+          return diff >= 0 && diff <= 1;
+        });
+      }
+      if (last7Days) {
+        return collectionData.filter((data) => {
+          const today = new Date();
+          const date = parseISO(data.expenseDate);
+          const diff = differenceInDays(today, date);
+          return diff >= 0 && diff <= 7;
+        });
+      }
+      if (lastMonth) {
+        return collectionData.filter((data) => {
+          const today = new Date();
+          const date = parseISO(data.expenseDate);
+          const diff = differenceInDays(today, date);
+          return diff >= 0 && diff <= 30;
+        });
+      }
+
+      return collectionData;
+    }
+  }, [
+    collectionData,
+    foodCategory,
+    transportCategory,
+    technologiaCategory,
+    entertainmentCategory,
+    otherCategory,
+    lastDay,
+    last7Days,
+    lastMonth,
+  ]);
+
+  const mapDataForChart = useMemo(() => {
     if (Array.isArray(collectionData) && collectionData.length > 0) {
       return collectionData;
     }
@@ -117,20 +187,51 @@ function Expense() {
     setExpenseData(null);
   };
 
+  //total Sum and highest expense
   useEffect(() => {
-    if (Array.isArray(mapData)) {
-      let sum = 0;
-      const arr = mapData.map((data) => {
-        sum = sum + Number(data.amaunt);
-        return Number(data.amaunt);
-      });
+    if (collectionData)
+      if (Array.isArray(collectionData)) {
+        let sum = 0;
+        const arr = collectionData.map((data) => {
+          sum = sum + Number(data.amaunt);
+          return Number(data.amaunt);
+        });
 
-      let sumMax = Math.max(...arr);
+        let sumMax = arr?.length ? Math.max(...arr) : 0;
 
-      setTotalSum(sum.toFixed(2));
-      setMaxSum(sumMax.toFixed(2));
-    }
-  }, [mapData]);
+        setTotalSum(sum.toFixed(2));
+        setMaxSum(sumMax.toFixed(2));
+      }
+  }, [collectionData]);
+
+  //category filterni dinamic qilish
+  const categoryFilter = useMemo(() => {
+    if (foodCategory) return "Food";
+    if (transportCategory) return "Transport";
+    if (technologiaCategory) return "Technologia";
+    if (entertainmentCategory) return "Entert...";
+    if (otherCategory) return "Other";
+    return "Category  ";
+  }, [
+    foodCategory,
+    transportCategory,
+    technologiaCategory,
+    entertainmentCategory,
+    otherCategory,
+  ]);
+
+  //date filter ni dinamik qilish
+  const dateFilter = useMemo(() => {
+    if (lastDay) return "A day";
+    if (last7Days) return "7 days";
+    if (lastMonth) return "A month";
+    return "From";
+  }, [lastDay, last7Days, lastMonth]);
+
+  // search orqali filter qilish
+  const searchSubmit = () => {
+    console.log("search button bosildi");
+  };
   return (
     <div className="w-full h-auto mb-20">
       <h2 className="hidden sm:block font-semibold text-3xl sm:text-5xl my-6">
@@ -215,7 +316,7 @@ function Expense() {
           <h2 className="font-bold md:text-2xl lg:text-3xl ps-4">
             Expenses by Category
           </h2>
-          <ExtensesPieChart mapData={mapData} />
+          <ExtensesPieChart mapDataForChart={mapDataForChart} />
         </div>
 
         {/* =================================== Total section ====================================================== */}
@@ -241,7 +342,7 @@ function Expense() {
         <div className="filter-senction  col-span-10 sm:col-span-6 xl:col-span-5 bg-base-100 rounded-lg p-4 flex  items-center gap-1 md:gap-3">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn m-1">
-              <span className="hidden md:inline-block">Category</span>{" "}
+              <span className="hidden md:inline-block">{categoryFilter}</span>{" "}
               <span className="md:hidden">
                 <FaFilter />
               </span>
@@ -251,47 +352,167 @@ function Expense() {
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-auto p-2 shadow"
             >
               <li>
-                <button>All</button>
+                <button
+                  onClick={() => {
+                    setTransportCategory(false);
+                    setTecnologiaCategory(false);
+                    setEntertainmentCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(false);
+                    setLastDay(false);
+                    setLast7Days(false);
+                    setLastMonth(false);
+                  }}
+                >
+                  All
+                </button>
               </li>
               <li>
-                <button>Food</button>
+                <button
+                  onClick={() => {
+                    setTransportCategory(false);
+                    setTecnologiaCategory(false);
+                    setEntertainmentCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(true);
+                  }}
+                >
+                  Food
+                </button>
               </li>
               <li>
-                <button>Transport</button>
+                <button
+                  onClick={() => {
+                    setTecnologiaCategory(false);
+                    setEntertainmentCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(false);
+                    setTransportCategory(true);
+                  }}
+                >
+                  Transport
+                </button>
               </li>
               <li>
-                <button>Entertainment</button>
+                <button
+                  onClick={() => {
+                    setTransportCategory(false);
+                    setTecnologiaCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(false);
+                    setEntertainmentCategory(true);
+                  }}
+                >
+                  Entertainment
+                </button>
               </li>
               <li>
-                <button>Technologia</button>
+                <button
+                  onClick={() => {
+                    setTransportCategory(false);
+                    setEntertainmentCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(false);
+                    setTecnologiaCategory(true);
+                  }}
+                >
+                  Technologia
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    setTransportCategory(false);
+                    setEntertainmentCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(false);
+                    setTecnologiaCategory(false);
+                    setOtherCategory(true);
+                  }}
+                >
+                  Other
+                </button>
               </li>
             </ul>
           </div>
 
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn m-1">
-              From
+            <div tabIndex={0} role="button" className="btn m-1 ">
+              <span className="flex gap-1 whitespace-nowrap">{dateFilter}</span>
             </div>
             <ul
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
             >
               <li>
-                <button>All</button>
+                <button
+                  onClick={() => {
+                    setTransportCategory(false);
+                    setEntertainmentCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(false);
+                    setTecnologiaCategory(false);
+                    setOtherCategory(false);
+                    setLastDay(false);
+                    setLast7Days(false);
+                    setLastMonth(false);
+                  }}
+                >
+                  All
+                </button>
               </li>
               <li>
-                <button>Last a day</button>
+                <button
+                  onClick={() => {
+                    setTransportCategory(false);
+                    setEntertainmentCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(false);
+                    setTecnologiaCategory(false);
+                    setOtherCategory(false);
+                    setLastDay(true);
+                  }}
+                >
+                  Last a day
+                </button>
               </li>
               <li>
-                <button>Last 7 days</button>
+                <button
+                  onClick={() => {
+                    setTransportCategory(false);
+                    setEntertainmentCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(false);
+                    setTecnologiaCategory(false);
+                    setOtherCategory(false);
+                    setLastDay(false);
+                    setLast7Days(true);
+                  }}
+                >
+                  Last 7 days
+                </button>
               </li>
               <li>
-                <button>Last a month</button>
+                <button
+                  onClick={() => {
+                    setTransportCategory(false);
+                    setEntertainmentCategory(false);
+                    setOtherCategory(false);
+                    setFoodCategory(false);
+                    setTecnologiaCategory(false);
+                    setOtherCategory(false);
+                    setLastDay(false);
+                    setLast7Days(false);
+                    setLastMonth(true);
+                  }}
+                >
+                  Last a month
+                </button>
               </li>
             </ul>
           </div>
 
-          <Form method="post" className="w-full flex ">
+          <Form method="post" className="w-full flex " onSubmit={searchSubmit}>
             <label className="input input-bordered w-full max-w-xl pe-10 flex relative">
               <input type=" text" className="w-full" placeholder="Search" />
               <button className="bg-gray-50 h-full rounded-e-lg absolute border-none btn-sm right-0 bottom-0 top-0">
@@ -425,6 +646,15 @@ function Expense() {
             </table>
           </div>
           {collectionData?.length === 0 && (
+            <div className="w-full   flex flex-col justify-center items-center">
+              <img src={box} className="w-48" alt="empty box" />
+              <p className="font-medium text-2xl opacity-75 ">No expenses</p>
+              <p className="text-center opacity-50 font-semibold">
+                Get started by adding <br /> your first expense
+              </p>
+            </div>
+          )}
+          {mapData?.length === 0 && (
             <div className="w-full   flex flex-col justify-center items-center">
               <img src={box} className="w-48" alt="empty box" />
               <p className="font-medium text-2xl opacity-75 ">No expenses</p>

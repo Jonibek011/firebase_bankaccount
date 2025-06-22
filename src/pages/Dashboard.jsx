@@ -17,7 +17,7 @@ function Dashboard() {
     }
 
     return [];
-  }, []);
+  }, [tasks]);
 
   return (
     <div className=" grid grid-cols-2 grid-row-8 sm:grid-rows-10 lg:grid-rows-11 min-h-screen h-auto  min-w-full gap-2 md:gap-5 py-5 md:py-10">
