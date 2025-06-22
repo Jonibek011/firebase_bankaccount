@@ -45,6 +45,8 @@ function Expense() {
   const modalFormRef = useRef();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [expenseData, setExpenseData] = useState(null);
+  const [totalSum, setTotalSum] = useState(0);
+  const [maxSum, setMaxSum] = useState(0);
 
   useEffect(() => {
     if (!actionData?.submitted) return;
@@ -54,15 +56,16 @@ function Expense() {
       JSON.stringify(lastHandledAction.current) === JSON.stringify(actionData);
 
     if (isSameAction) return;
-    setIsSubmitted(true);
 
     // Agar yangi actionData kelsa — ishga tushur
     lastHandledAction.current = actionData;
 
     (async () => {
+      setIsSubmitted(true);
       await addDocument("Expenses", { ...actionData, userId: user.uid });
       toast.success("Success !");
       formRef.current.reset();
+      setIsSubmitted(false);
     })();
   }, [actionData]);
 
@@ -75,7 +78,6 @@ function Expense() {
 
   const mapData = useMemo(() => {
     if (Array.isArray(collectionData) && collectionData.length > 0) {
-      setIsSubmitted(false);
       return collectionData;
     }
   }, [collectionData]);
@@ -115,6 +117,20 @@ function Expense() {
     setExpenseData(null);
   };
 
+  useEffect(() => {
+    if (Array.isArray(mapData)) {
+      let sum = 0;
+      const arr = mapData.map((data) => {
+        sum = sum + Number(data.amaunt);
+        return Number(data.amaunt);
+      });
+
+      let sumMax = Math.max(...arr);
+
+      setTotalSum(sum.toFixed(2));
+      setMaxSum(sumMax.toFixed(2));
+    }
+  }, [mapData]);
   return (
     <div className="w-full h-auto mb-20">
       <h2 className="hidden sm:block font-semibold text-3xl sm:text-5xl my-6">
@@ -142,6 +158,7 @@ function Expense() {
               required
               type="number"
               name="amaunt"
+              step="any"
               placeholder="Amaunt ($)"
               className="col-span-1 row-span-1 input input-bordered w-full "
             />
@@ -198,7 +215,7 @@ function Expense() {
           <h2 className="font-bold md:text-2xl lg:text-3xl ps-4">
             Expenses by Category
           </h2>
-          <ExtensesPieChart />
+          <ExtensesPieChart mapData={mapData} />
         </div>
 
         {/* =================================== Total section ====================================================== */}
@@ -207,7 +224,7 @@ function Expense() {
             <h2 className="font-bold text-lg sm:text-2xl">Total Spent</h2>
             <span className="flex items-center gap-8 text-lg sm:text-2xl font-bold">
               <SlWallet className="w-10 h-10 sm:w-14 sm:h-14 opacity-40 text-primary" />{" "}
-              $95.00{" "}
+              ${totalSum}{" "}
             </span>
           </div>
 
@@ -216,7 +233,7 @@ function Expense() {
             <span className="flex items-center gap-8 text-lg sm:text-2xl font-bold">
               {" "}
               <RiMoneyPoundCircleLine className="w-10 h-10 sm:w-14 sm:h-14 opacity-40 text-primary " />{" "}
-              $50.00
+              ${maxSum}
             </span>
           </div>
         </div>
@@ -282,7 +299,7 @@ function Expense() {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
                   fill="currentColor"
-                  className="h-4 w-4 opacity-70"
+                  className="h-4 w-4 opacity-70 text-black"
                 >
                   <path
                     fillRule="evenodd"
@@ -516,6 +533,10 @@ function Expense() {
           <p>
             <span className="text-sm opacity-50 font-bold">Date: </span>
             <span className="text-xs"> {expenseData?.expenseDate}</span>
+          </p>
+          <p>
+            <span className="text-sm opacity-50 font-bold">Price: </span>
+            <span className="text-xs"> {expenseData?.amaunt}$</span>
           </p>
 
           <div className="modal-action">

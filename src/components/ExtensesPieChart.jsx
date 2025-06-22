@@ -7,18 +7,32 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Namuna xarajatlar
-const data = [
-  { name: "Food", value: 350 },
-  { name: "Transport", value: 200 },
-  { name: "Entertainment", value: 150 },
-  { name: "Other", value: 100 },
-];
+const ExpensesPieChart = ({ mapData = [] }) => {
+  const obj = {};
 
-// Ranglar
-const COLORS = ["#4FD1C5", "#63B3ED", "#F6AD55", "#FC8181"];
+  mapData.forEach((data) => {
+    if (Object.hasOwn(obj, data.category)) {
+      obj[data.category] += Number(data.amaunt);
+    } else {
+      obj[data.category] = Number(data.amaunt);
+    }
+  });
 
-const ExpensesPieChart = () => {
+  // Namuna xarajatlar
+  const data = [
+    { name: "Food", value: obj?.Food ? obj.Food : 0 },
+    { name: "Transport", value: obj?.Transport ? obj.Transport : 0 },
+    { name: "Technologiya", value: obj?.Technologia ? obj.Technologia : 0 },
+    {
+      name: "Entertainment",
+      value: obj?.Entertainment ? obj.Entertainment : 0,
+    },
+    { name: "Other", value: obj?.Other ? obj.Other : 1 },
+  ];
+
+  // Ranglar
+  const COLORS = ["#4FD1C5", "#63B3ED", "#B13BFF", "#FC8181", "#F42362"];
+
   return (
     <div className="w-full h-80">
       <ResponsiveContainer>
@@ -31,9 +45,7 @@ const ExpensesPieChart = () => {
             outerRadius={80}
             fill="#8884d8"
             dataKey="value"
-            label={({ name, percent }) =>
-              `${name} (${(percent * 100).toFixed(0)}%)`
-            }
+            label={({ name, percent }) => ` (${(percent * 100).toFixed(0)}%)`}
           >
             {data.map((entry, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
