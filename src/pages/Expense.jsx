@@ -239,7 +239,7 @@ function Expense() {
       </h2>
       <div className="main-container grid grid-cols-10 grid-rows-none auto-rows-auto  w-full  gap-4 lg:gap-5  ">
         {/* ==================== Add card ====================================================== */}
-        <div className="add-card bg-base-100 w-full rounded-xl p-2 sm:p-4 col-span-10 lg:col-span-6 xl:col-span-7 h-auto">
+        <div className="add-card shadow-md  bg-base-100 w-full rounded-xl p-2 sm:p-4 col-span-10 lg:col-span-6 xl:col-span-7 h-auto">
           <h3 className="text-xl sm:text-3xl font-semibold mb-5">
             Add Expense
           </h3>
@@ -312,7 +312,7 @@ function Expense() {
         </div>
 
         {/* =========================== Chart card =============================================================== */}
-        <div className="col-span-10 rounded-xl sm:col-span-5 lg:col-span-4 xl:col-span-3 bg-base-100 lg:row-span-2 p-2 lg:p-4">
+        <div className="col-span-10  shadow-md rounded-xl sm:col-span-5 lg:col-span-4 xl:col-span-3 bg-base-100 lg:row-span-2 p-2 lg:p-4">
           <h2 className="font-bold md:text-2xl lg:text-3xl ps-4">
             Expenses by Category
           </h2>
@@ -320,7 +320,7 @@ function Expense() {
         </div>
 
         {/* =================================== Total section ====================================================== */}
-        <div className="col-span-10 sm:col-span-5 lg:col-span-6 xl:col-span-7  bg-base-100 rounded-xl flex flex-row sm:flex-col lg:flex-row  lg:justify-evenly  p-5">
+        <div className="col-span-10 sm:col-span-5 shadow-md lg:col-span-6 xl:col-span-7  bg-base-100 rounded-xl flex flex-row sm:flex-col lg:flex-row  lg:justify-evenly  p-5">
           <div className="total lg:border-e-2  lg:pe-5 flex-1 flex flex-col  gap-4 lg:gap-2">
             <h2 className="font-bold text-lg sm:text-2xl">Total Spent</h2>
             <span className="flex items-center gap-8 text-lg sm:text-2xl font-bold">
@@ -339,7 +339,7 @@ function Expense() {
           </div>
         </div>
         {/* ==================================== Filter section ===================================================================== */}
-        <div className="filter-senction  col-span-10 sm:col-span-6 xl:col-span-5 bg-base-100 rounded-lg p-4 flex  items-center gap-1 md:gap-3">
+        <div className="filter-senction shadow-md  col-span-10 sm:col-span-6 xl:col-span-5 bg-base-100 rounded-lg p-4 flex  items-center gap-1 md:gap-3">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn m-1">
               <span className="hidden md:inline-block">{categoryFilter}</span>{" "}
@@ -534,13 +534,13 @@ function Expense() {
         </div>
 
         {/* ===================== Some content ======================================== */}
-        <div className="some-content hidden sm:block col-span-4 xl:col-span-5 bg-base-100 p-4 rounded-lg">
+        <div className="some-content shadow-md hidden sm:block col-span-4 xl:col-span-5 bg-base-100 p-4 rounded-lg">
           1
         </div>
 
         {/* =============================== Expenses ===================================================
          */}
-        <div className="expenses relative  min-h-[65vh] col-span-10 p-3 sm:p-4 bg-base-100  h-auto rounded-xl overflow-x-auto md:overflow-x-hidden ">
+        <div className="expenses relative shadow-md  min-h-[65vh] col-span-10 p-3 sm:p-4 bg-base-100  h-auto rounded-xl overflow-x-auto md:overflow-x-hidden ">
           {!collectionData && (
             <span className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
               <span className="loading loading-spinner loading-lg"></span>

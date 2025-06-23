@@ -186,26 +186,28 @@ function Tasks() {
   }, [collectionData, sortCompleted, sortPending]);
 
   return (
-    <div className="w-full min-h-[70vh] py-14 px-10 bg-base-100 border relative">
+    <div className="w-full min-h-[70vh] py-14 px-10 bg-base-100 shadow-md relative mb-5 mt-5">
       <div className="flex justify-end md:justify-between items-center">
         <h2 className="text-5xl font-bold text-blue-700 hidden md:block">
           Tasks.
         </h2>
         <div className="flex gap-4 items-center">
-          <button
-            onClick={() => {
-              setSortCompleted(false);
-              setSortPending(false);
-            }}
-            className="btn btn-xs md:btn-sm"
-          >
-            All
-          </button>
-          <div className="dropdown">
+          <div className="shadow-sm rounded-xl shadow-cyan-800 p-1">
+            <button
+              onClick={() => {
+                setSortCompleted(false);
+                setSortPending(false);
+              }}
+              className="btn btn-xs md:btn-sm shadow-inner drop-shadow-md shadow-cyan-800"
+            >
+              All
+            </button>
+          </div>
+          <div className="dropdown shadow-sm rounded-xl shadow-cyan-800 ">
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-xs md:btn-sm m-1"
+              className="btn btn-xs md:btn-sm m-1 shadow-inner drop-shadow-md shadow-cyan-800"
             >
               <FaFilter />
               Sort by
@@ -235,7 +237,7 @@ function Tasks() {
           </div>
           <button
             onClick={() => modalRef.current?.showModal()}
-            className="btn btn-primary btn-xs md:btn-sm"
+            className="btn btn-primary btn-xs md:btn-sm shadow-md shadow-cyan-800"
           >
             + Add task
           </button>

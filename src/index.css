@@ -53,3 +53,9 @@ body,
   background: rgba(182, 182, 182, 0.2);
   backdrop-filter: blur(50px);
 }
+
+.backspan {
+  border-bottom-left-radius: 100%;
+  border-bottom-right-radius: 20%;
+  background: linear-gradient(to right, rgb(247, 38, 128), rgb(239, 66, 13));
+}
