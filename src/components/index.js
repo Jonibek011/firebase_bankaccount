@@ -8,3 +8,4 @@ export { default as Chart } from "./Chart";
 export { default as Footer } from "./Footer";
 export { default as Weather } from "./Weather";
 export { default as ExtensesPieChart } from "./ExtensesPieChart";
+export { default as Exchange } from "./Exchange";

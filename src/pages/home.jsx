@@ -64,10 +64,10 @@ function home() {
           />
 
           <div className="wellcome-section flex-1 flex flex-col gap-5 md:gap-10 relative z-10">
-            <h1 className="font-medium text-4xl md:text-7xl text-base-content">
+            <h1 className="font-medium text-4xl md:text-7xl text-slate-700">
               Hello, <br /> Wellcome to <br /> LifeHub
             </h1>
-            <p className="font-normal text-lg text-base-content">
+            <p className="font-normal text-lg text-gray-500">
               Your all-in-one platform for a better life.
             </p>
             <div>

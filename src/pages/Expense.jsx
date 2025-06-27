@@ -9,7 +9,7 @@ import { PiEyeBold } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa6";
 
 //components
-import { ExtensesPieChart } from "../components";
+import { ExtensesPieChart, Exchange } from "../components";
 
 //firebase
 import { useFirestore } from "../hooks/useFirestore";
@@ -339,7 +339,7 @@ function Expense() {
           </div>
         </div>
         {/* ==================================== Filter section ===================================================================== */}
-        <div className="filter-senction shadow-md  col-span-10 sm:col-span-6 xl:col-span-5 bg-base-100 rounded-lg p-4 flex  items-center gap-1 md:gap-3">
+        <div className="filter-senction shadow-md  col-span-10 order-2 lg:order-1 lg:col-span-5 bg-base-100 rounded-lg p-4 flex  items-center gap-1 md:gap-3">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn m-1">
               <span className="hidden md:inline-block">{categoryFilter}</span>{" "}
@@ -534,13 +534,13 @@ function Expense() {
         </div>
 
         {/* ===================== Some content ======================================== */}
-        <div className="some-content shadow-md hidden sm:block col-span-4 xl:col-span-5 bg-base-100 p-4 rounded-lg">
-          1
+        <div className="change-curracy shadow-md order-1 lg:order-2 flex items-center col-span-10 lg:col-span-5 bg-base-100 p-4 rounded-lg">
+          <Exchange />
         </div>
 
         {/* =============================== Expenses ===================================================
          */}
-        <div className="expenses relative shadow-md  min-h-[65vh] col-span-10 p-3 sm:p-4 bg-base-100  h-auto rounded-xl overflow-x-auto md:overflow-x-hidden ">
+        <div className="expenses relative shadow-md order-3   min-h-[65vh] col-span-10 p-3 sm:p-4 bg-base-100  h-auto rounded-xl overflow-x-auto md:overflow-x-hidden ">
           {!collectionData && (
             <span className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
               <span className="loading loading-spinner loading-lg"></span>
