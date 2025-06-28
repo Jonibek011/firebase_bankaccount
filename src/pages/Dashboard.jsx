@@ -8,6 +8,9 @@ import useGlobalContext from "../hooks/useGlobalContext";
 
 //images
 import dashboard1 from "../assets/images/dashboard1.png";
+import chart_img from "../assets/images/chart_img.avif";
+import task_img from "../assets/images/task_img.jpg";
+import expense_img from "../assets/images/expense_img.jpg";
 function Dashboard() {
   const { tasks } = useGlobalContext();
 
@@ -23,9 +26,9 @@ function Dashboard() {
 
   return (
     <>
-      <div className="bg-base-100 min-h-[80vh] w-full flex justify-center items-center">
+      {/* <div className="bg-base-100 min-h-[80vh] w-full flex justify-center items-center">
         <img src={dashboard1} alt="" className="w-[40%] opacity-10  " />
-      </div>
+      </div> */}
       <div className=" grid grid-cols-2 grid-row-8 sm:grid-rows-10 lg:grid-rows-11 min-h-screen h-auto  min-w-full gap-2 md:gap-5 py-5 md:py-10">
         {/* ======================= First content ==================================== */}
         <div className="layouts border border-base-200 shadow-sm rounded-md   col-span-full bg-yellow-50 px-4  md:px-5 lg:px-10   flex items-center">
@@ -57,27 +60,46 @@ function Dashboard() {
         {/* ==================== Second Content ============================== */}
         <Link
           to="/tasks"
-          className="rounded-md border border-base-200 bg-blue-400 md:bg-base-100  shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4"
+          className="rounded-md  overflow-hidden relative border border-base-200 bg-base-100  shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4"
         >
-          <h2 className="text-lg md:text-3xl font-medium text-base-content">
+          <img
+            src={chart_img}
+            alt=""
+            className="absolute opacity-20 z-0 h-full right-0 "
+          />
+          <h2 className="text-lg relative z-10 md:text-3xl font-medium text-base-content">
             Task Completed
           </h2>
-          <p className="font-medium text-4xl md:text-6xl">{complete.length}</p>
+          <p className="font-medium relative z-10 text-4xl md:text-6xl">
+            {complete.length}
+          </p>
         </Link>
 
         {/* ========== third content ========================================== */}
         <Link
           to="/expense"
-          className="rounded-md border border-base-200 bg-green-400 md:bg-base-100 shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4"
+          className="rounded-md relative border border-base-200 overflow-x-hidden bg-base-100 shadow-sm row-span-2 p-5 md:p-10 flex flex-col justify-center gap-4"
         >
-          <h2 className="text-lg md:text-3xl font-medium text-base-content">
+          <img
+            src={expense_img}
+            alt=""
+            className="absolute opacity-10 z-0 h-full w-auto right-0 "
+          />
+          <h2 className="text-lg relative z-10 md:text-3xl font-medium text-base-content">
             Monthly Expenses
           </h2>
-          <p className="font-medium text-4xl md:text-6xl">$4,500</p>
+          <p className="font-medium relative z-10 text-4xl md:text-6xl">
+            $4,500
+          </p>
         </Link>
 
         {/* ======================== Forth content ====================================== */}
-        <div className="rounded-md border border-base-200 bg-base-100 shadow-sm md:py-7 lg:py-10 col-span-full row-span-3 sm:row-span-4 lg:row-span-5 ">
+        <div className="rounded-md border relative border-base-200 bg-base-100 shadow-sm md:py-7 lg:py-10 col-span-full row-span-3 sm:row-span-4 lg:row-span-5 ">
+          <img
+            src={task_img}
+            alt=""
+            className="absolute w-full bottom-5 opacity-5"
+          />
           <h2 className="text-2xl md:text-4xl font-medium pl-5">Tasks</h2>
           <div className="overflow-x-auto">
             <table className="table table-sm  sm:table-md">

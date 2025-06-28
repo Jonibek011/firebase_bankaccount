@@ -25,6 +25,7 @@ import {
   Dashboard,
   Tasks,
   Expense,
+  Chat,
 } from "./pages";
 
 //action
@@ -78,6 +79,10 @@ function App() {
           path: "expense",
           element: <Expense />,
           action: ExpenseAction,
+        },
+        {
+          path: "chat",
+          element: <Chat />,
         },
       ],
     },

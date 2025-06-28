@@ -70,7 +70,11 @@ function MdNavMenu({ toggleBtn, setToggleBtn }) {
             </Link>
           </li>
           <li>
-            <Link onClick={() => setToggleBtn(false)} className="nav-link">
+            <Link
+              to="/chat"
+              onClick={() => setToggleBtn(false)}
+              className="nav-link"
+            >
               <BsChatSquareDots className="sm-icons" />
               <span>Chat</span>
             </Link>

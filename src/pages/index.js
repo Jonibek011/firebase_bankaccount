@@ -9,3 +9,4 @@ export { default as Profile } from "./Profile";
 export { default as Dashboard } from "./Dashboard";
 export { default as Tasks } from "./Tasks";
 export { default as Expense } from "./Expense";
+export { default as Chat } from "./Chat";

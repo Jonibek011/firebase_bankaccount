@@ -1,25 +1,99 @@
 import { Form } from "react-router-dom";
-//images
-import uzbFlag from "../assets/images/uzb_flag.png";
-import usaFlag from "../assets/images/usa_flag.jpg";
+// //images
+// import uzbFlag from "../assets/images/uzb_flag.png";
+// import usaFlag from "../assets/images/usa_flag.jpg";
+import { useEffect, useRef, useState } from "react";
+
+//main Function
 function Exchange() {
-  const url =
-    "https://api.exchangerate.host/live?access_key=599a4093d5b9001f5d656924ebc15674";
+  const [currency, setCurrency] = useState(null);
+  const formRef = useRef();
+  const firstRef = useRef();
+  const [usaCurrency, setUsaCurrency] = useState(true);
+
+  //fetch data
+
+  useEffect(() => {
+    const url =
+      "https://api.exchangerate.host/live?access_key=599a4093d5b9001f5d656924ebc15674&format=1";
+
+    const getData = async () => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(res.statusText);
+
+        const data = await res.json();
+        setCurrency(data);
+        localStorage.setItem("currencyData", Date.now());
+      } catch (err) {
+        console.log("❌ Xatolik:", err.message);
+      }
+    };
+
+    // Sahifa ochilganda doim ma’lumot olish
+    getData();
+
+    // Keyinchalik har 1 daqiqada tekshirish
+    const intervalId = setInterval(() => {
+      const now = Date.now();
+      const oneDay = 24 * 60 * 60 * 1000;
+      const lastRun = localStorage.getItem("currencyData");
+
+      if (!lastRun || now - lastRun > oneDay) {
+        getData();
+      }
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const changingCurency = () => {
+    const first = firstRef.current.value;
+    if (!first) {
+      formRef.current.secondInput.value = "";
+      return;
+    }
+
+    if (usaCurrency) {
+      formRef.current.secondInput.value = (
+        +first * currency.quotes.USDUZS
+      ).toFixed(2);
+    } else {
+      formRef.current.secondInput.value = (
+        +first / currency.quotes.USDUZS
+      ).toFixed(2);
+    }
+  };
+
+  const selectChange = (e) => {
+    if (e.target.value === "UZS") {
+      setUsaCurrency(false);
+    } else {
+      setUsaCurrency(true);
+    }
+  };
+
   return (
     <>
       <div className="flex gap-5  items-center w-full">
         <Form
+          ref={formRef}
           className=" flex gap-2  md:gap-5 justify-center  items-center w-full"
-          method="post"
         >
           <label className="form-control border flex flex-row px-2 rounded-md w-full">
             <input
+              ref={firstRef}
+              onChange={changingCurency}
               type="number"
               step="any"
               className="flex-1 border-none outline-none w-full"
-              placeholder="Enter number"
+              placeholder={usaCurrency ? "Enter USD" : "Enter UZS"}
+              name="firstInput"
             />
-            <select className=" max-w-xs border-none outline-none ring-0 py-2">
+            <select
+              onChange={selectChange}
+              className=" max-w-xs border-none outline-none ring-0 py-2"
+            >
               <option>USD</option>
               <option>UZS</option>
             </select>
@@ -27,10 +101,11 @@ function Exchange() {
 
           <label className="form-control border flex flex-row px-2 rounded-md w-full">
             <input
+              name="secondInput"
               type="number"
               step="any"
               className="flex-1 border-none outline-none py-2"
-              placeholder="Result UZS"
+              placeholder={usaCurrency ? "Result for UZS" : "Result for USD"}
             />
           </label>
         </Form>
