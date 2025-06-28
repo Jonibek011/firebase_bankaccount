@@ -244,8 +244,8 @@ function Tasks() {
         </div>
       </div>
       <hr className="my-6" />
-      <div className="mt-10 relative">
-        <table className="table min-w-[500px] overflow-x-auto">
+      <div className="mt-10 relative overflow-x-auto">
+        <table className="table min-w-[500px] overflow-hidden ">
           <thead>
             <tr className="">
               <th className=" max-w-14 md:max-w-28  lg:font-bold lg:text-xl  w-14 ">
@@ -324,7 +324,7 @@ function Tasks() {
                   <div>
                     {task.status === "Completed" ? (
                       <span>
-                        <IoEyeOffOutline className="w-5 h-5 opacity-50" />
+                        <IoEyeOffOutline className="w-4 h-4 md:w-5 md:h-5 opacity-50" />
                       </span>
                     ) : (
                       <button
@@ -333,7 +333,7 @@ function Tasks() {
                           setEditingData(task);
                         }}
                       >
-                        <MdOutlineRemoveRedEye className="w-3 h-3 md:w-5 md:h-5 opacity-75" />
+                        <MdOutlineRemoveRedEye className="w-4 h-4 md:w-5 md:h-5 opacity-75" />
                       </button>
                     )}
                   </div>
