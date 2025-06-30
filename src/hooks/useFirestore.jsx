@@ -1,10 +1,41 @@
-import { collection, addDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  setDoc,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { doc, deleteDoc } from "firebase/firestore";
 
 export const useFirestore = () => {
   const addDocument = async (collectionName, data) => {
     await addDoc(collection(db, collectionName), data);
+  };
+
+  const addUserDocument = async (user) => {
+    await setDoc(doc(db, "Users", user.uid), {
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      createdAt: serverTimestamp(),
+    });
+  };
+
+  const getUserChats = async (userId) => {
+    const chatsRef = collection(db, "chats");
+    const q = query(chatsRef, where("users", "array-contains", userId));
+    const querySnapshot = await getDocs(q);
+
+    const chats = [];
+    querySnapshot.forEach((doc) => {
+      chats.push({ id: doc.id, ...doc.data() });
+    });
+
+    return chats;
   };
 
   const deleteDocument = async (collectionName, id) => {
@@ -19,5 +50,11 @@ export const useFirestore = () => {
     });
   };
 
-  return { addDocument, deleteDocument, updateDocument };
+  return {
+    addDocument,
+    deleteDocument,
+    updateDocument,
+    addUserDocument,
+    getUserChats,
+  };
 };

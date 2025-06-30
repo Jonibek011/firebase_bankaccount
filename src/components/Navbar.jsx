@@ -17,6 +17,7 @@ function Navbar() {
   const [toggleBtn, setToggleBtn] = useState(false);
   const [theme, setTheme] = useState(themeFromLocal);
   const { user } = useGlobalContext();
+
   //signout function
   const { signOutUser } = useLogout();
 

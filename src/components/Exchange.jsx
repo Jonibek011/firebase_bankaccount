@@ -78,7 +78,7 @@ function Exchange() {
       <div className="flex gap-5  items-center w-full">
         <Form
           ref={formRef}
-          className=" flex gap-2  md:gap-5 justify-center  items-center w-full"
+          className=" flex flex-col sm:flex-row gap-2  md:gap-5 justify-center  items-center w-full"
         >
           <label className="form-control border flex flex-row px-2 rounded-md w-full">
             <input

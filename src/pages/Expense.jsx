@@ -534,7 +534,7 @@ function Expense() {
         </div>
 
         {/* ===================== Some content ======================================== */}
-        <div className="change-curracy shadow-md order-1 lg:order-2 flex items-center col-span-10 lg:col-span-5 bg-base-100 p-4 rounded-lg">
+        <div className="change-curracy shadow-md order-1 lg:order-2 flex  items-center col-span-10 lg:col-span-5 bg-base-100 p-4 rounded-lg">
           <Exchange />
         </div>
 

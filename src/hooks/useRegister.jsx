@@ -8,15 +8,20 @@ import {
 import { auth } from "../firebase/firebaseConfig";
 import useGlobalContext from "./useGlobalContext";
 import toast from "react-hot-toast";
+import { useFirestore } from "./useFirestore";
 
 //main function
 function useRegister() {
+  const { addUserDocument } = useFirestore();
   const { dispatch } = useGlobalContext();
   const provider = new GoogleAuthProvider();
   const LoginWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
+
+        addUserDocument(user);
+
         dispatch({ type: "LOGIN", payload: user });
       })
       .catch((error) => {
@@ -33,6 +38,7 @@ function useRegister() {
           photoURL: `https://api.dicebear.com/9.x/initials/svg?seed=${displayName}`,
         });
         const user = userCredential.user;
+        addUserDocument(user);
 
         dispatch({ type: "LOGIN", payload: user });
       })
