@@ -12,13 +12,23 @@ import chart_img from "../assets/images/chart_img.avif";
 import task_img from "../assets/images/task_img.jpg";
 import expense_img from "../assets/images/expense_img.jpg";
 function Dashboard() {
-  const { tasks } = useGlobalContext();
+  const { tasks, monthlySpend } = useGlobalContext();
 
   const complete = useMemo(() => {
     if (!tasks) return;
 
     if (tasks) {
       return tasks.filter((t) => t.status === "Completed");
+    }
+
+    return [];
+  }, [tasks]);
+
+  const dueTask = useMemo(() => {
+    if (!tasks) return;
+
+    if (tasks) {
+      return tasks.filter((t) => t.status !== "Completed");
     }
 
     return [];
@@ -37,7 +47,7 @@ function Dashboard() {
               <MdError className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-yellow-500" />{" "}
               <span className="text-black text-lg sm:text-3xl md:text-3xl lg:text-4xl font-semibold flex md:flex-col lg:flex-col lg:gap-2">
                 {" "}
-                2 tasks due <span> tomorrow</span>
+                {dueTask.length} tasks are waiting <span> you</span>
               </span>
             </h2>
             <div className="buttons flex gap-4">
@@ -89,7 +99,7 @@ function Dashboard() {
             Monthly Expenses
           </h2>
           <p className="font-medium relative z-10 text-4xl md:text-6xl">
-            $4,500
+            ${monthlySpend ? monthlySpend : 0}
           </p>
         </Link>
 

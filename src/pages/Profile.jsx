@@ -43,7 +43,7 @@ function Profile() {
   };
 
   return (
-    <div className="px-[10%] pt-[5%]">
+    <div className="px-[10%] pt-[5%] w-full h-[70vh] bg-base-100">
       <div className="flex items-center gap-5 flex-col sm:flex-row ">
         <div className="w-40 h-40   flex flex-col justify-between items-center">
           <div className="relative">
@@ -87,7 +87,7 @@ function Profile() {
           )}
         </div>
 
-        <div className="bg-base-200 w-full grow h-40 p-4 rounded-lg flex flex-col  md:flex-row justify-evenly">
+        <div className="bg-base-100 shadow-md w-full grow h-40 p-4 rounded-lg flex flex-col  md:flex-row justify-evenly">
           <h2 className="flex md:flex-col text-xl gap-1">
             <span className="font-medium">User name: </span> {user.displayName}
           </h2>

@@ -1,23 +1,24 @@
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
     <div>
-      <footer className="footer bg-base-100 text-base-content p-10">
-        <nav>
-          <h6 className="footer-title">Services</h6>
-          <a className="link link-hover">Branding</a>
-          <a className="link link-hover">Design</a>
-          <a className="link link-hover">Marketing</a>
-          <a className="link link-hover">Advertisement</a>
-        </nav>
-        <nav>
-          <h6 className="footer-title">Company</h6>
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
+      <footer className="footer footer-center bg-base-100 shadow-sm text-base-content rounded p-10">
+        <nav className="grid grid-flow-col gap-4">
+          <Link
+            to="https://new-jonibek-portfolio.netlify.app/"
+            target="_blank"
+            className="link link-hover"
+          >
+            About us
+          </Link>
+          <Link to="/contact" className="link link-hover">
+            Contact
+          </Link>
           <a className="link link-hover">Jobs</a>
           <a className="link link-hover">Press kit</a>
         </nav>
         <nav>
-          <h6 className="footer-title">Social</h6>
           <div className="grid grid-flow-col gap-4">
             <a>
               <svg
@@ -54,6 +55,12 @@ function Footer() {
             </a>
           </div>
         </nav>
+        <aside>
+          <p>
+            Copyright © {new Date().getFullYear()} - All right reserved by ACME
+            Industries Ltd
+          </p>
+        </aside>
       </footer>
     </div>
   );

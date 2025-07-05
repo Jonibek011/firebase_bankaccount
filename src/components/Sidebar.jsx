@@ -10,18 +10,41 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 
 //react-router-dom
-import { Link } from "react-router-dom";
-
+import { Link, Navigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import { useState } from "react";
-
+import useGlobalContext from "../hooks/useGlobalContext";
 //components
 import LogoutModal from "./LogoutModal";
 
+//navigate
+import { useNavigate } from "react-router-dom";
+//auth
+import { auth } from "../firebase/firebaseConfig.js";
+
+import { sendEmailVerification } from "firebase/auth";
 function Sidebar() {
+  const navigate = useNavigate();
+  const { user } = useGlobalContext();
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const toggleSidebar = () => {
     setIsOpenSidebar((prev) => {
       return prev ? false : true;
+    });
+  };
+  console.log(user.emailVerified);
+  const checkUserVerify = () => {
+    if (user.emailVerified) {
+      navigate("/chat"); // ✅ To'g'ri usul
+    } else {
+      document.getElementById("sidebar_modal").showModal();
+    }
+  };
+
+  const sendVerification = () => {
+    sendEmailVerification(auth.currentUser).then(() => {
+      toast.success("Verification is sent, check your email!");
+      document.getElementById("sidebar_modal").close();
     });
   };
   return (
@@ -79,7 +102,7 @@ function Sidebar() {
               </Link>
             </li>
             <li>
-              <Link to="/chat">
+              <div onClick={checkUserVerify}>
                 <BsChatSquareDots className="icons" />
                 <span
                   className={`transition-all duration-200 font-semibold text-[16px] ${
@@ -88,10 +111,10 @@ function Sidebar() {
                 >
                   Chat
                 </span>
-              </Link>
+              </div>
             </li>
             <li>
-              <Link>
+              <Link to="/profile">
                 <CgProfile className="icons" />
                 <span
                   className={`transition-all duration-200 font-semibold text-[16px] ${
@@ -145,6 +168,27 @@ function Sidebar() {
         <hr className=" w-full" />
       </div>
       <LogoutModal />
+      <dialog id="sidebar_modal" className="modal">
+        <div className="modal-box w-[80vw] mx-auto sm:max-w-sm md:max-w-md">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">
+            If you want to enter chat section please verify your email first !
+          </p>
+          <div className="modal-action">
+            <form method="dialog" className="flex justify-end gap-4 ">
+              {/* if there is a button in form, it will close the modal */}
+              <button
+                onClick={sendVerification}
+                type="button"
+                className="btn btn-primary btn-sm"
+              >
+                Verify
+              </button>
+              <button className="btn btn-sm">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 }

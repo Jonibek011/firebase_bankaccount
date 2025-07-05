@@ -80,7 +80,11 @@ function MdNavMenu({ toggleBtn, setToggleBtn }) {
             </Link>
           </li>
           <li>
-            <Link onClick={() => setToggleBtn(false)} className="nav-link">
+            <Link
+              to="/profile"
+              onClick={() => setToggleBtn(false)}
+              className="nav-link"
+            >
               <CgProfile className="sm-icons" />
               <span>Profile</span>
             </Link>

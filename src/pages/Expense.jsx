@@ -7,6 +7,8 @@ import { RiMoneyPoundCircleLine } from "react-icons/ri";
 import box from "../assets/images/folder.png";
 import { PiEyeBold } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa6";
+import { IoTrashOutline } from "react-icons/io5";
+import { GrEdit } from "react-icons/gr";
 
 //components
 import { ExtensesPieChart, Exchange } from "../components";
@@ -38,7 +40,7 @@ export const action = async ({ request }) => {
 };
 //main function
 function Expense() {
-  const { user } = useGlobalContext();
+  const { user, dispatch } = useGlobalContext();
   //action data
   const actionData = useActionData();
   //addDocument
@@ -146,6 +148,23 @@ function Expense() {
     lastMonth,
   ]);
 
+  useEffect(() => {
+    if (!collectionData) return;
+    const monthlyExpense = collectionData.filter((data) => {
+      const today = new Date();
+      const date = parseISO(data.expenseDate);
+      const diff = differenceInDays(today, date);
+      return diff >= 0 && diff <= 30;
+    });
+
+    let count = 0;
+    monthlyExpense.forEach((item) => {
+      count += +item.amaunt;
+    });
+
+    dispatch({ type: "MONTHLYSPEND", payload: count });
+  }, [collectionData]);
+
   const mapDataForChart = useMemo(() => {
     if (Array.isArray(collectionData) && collectionData.length > 0) {
       return collectionData;
@@ -233,7 +252,7 @@ function Expense() {
     console.log("search button bosildi");
   };
   return (
-    <div className="w-full h-auto mb-20">
+    <div className="w-full h-auto mb-5">
       <h2 className="hidden sm:block font-semibold text-3xl sm:text-5xl my-6">
         Expenses
       </h2>
@@ -625,13 +644,14 @@ function Expense() {
                                   setExpenseData(collect);
                                 }}
                               >
-                                Edit
+                                <GrEdit className="text-warning" /> Edit
                               </button>
                             </li>
                             <li>
                               <button
                                 onClick={() => deleteExpense(collect._id)}
                               >
+                                <IoTrashOutline className="text-warning" />{" "}
                                 Delete
                               </button>
                             </li>

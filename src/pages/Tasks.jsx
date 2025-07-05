@@ -100,6 +100,7 @@ function Tasks() {
           await addDoc(collection(db, "Tasks"), fullData);
           formRef.current?.reset();
           modalRef.current?.close();
+          setSendingData(false);
         } catch (err) {
           console.error("Firebasega yozishda xatolik:", err);
         } finally {
@@ -152,7 +153,8 @@ function Tasks() {
     const newDate = e.target.date.value;
     const newDueTime = e.target.time.value;
     const newBody = e.target.body.value;
-
+    formRef.current.reset();
+    modalRef.current.close();
     const docRef = doc(db, "Tasks", editingData._id);
 
     await updateDoc(docRef, {
@@ -165,8 +167,6 @@ function Tasks() {
     setEditingData(null);
     setEditingModal(false);
     setEditingModalLoading(false);
-    formRef.current.reset();
-    modalRef.current.close();
   };
 
   // tasklarni filter qilish
@@ -244,8 +244,8 @@ function Tasks() {
         </div>
       </div>
       <hr className="my-6" />
-      <div className="mt-10 relative overflow-x-auto">
-        <table className="table min-w-[500px] overflow-hidden ">
+      <div className="min-w-[500px] md:min-w-fit  pb-20">
+        <table className="table    ">
           <thead>
             <tr className="">
               <th className=" max-w-14 md:max-w-28  lg:font-bold lg:text-xl  w-14 ">
@@ -258,7 +258,7 @@ function Tasks() {
               <th className="lg:text-xl">Options</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="">
             {mapData?.map((task) => (
               <tr
                 key={task.taskId}
@@ -344,7 +344,7 @@ function Tasks() {
 
                     <ul
                       tabIndex={-1}
-                      className="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow"
+                      className="dropdown-content menu bg-base-100 rounded-box z-[100] w-32 p-2 shadow"
                     >
                       {task.status !== "Completed" && (
                         <li>

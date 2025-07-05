@@ -31,17 +31,26 @@ function home() {
         <span className="absolute backspan w-[150vw] h-48 left-0  -top-14 rotate-3 z-0 hidden md:inline-block"></span>
         <div className="flex  items-center ">
           <div className="social-media relative z-10 ps-5  flex-1 flex items-center mt-5 md:mt-0 gap-5  md:gap-10   ">
-            <Link className="h-8 w-8 md:w-12 md:h-12  bg-[rgba(255,101,101,0.9)] rounded-full inline-flex justify-center items-center">
+            <Link
+              to="/contact"
+              className="h-8 w-8 md:w-12 md:h-12  bg-[rgba(255,101,101,0.9)] rounded-full inline-flex justify-center items-center"
+            >
               <span className="">
                 <IoMdMailUnread className="md:w-6 md:h-6 text-base-content" />
               </span>
             </Link>
-            <Link className=" h-8 w-8 md:w-12 md:h-12  bg-[rgba(255,101,101,0.9)] rounded-full inline-flex justify-center items-center">
+            <Link
+              to="https://t.me/Janobx11"
+              className=" h-8 w-8 md:w-12 md:h-12  bg-[rgba(255,101,101,0.9)] rounded-full inline-flex justify-center items-center"
+            >
               <span>
                 <FaTelegramPlane className="md:w-6 md:h-6 text-base-content" />
               </span>
             </Link>
-            <Link className=" h-8 w-8 md:w-12 md:h-12  bg-[rgba(255,101,101,0.9)] rounded-full inline-flex justify-center items-center">
+            <Link
+              to="https://www.linkedin.com/in/jonibek-orifjonov-5281182aa"
+              className=" h-8 w-8 md:w-12 md:h-12  bg-[rgba(255,101,101,0.9)] rounded-full inline-flex justify-center items-center"
+            >
               <span>
                 <PiLinkedinLogoFill className="md:w-6 md:h-6 text-base-content" />
               </span>

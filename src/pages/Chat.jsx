@@ -1,5 +1,5 @@
 import { FaTelegramPlane, FaArrowLeft } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { db } from "../firebase/firebaseConfig";
 import { useFirestore } from "../hooks/useFirestore";
 import useGlobalContext from "../hooks/useGlobalContext";
@@ -22,7 +22,7 @@ function Chat() {
   const [messageText, setMessageText] = useState("");
   const [openSidebar, setOpenSidebar] = useState(false);
   const [submitTime, setSubmitTime] = useState(false);
-
+  const messageEndRef = useRef();
   const isMobile = window.innerWidth < 640; // sm dan kichikmi
 
   useEffect(() => {
@@ -46,6 +46,10 @@ function Chat() {
 
     return () => unsubscribe();
   }, [user?.uid]);
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "Users"), (snap) => {
@@ -291,6 +295,7 @@ function Chat() {
                 );
               })
             )}
+            <div ref={messageEndRef}></div>
           </div>
 
           {/* Input */}
@@ -300,7 +305,7 @@ function Chat() {
                 <input
                   type="text"
                   placeholder="Type a message..."
-                  className="flex-1 border outline-none rounded-full px-4 py-2"
+                  className="flex-1 border outline-none rounded-full px-4 py-2 max-h-28"
                   value={messageText}
                   onChange={(e) => setMessageText(e.target.value)}
                 />
