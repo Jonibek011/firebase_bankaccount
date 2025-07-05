@@ -17,10 +17,11 @@ import {
 function Chat() {
   const { user } = useGlobalContext();
   const [allUsers, setAllUsers] = useState([]);
-  const [chatData, setChatData] = useState({ list: [], activeChat: null });
+  const [chatData, setChatData] = useState({ list: null, activeChat: null });
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [submitTime, setSubmitTime] = useState(false);
 
   const isMobile = window.innerWidth < 640; // sm dan kichikmi
 
@@ -135,7 +136,14 @@ function Chat() {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     const text = messageText.trim();
-    if (!text || !chatData.activeChat) return;
+
+    // Avval matn va activeChat tekshirilsin
+    if (!text || !chatData.activeChat) {
+      setSubmitTime(false); // <-- MUHIM: bu joyni qo‘shing
+      return;
+    }
+
+    setSubmitTime(true); // <-- bu endi to'g'ri joyda turadi
 
     const chatId = chatData.activeChat.chatId;
     const chatRef = doc(db, "chats", chatId);
@@ -146,25 +154,32 @@ function Chat() {
       timestamp: new Date(),
     };
 
-    await runTransaction(db, async (transaction) => {
-      const chatDoc = await transaction.get(chatRef);
-      const currentMessages = chatDoc.data()?.messages || [];
-      transaction.update(chatRef, {
-        messages: [...currentMessages, newMessage],
+    try {
+      await runTransaction(db, async (transaction) => {
+        const chatDoc = await transaction.get(chatRef);
+        const currentMessages = chatDoc.data()?.messages || [];
+        transaction.update(chatRef, {
+          messages: [...currentMessages, newMessage],
+        });
       });
-    });
 
-    const user1Ref = doc(db, "userChats", user.uid);
-    const user2Ref = doc(db, "userChats", chatData.activeChat.userInfo.uid);
-    const update = {
-      [`${chatId}.lastMessage`]: text,
-      [`${chatId}.date`]: serverTimestamp(),
-    };
+      const user1Ref = doc(db, "userChats", user.uid);
+      const user2Ref = doc(db, "userChats", chatData.activeChat.userInfo.uid);
+      const update = {
+        [`${chatId}.lastMessage`]: text,
+        [`${chatId}.date`]: serverTimestamp(),
+      };
 
-    await updateDoc(user1Ref, update);
-    await updateDoc(user2Ref, update);
+      await updateDoc(user1Ref, update);
+      await updateDoc(user2Ref, update);
 
-    setMessageText("");
+      setMessageText("");
+    } catch (err) {
+      console.error("Message sending error:", err);
+    } finally {
+      // Har qanday holatda submitTime ni false ga qaytaramiz
+      setSubmitTime(false);
+    }
   };
 
   return (
@@ -174,8 +189,13 @@ function Chat() {
         <div
           className={`chat-list h-full border-r border-base-200 ${
             openSidebar ? "hidden" : "block"
-          } sm:block sm:w-72 md:w-80 lg:w-96 w-full`}
+          } sm:block sm:w-72 md:w-80 lg:w-96 w-full relative`}
         >
+          {!chatData?.list && (
+            <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
+          )}
           {chatData?.list?.length === 0 && (
             <div className="mt-14 text-center">
               <h3 className="text-lg opacity-70">You have no chats yet!</h3>
@@ -213,6 +233,18 @@ function Chat() {
               </div>
             </div>
           ))}
+          {chatData?.list?.length > 0 && (
+            <div className="absolute bottom-4 text-center w-full">
+              <button
+                className="btn btn-sm"
+                onClick={() =>
+                  document.getElementById("chat_list_modal").showModal()
+                }
+              >
+                New chat
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Chat section */}
@@ -262,19 +294,27 @@ function Chat() {
           </div>
 
           {/* Input */}
-          <div className="absolute bottom-0 w-full bg-base-100 p-4">
-            <form className="flex gap-2" onSubmit={handleSendMessage}>
-              <input
-                type="text"
-                placeholder="Type a message..."
-                className="flex-1 border rounded-full px-4 py-2"
-                value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
-              />
-              <button type="submit">
-                <FaTelegramPlane className="text-sky-600 w-7 h-7" />
-              </button>
-            </form>
+          <div className="absolute bottom-4 sm:bottom-0 w-full bg-base-100 p-4">
+            {chatData?.activeChat && (
+              <form className="flex gap-2" onSubmit={handleSendMessage}>
+                <input
+                  type="text"
+                  placeholder="Type a message..."
+                  className="flex-1 border outline-none rounded-full px-4 py-2"
+                  value={messageText}
+                  onChange={(e) => setMessageText(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className={`${
+                    submitTime ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  disabled={submitTime}
+                >
+                  <FaTelegramPlane className="text-sky-600 w-7 h-7" />
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
