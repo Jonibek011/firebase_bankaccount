@@ -87,14 +87,14 @@ function Profile() {
           )}
         </div>
 
-        <div className="bg-base-100 shadow-md w-full grow h-40 p-4 rounded-lg flex flex-col  md:flex-row justify-evenly">
-          <h2 className="flex md:flex-col text-xl gap-1">
+        <div className="bg-base-100 shadow-md w-full grow h-40 p-4 rounded-lg flex flex-col  xl:flex-row justify-evenly">
+          <h2 className="flex xl:flex-col md:text-xl gap-1">
             <span className="font-medium">User name: </span> {user.displayName}
           </h2>
-          <p className="flex md:flex-col  text-xl gap-1">
+          <p className="flex xl:flex-col  md:text-xl gap-1">
             <span className="font-medium">Email:</span> {user.email}
           </p>
-          <p className="flex items-center gap-2 md:flex-col  text-xl ">
+          <p className="flex items-center gap-2 xl:flex-col   md:text-xl ">
             <span className="font-medium">Verification: </span>{" "}
             {user.emailVerified ? (
               <span className="flex items-center gap-1">

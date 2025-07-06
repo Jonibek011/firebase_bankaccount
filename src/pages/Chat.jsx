@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from "react";
 import { db } from "../firebase/firebaseConfig";
 import { useFirestore } from "../hooks/useFirestore";
 import useGlobalContext from "../hooks/useGlobalContext";
+import { IoTrashOutline } from "react-icons/io5";
+import { deleteField } from "firebase/firestore";
 import {
   doc,
   getDoc,
@@ -189,6 +191,20 @@ function Chat() {
   const shortenText = (text, maxLength) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
+
+  // yozishmalar chatini delete qilish
+  const deleteUserChat = async (item) => {
+    const chatId = item.chatId;
+    const userRef = doc(db, "userChats", user.uid);
+
+    try {
+      await updateDoc(userRef, {
+        [chatId]: deleteField(), // <-- Firebase'dan o‘chirish
+      });
+    } catch (err) {
+      console.error("Chat o‘chirishda xatolik:", err);
+    }
+  };
   return (
     <div className="h-[93vh] flex flex-col bg-base-100">
       <div className="chat-container h-full w-full flex">
@@ -223,7 +239,7 @@ function Chat() {
                 handleUserSelect({ ...item.userInfo, id: item.userInfo.uid });
                 if (isMobile) setOpenSidebar(true); // faqat mobilda
               }}
-              className="p-3 hover:bg-base-200 cursor-pointer"
+              className="p-3 hover:bg-base-200 cursor-pointer flex justify-between group"
             >
               <div className="flex gap-3 items-center">
                 <img
@@ -234,10 +250,16 @@ function Chat() {
                 <div>
                   <h4 className="font-semibold">{item.userInfo.displayName}</h4>
                   <p className="text-sm opacity-60">
-                    {shortenText(item.lastMessage, 40) || "Say hi 👋"}
+                    {shortenText(item.lastMessage, 30) || "Say hi 👋"}
                   </p>
                 </div>
               </div>
+              <button
+                onClick={() => deleteUserChat(item)}
+                className="opacity-0 group-hover:opacity-100"
+              >
+                <IoTrashOutline className="text-base-content w-5 h-5" />
+              </button>
             </div>
           ))}
           {chatData?.list?.length > 0 && (
@@ -281,7 +303,7 @@ function Chat() {
                 return (
                   <div
                     key={idx}
-                    className={`mb-2 flex ${
+                    className={`mb-2 flex pb-6 ${
                       isCurrentUser ? "justify-end" : "justify-start"
                     }`}
                   >

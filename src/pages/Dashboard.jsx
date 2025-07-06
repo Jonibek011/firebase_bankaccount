@@ -45,9 +45,11 @@ function Dashboard() {
           <div className="upper-content flex justify-between items-center   w-full py-3">
             <h2 className="flex gap-2 md:gap-3 items-center text-black ">
               <MdError className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-yellow-500" />{" "}
-              <span className="text-black text-lg sm:text-3xl md:text-3xl lg:text-4xl font-semibold flex md:flex-col lg:flex-col lg:gap-2">
+              <span className="text-black text-md sm:text-3xl md:text-3xl lg:text-4xl font-semibold flex md:flex-col lg:flex-col lg:gap-2">
                 {" "}
-                {dueTask.length} tasks are waiting <span> you</span>
+                {dueTask.length > 1
+                  ? `${dueTask.length} tasks are waiting for you`
+                  : `${dueTask.length} task is waiting for you`}
               </span>
             </h2>
             <div className="buttons flex gap-4">

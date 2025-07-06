@@ -186,8 +186,8 @@ function Tasks() {
   }, [collectionData, sortCompleted, sortPending]);
 
   return (
-    <div className="w-full min-h-[70vh] py-14 px-10 bg-base-100 shadow-md relative mb-5 mt-5">
-      <div className="flex justify-end md:justify-between items-center">
+    <div className="w-full min-h-[70vh] pt-14 md:px-10 bg-base-100 shadow-md relative mb-5 mt-5">
+      <div className="flex justify-end md:justify-between items-center pe-3">
         <h2 className="text-5xl font-bold text-blue-700 hidden md:block">
           Tasks.
         </h2>
@@ -244,7 +244,7 @@ function Tasks() {
         </div>
       </div>
       <hr className="my-6" />
-      <div className="min-w-[500px] md:min-w-fit  pb-20">
+      <div className="   pb-20">
         <table className="table    ">
           <thead>
             <tr className="">
