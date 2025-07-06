@@ -151,6 +151,7 @@ function Expense() {
   useEffect(() => {
     if (!collectionData) return;
     const monthlyExpense = collectionData.filter((data) => {
+      if (!data.expenseDate) return false;
       const today = new Date();
       const date = parseISO(data.expenseDate);
       const diff = differenceInDays(today, date);
@@ -534,7 +535,10 @@ function Expense() {
           <Form method="post" className="w-full flex " onSubmit={searchSubmit}>
             <label className="input input-bordered w-full max-w-xl pe-10 flex relative">
               <input type=" text" className="w-full" placeholder="Search" />
-              <button className="bg-gray-50 h-full rounded-e-lg absolute border-none btn-sm right-0 bottom-0 top-0">
+              <button
+                type="button"
+                className="bg-gray-50 h-full rounded-e-lg absolute border-none btn-sm right-0 bottom-0 top-0"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"

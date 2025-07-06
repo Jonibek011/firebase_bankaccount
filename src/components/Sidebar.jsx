@@ -32,7 +32,7 @@ function Sidebar() {
       return prev ? false : true;
     });
   };
-  console.log(user.emailVerified);
+
   const checkUserVerify = () => {
     if (user.emailVerified) {
       navigate("/chat"); // ✅ To'g'ri usul
