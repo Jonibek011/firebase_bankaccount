@@ -70,7 +70,7 @@ function Login() {
               <button
                 onClick={LoginWithGoogle}
                 type="button"
-                className="btn grow   btn-info w-full md:w-auto"
+                className="btn grow   btn-primary w-full md:w-auto"
               >
                 Google <FcGoogle className="w-5 h-5" />
               </button>

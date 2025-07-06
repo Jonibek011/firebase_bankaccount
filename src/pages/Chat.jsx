@@ -186,6 +186,9 @@ function Chat() {
     }
   };
 
+  const shortenText = (text, maxLength) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
   return (
     <div className="h-[93vh] flex flex-col bg-base-100">
       <div className="chat-container h-full w-full flex">
@@ -231,7 +234,7 @@ function Chat() {
                 <div>
                   <h4 className="font-semibold">{item.userInfo.displayName}</h4>
                   <p className="text-sm opacity-60">
-                    {item.lastMessage || "Say hi 👋"}
+                    {shortenText(item.lastMessage, 40) || "Say hi 👋"}
                   </p>
                 </div>
               </div>

@@ -18,7 +18,7 @@ function Profile() {
 
   const sendVerification = () => {
     sendEmailVerification(auth.currentUser).then(() => {
-      toast.success("Verification sended!");
+      toast.success("Verification request has been sent to your email!");
     });
   };
 

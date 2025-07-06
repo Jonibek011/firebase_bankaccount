@@ -43,7 +43,7 @@ function Sidebar() {
 
   const sendVerification = () => {
     sendEmailVerification(auth.currentUser).then(() => {
-      toast.success("Verification is sent, check your email!");
+      toast.success("Verification has been sent, check your email!");
       document.getElementById("sidebar_modal").close();
     });
   };

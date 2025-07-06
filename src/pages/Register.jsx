@@ -68,14 +68,14 @@ function Register() {
           <div className="flex gap-3 md:gap-4 justify-center items-center mt-10 flex-col md:flex-row max-w-96 ">
             <button
               type="submit"
-              className="btn grow  btn-primary w-full md:w-auto"
+              className="btn grow  bg-purple-600 text-gray-100 hover:bg-purple-700 w-full md:w-auto"
             >
               Register
             </button>
             <button
               onClick={LoginWithGoogle}
               type="button"
-              className="btn grow  btn-secondary w-full md:w-auto"
+              className="btn grow  btn-primary w-full md:w-auto"
             >
               Google <FcGoogle className="w-5 h-5" />
             </button>

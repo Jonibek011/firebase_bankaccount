@@ -5,7 +5,10 @@ import useGlobalContext from "../hooks/useGlobalContext";
 import { IoMdMailUnread } from "react-icons/io";
 import { FaTelegramPlane } from "react-icons/fa";
 import { PiLinkedinLogoFill } from "react-icons/pi";
-
+//email verification
+import { sendEmailVerification } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
+import toast from "react-hot-toast";
 //action
 export const action = async ({ request }) => {
   const formData = await request.formData();
@@ -19,6 +22,13 @@ import { Weather } from "../components";
 function home() {
   //user
   const { user } = useGlobalContext();
+
+  const sendVerification = () => {
+    sendEmailVerification(auth.currentUser).then(() => {
+      toast.success("Verification has been sent, check your email!");
+      document.getElementById("sidebar_modal").close();
+    });
+  };
   return (
     <section className="home overflow-hidden w-full min-h-screen bg-white  p-5 md:p-10 relative  ">
       {/* <img
@@ -56,8 +66,20 @@ function home() {
               </span>
             </Link>
           </div>
-          <h2 className="hidden relative z-10  md:flex justify-end font-semibold text-sm pe-4 md:text-lg text-base-content">
-            Wellcome {user.displayName}
+          <h2 className="hidden relative z-10  md:flex justify-end font-semibold text-sm pe-4 md:text-[16px] text-purple-900 ">
+            {user.emailVerified ? (
+              <span>Wellcome {user.displayName}</span>
+            ) : (
+              <span>
+                User not verified!{" "}
+                <button
+                  onClick={sendVerification}
+                  className="btn btn-ghost text-white underline"
+                >
+                  Verify now
+                </button>
+              </span>
+            )}
           </h2>
         </div>
         <div className="home-content  w-full flex relative  h-[45vh] xl:h-[60vh] ">
