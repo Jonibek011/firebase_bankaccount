@@ -22,7 +22,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
+console.log("🔍 Firebase projectId:", firebaseConfig.projectId);
 export const auth = getAuth();
 
 export const db = getFirestore(app);

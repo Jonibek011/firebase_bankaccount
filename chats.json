@@ -1,0 +1,478 @@
+[
+  {
+    "id": "DOnHN4Jd90RkOs9axV5Zei1a3MS211FbHMERuiO7J4D183fPqMCRuFn1",
+    "messages": [
+      {
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "timestamp": {
+          "seconds": 1751791132,
+          "nanoseconds": 91000000
+        },
+        "text": "Assalomu alaykum"
+      }
+    ]
+  },
+  {
+    "id": "GdZyXrMHGkOSoxZ9Lj2o9WqB5ME211FbHMERuiO7J4D183fPqMCRuFn1",
+    "messages": []
+  },
+  {
+    "id": "GdZyXrMHGkOSoxZ9Lj2o9WqB5ME2DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+    "messages": [
+      {
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "text": "Assalomu alaykum",
+        "timestamp": {
+          "seconds": 1751813068,
+          "nanoseconds": 910000000
+        }
+      },
+      {
+        "timestamp": {
+          "seconds": 1751813089,
+          "nanoseconds": 745000000
+        },
+        "text": "saytga kirib ko'rganiz uchun raxmat",
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2"
+      }
+    ]
+  },
+  {
+    "id": "L6Tqf2Ldb0flUXSMCxcdJw1eeyz211FbHMERuiO7J4D183fPqMCRuFn1",
+    "messages": [
+      {
+        "senderId": "L6Tqf2Ldb0flUXSMCxcdJw1eeyz2",
+        "text": "Hi",
+        "timestamp": {
+          "seconds": 1751834530,
+          "nanoseconds": 667000000
+        }
+      }
+    ]
+  },
+  {
+    "id": "Sgb4TDaYnPXqAVWlJs5bp4audX93DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+    "messages": [
+      {
+        "timestamp": {
+          "seconds": 1751830339,
+          "nanoseconds": 881000000
+        },
+        "text": "Kamronbek yaxshimisan o'qishlaring yaxshimi",
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2"
+      }
+    ]
+  },
+  {
+    "id": "ULP21KgE6AUnbNjzJA5yp4INRU330iPnO5qvGvOgid8KzXGl9V67eZB3",
+    "messages": []
+  },
+  {
+    "id": "YHKIWnAXVHTmVNnMvkCf22MVAvn2DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+    "messages": [
+      {
+        "text": "Salom",
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+        "timestamp": {
+          "seconds": 1751814424,
+          "nanoseconds": 837000000
+        }
+      },
+      {
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+        "text": "salom",
+        "timestamp": {
+          "seconds": 1751814784,
+          "nanoseconds": 609000000
+        }
+      },
+      {
+        "text": "Assalomu alaykum",
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "timestamp": {
+          "seconds": 1751814800,
+          "nanoseconds": 996000000
+        }
+      },
+      {
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "timestamp": {
+          "seconds": 1751814870,
+          "nanoseconds": 525000000
+        },
+        "text": "saytga kirib ko'rganingiz uchun raxmat"
+      },
+      {
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+        "timestamp": {
+          "seconds": 1751814990,
+          "nanoseconds": 657000000
+        },
+        "text": "arzimaydi sayt zo'r qancha vaqt ketdi shu saytga"
+      },
+      {
+        "text": "bir oyga yaqin, lekin doimiy emas",
+        "timestamp": {
+          "seconds": 1751815053,
+          "nanoseconds": 258000000
+        },
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2"
+      },
+      {
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "timestamp": {
+          "seconds": 1751815070,
+          "nanoseconds": 45000000
+        },
+        "text": "input tozalanyaptimi"
+      },
+      {
+        "text": "ha tozalanyapti biroz vaqtdan keyin",
+        "timestamp": {
+          "seconds": 1751815103,
+          "nanoseconds": 927000000
+        },
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2"
+      },
+      {
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+        "text": "o'dam o'zini saytida yozsa boshqacha mazza qiladi ya😁🧐😇",
+        "timestamp": {
+          "seconds": 1751815140,
+          "nanoseconds": 618000000
+        }
+      },
+      {
+        "timestamp": {
+          "seconds": 1751815143,
+          "nanoseconds": 70000000
+        },
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "text": "firebaseni amerikadagi serveridan foydalangandim tekin deyishganiga menimcha shunga sal kechikyapti"
+      },
+      {
+        "text": "bo'lishi mumkin",
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+        "timestamp": {
+          "seconds": 1751815158,
+          "nanoseconds": 402000000
+        }
+      },
+      {
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "timestamp": {
+          "seconds": 1751815172,
+          "nanoseconds": 989000000
+        },
+        "text": "ha nimasini etas bu real ishlatsa bo'ladigan birinchi loyiham"
+      },
+      {
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+        "timestamp": {
+          "seconds": 1751815298,
+          "nanoseconds": 125000000
+        },
+        "text": "ha man ham hozi bitta loyiha qilyapman buni najot ni bitrganizdan keyin qildizmi yo o'qish davomida"
+      },
+      {
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "text": "natotda o'qimaganman, js ni ahror akani youtube kanalidan o'rganganman reactni ham keyin ahror akadan online kurs olganman bir marta",
+        "timestamp": {
+          "seconds": 1751815727,
+          "nanoseconds": 797000000
+        }
+      },
+      {
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+        "text": "ha biron boshqa kursda o'qiganmisiz yo online mi va hozir biron joyda ishlaysizmi bu savolarimini ko'rib so'roq qilyapti demang shunchaki saytni zo'r qilibsiz shunga qiziqib so'rayapman",
+        "timestamp": {
+          "seconds": 1751816931,
+          "nanoseconds": 965000000
+        }
+      },
+      {
+        "timestamp": {
+          "seconds": 1751819991,
+          "nanoseconds": 908000000
+        },
+        "text": "Men o'zi doctor man, qiziqishim borligi uchun bo'sh vaqtimda sal kam ikki yildan beri dasturlashni o'rganaman, men faqat bepul kurslarda o'qiganman, Ahror akadan bir marta 200 minga kurs sotib olganman holos, lekin shu kurs menga juda katta foyda bergan,",
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2"
+      },
+      {
+        "text": "va yana juda ko'p narsalarni chatGPT dan o'rganganman, va yana ko'p narsalarni shu loyihani qilish davomida o'rgandim",
+        "timestamp": {
+          "seconds": 1751820036,
+          "nanoseconds": 640000000
+        },
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2"
+      },
+      {
+        "timestamp": {
+          "seconds": 1751821857,
+          "nanoseconds": 566000000
+        },
+        "text": "ha zo'r omad aka real loyiha zo'r chiqibti",
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2"
+      },
+      {
+        "timestamp": {
+          "seconds": 1751823728,
+          "nanoseconds": 453000000
+        },
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "text": "raxmat manzilni saqlab qo'yib tez tez kirib turing xali yangilanishlar qilaman, hozir chatlarni o'chirishni qo'shdim endi xabarlarni o'chirish va edit qilish kabilarni qo'shib boraman"
+      }
+    ]
+  },
+  {
+    "id": "YHKIWnAXVHTmVNnMvkCf22MVAvn2GdZyXrMHGkOSoxZ9Lj2o9WqB5ME2",
+    "messages": [
+      {
+        "timestamp": {
+          "seconds": 1751814024,
+          "nanoseconds": 529000000
+        },
+        "text": "🧐🧐🧐",
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2"
+      }
+    ]
+  },
+  {
+    "id": "YHKIWnAXVHTmVNnMvkCf22MVAvn2MJJwpu66XtOb5wiHA9kpNup4q1D2",
+    "messages": [
+      {
+        "timestamp": {
+          "seconds": 1751820305,
+          "nanoseconds": 859000000
+        },
+        "text": "🖐",
+        "senderId": "MJJwpu66XtOb5wiHA9kpNup4q1D2"
+      },
+      {
+        "timestamp": {
+          "seconds": 1751820310,
+          "nanoseconds": 661000000
+        },
+        "text": "🖐",
+        "senderId": "MJJwpu66XtOb5wiHA9kpNup4q1D2"
+      },
+      {
+        "timestamp": {
+          "seconds": 1751820312,
+          "nanoseconds": 830000000
+        },
+        "text": "🖐",
+        "senderId": "MJJwpu66XtOb5wiHA9kpNup4q1D2"
+      },
+      {
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+        "timestamp": {
+          "seconds": 1751821883,
+          "nanoseconds": 847000000
+        },
+        "text": "👋👋👋"
+      }
+    ]
+  },
+  {
+    "id": "bZPZnp9ajMNCw7Lnfy54XWUt4wu2GdZyXrMHGkOSoxZ9Lj2o9WqB5ME2",
+    "messages": []
+  },
+  {
+    "id": "dPZGI7vBvtX3P45AMJU00kyuDZO2GdZyXrMHGkOSoxZ9Lj2o9WqB5ME2",
+    "messages": []
+  },
+  {
+    "id": "e1ZMnz17k3UmSXQJ20EoIUSz6Cb2DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+    "messages": [
+      {
+        "senderId": "e1ZMnz17k3UmSXQJ20EoIUSz6Cb2",
+        "timestamp": {
+          "seconds": 1751814037,
+          "nanoseconds": 199000000
+        },
+        "text": "Loyiha yaxshi ishlangan"
+      },
+      {
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "text": "raxmat aka sog' bo'ling",
+        "timestamp": {
+          "seconds": 1751814127,
+          "nanoseconds": 288000000
+        }
+      }
+    ]
+  },
+  {
+    "id": "fjXFehf11NfJR0X9KmqwV1gq2OT211FbHMERuiO7J4D183fPqMCRuFn1",
+    "messages": [
+      {
+        "senderId": "fjXFehf11NfJR0X9KmqwV1gq2OT2",
+        "timestamp": {
+          "seconds": 1751742891,
+          "nanoseconds": 705000000
+        },
+        "text": "Salom"
+      },
+      {
+        "text": "chat tozalamayabdi",
+        "timestamp": {
+          "seconds": 1751742905,
+          "nanoseconds": 322000000
+        },
+        "senderId": "fjXFehf11NfJR0X9KmqwV1gq2OT2"
+      },
+      {
+        "senderId": "fjXFehf11NfJR0X9KmqwV1gq2OT2",
+        "text": "sekin ishlamoqda",
+        "timestamp": {
+          "seconds": 1751742913,
+          "nanoseconds": 534000000
+        }
+      }
+    ]
+  },
+  {
+    "id": "ksvyL9ijWtQRM2R3VOidaIrDqgK2DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+    "messages": []
+  },
+  {
+    "id": "ndGRdk11LCdjcNelmWPUmPW4mw42DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+    "messages": [
+      {
+        "text": "Салом",
+        "senderId": "ndGRdk11LCdjcNelmWPUmPW4mw42",
+        "timestamp": {
+          "seconds": 1751817310,
+          "nanoseconds": 492000000
+        }
+      },
+      {
+        "senderId": "ndGRdk11LCdjcNelmWPUmPW4mw42",
+        "text": "Ооо",
+        "timestamp": {
+          "seconds": 1751817338,
+          "nanoseconds": 918000000
+        }
+      },
+      {
+        "timestamp": {
+          "seconds": 1751820172,
+          "nanoseconds": 194000000
+        },
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "text": "salom"
+      },
+      {
+        "timestamp": {
+          "seconds": 1751820181,
+          "nanoseconds": 618000000
+        },
+        "senderId": "ndGRdk11LCdjcNelmWPUmPW4mw42",
+        "text": "Qales"
+      },
+      {
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "timestamp": {
+          "seconds": 1751820187,
+          "nanoseconds": 116000000
+        },
+        "text": "yaxshi"
+      },
+      {
+        "text": "Yaxwi yigit taniwek",
+        "senderId": "ndGRdk11LCdjcNelmWPUmPW4mw42",
+        "timestamp": {
+          "seconds": 1751820199,
+          "nanoseconds": 701000000
+        }
+      },
+      {
+        "text": "yo'q xotinim bor",
+        "timestamp": {
+          "seconds": 1751820208,
+          "nanoseconds": 116000000
+        },
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2"
+      },
+      {
+        "senderId": "ndGRdk11LCdjcNelmWPUmPW4mw42",
+        "timestamp": {
+          "seconds": 1751820221,
+          "nanoseconds": 533000000
+        },
+        "text": "Xotinizdan qurqasmi"
+      },
+      {
+        "timestamp": {
+          "seconds": 1751820249,
+          "nanoseconds": 660000000
+        },
+        "senderId": "ndGRdk11LCdjcNelmWPUmPW4mw42",
+        "text": "Aaaa"
+      },
+      {
+        "senderId": "DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+        "text": "yo'q sevaman",
+        "timestamp": {
+          "seconds": 1751820269,
+          "nanoseconds": 402000000
+        }
+      },
+      {
+        "text": "Jonim",
+        "timestamp": {
+          "seconds": 1751820275,
+          "nanoseconds": 318000000
+        },
+        "senderId": "ndGRdk11LCdjcNelmWPUmPW4mw42"
+      },
+      {
+        "timestamp": {
+          "seconds": 1751820287,
+          "nanoseconds": 879000000
+        },
+        "senderId": "ndGRdk11LCdjcNelmWPUmPW4mw42",
+        "text": "😘"
+      },
+      {
+        "senderId": "ndGRdk11LCdjcNelmWPUmPW4mw42",
+        "timestamp": {
+          "seconds": 1751820407,
+          "nanoseconds": 473000000
+        },
+        "text": "Xufton oqilikmi"
+      }
+    ]
+  },
+  {
+    "id": "ndGRdk11LCdjcNelmWPUmPW4mw42ULP21KgE6AUnbNjzJA5yp4INRU33",
+    "messages": [
+      {
+        "senderId": "ULP21KgE6AUnbNjzJA5yp4INRU33",
+        "text": "Salom",
+        "timestamp": {
+          "seconds": 1751823813,
+          "nanoseconds": 131000000
+        }
+      }
+    ]
+  },
+  {
+    "id": "ndGRdk11LCdjcNelmWPUmPW4mw42YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+    "messages": [
+      {
+        "senderId": "YHKIWnAXVHTmVNnMvkCf22MVAvn2",
+        "timestamp": {
+          "seconds": 1751821906,
+          "nanoseconds": 678000000
+        },
+        "text": "👋👋👋👋"
+      }
+    ]
+  },
+  {
+    "id": "vdgB9BPz6qWsJBZEfS6XEelYP2p1DOnHN4Jd90RkOs9axV5Zei1a3MS2",
+    "messages": []
+  }
+]

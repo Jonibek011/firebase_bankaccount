@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "newproject-cb3c7",
+    "old": "newproject-cb3c7",
+    "new": "lifehub-firebase"
+  },
+  "targets": {},
+  "etags": {}
+}
