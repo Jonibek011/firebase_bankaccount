@@ -185,7 +185,7 @@ function home() {
             </div>
             <div className="">
               <p className="text-2xl lg:text-center">
-                Gain-control of your monay
+                Gain-control of your money
               </p>
             </div>
           </div>

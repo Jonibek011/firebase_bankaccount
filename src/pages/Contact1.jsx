@@ -76,7 +76,7 @@ function Contact1() {
               Feedback
             </h2>
             <p className="leading-relaxed mb-5 text-base-content">
-              Please! Send us your feedback and mistakes of this sites!
+              Please! Send us your feedback and mistakes of this platform!
             </p>
             <div className="relative mb-4">
               <label
