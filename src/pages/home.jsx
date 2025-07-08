@@ -50,6 +50,7 @@ function home() {
               </span>
             </Link>
             <Link
+              target="_blank"
               to="https://t.me/Janobx11"
               className=" h-8 w-8 md:w-12 md:h-12  bg-[rgba(255,101,101,0.9)] rounded-full inline-flex justify-center items-center"
             >
@@ -58,6 +59,7 @@ function home() {
               </span>
             </Link>
             <Link
+              target="_blank"
               to="https://www.linkedin.com/in/jonibek-orifjonov-5281182aa"
               className=" h-8 w-8 md:w-12 md:h-12  bg-[rgba(255,101,101,0.9)] rounded-full inline-flex justify-center items-center"
             >
