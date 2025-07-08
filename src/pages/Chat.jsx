@@ -351,7 +351,7 @@ function Chat() {
 
       {/* Modal for selecting users */}
       <dialog id="chat_list_modal" className="modal">
-        <div className="modal-box max-w-sm">
+        <div className="modal-box max-w-sm relative">
           <h3 className="text-lg font-bold mb-4">Select user</h3>
           <div className="flex flex-col gap-2">
             {allUsers.map((user) => (
@@ -372,7 +372,9 @@ function Chat() {
             ))}
           </div>
           <form method="dialog" className="modal-action">
-            <button className="btn">Close</button>
+            <button className="btn btn-ghost absolute top-1 right-1">
+              Close
+            </button>
           </form>
         </div>
       </dialog>

@@ -5,7 +5,7 @@ import { IoNotifications } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 //context
 import useGlobalContext from "../hooks/useGlobalContext";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 //useLogout
 import { useLogout } from "../hooks/useLogout";
 import MdNavMenu from "./MdNavMenu";
@@ -16,8 +16,8 @@ const themeFromLocal = localStorage.getItem("dark_mode") || "light";
 function Navbar() {
   const [toggleBtn, setToggleBtn] = useState(false);
   const [theme, setTheme] = useState(themeFromLocal);
-  const { user } = useGlobalContext();
-
+  const { user, tasks } = useGlobalContext();
+  console.log(tasks);
   //signout function
   const { signOutUser } = useLogout();
 
@@ -32,7 +32,12 @@ function Navbar() {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("dark_mode", theme);
   }, [theme]);
+  const uncompletedTasks = useMemo(() => {
+    if (!tasks) return;
+    return tasks.filter((item) => item.status !== "Completed");
+  }, [tasks]);
 
+  console.log(uncompletedTasks);
   return (
     <>
       <div className="navbar shadow-sm  px-[5%] flex justify-between  items-center bg-base-100 relative z-50 h-14">
@@ -101,7 +106,7 @@ function Navbar() {
             <Link className="relative">
               <IoNotifications className="w-6 h-6 text-gray-400 " />
               <div className="badge badge-ghost badge-xs absolute -top-2 -right-2">
-                0
+                {uncompletedTasks?.length}
               </div>
             </Link>
           </div>
