@@ -125,18 +125,7 @@ function Sidebar() {
                 </span>
               </Link>
             </li>
-            <li>
-              <Link>
-                <TbSettings className="icons" />
-                <span
-                  className={`transition-all duration-200 font-semibold text-[16px] ${
-                    isOpenSidebar ? "opacity-100 ml-2" : "opacity-0 w-0 ml-0"
-                  } whitespace-nowrap`}
-                >
-                  Settings
-                </span>
-              </Link>
-            </li>
+
             <li>
               <button
                 onClick={() =>

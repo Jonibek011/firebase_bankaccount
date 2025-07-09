@@ -17,7 +17,7 @@ function Navbar() {
   const [toggleBtn, setToggleBtn] = useState(false);
   const [theme, setTheme] = useState(themeFromLocal);
   const { user, tasks } = useGlobalContext();
-  console.log(tasks);
+
   //signout function
   const { signOutUser } = useLogout();
 
@@ -37,7 +37,6 @@ function Navbar() {
     return tasks.filter((item) => item.status !== "Completed");
   }, [tasks]);
 
-  console.log(uncompletedTasks);
   return (
     <>
       <div className="navbar shadow-sm  px-[5%] flex justify-between  items-center bg-base-100 relative z-50 h-14">

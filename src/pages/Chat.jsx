@@ -232,36 +232,41 @@ function Chat() {
               </button>
             </div>
           )}
-          {chatData?.list?.map((item) => (
-            <div
-              key={item.chatId}
-              onClick={() => {
-                handleUserSelect({ ...item.userInfo, id: item.userInfo.uid });
-                if (isMobile) setOpenSidebar(true); // faqat mobilda
-              }}
-              className="p-3 hover:bg-base-200 cursor-pointer flex justify-between group"
-            >
-              <div className="flex gap-3 items-center">
-                <img
-                  src={item.userInfo.photoURL}
-                  alt=""
-                  className="w-10 h-10 rounded-full"
-                />
-                <div>
-                  <h4 className="font-semibold">{item.userInfo.displayName}</h4>
-                  <p className="text-sm opacity-60">
-                    {shortenText(item.lastMessage, 30) || "Say hi 👋"}
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => deleteUserChat(item)}
-                className="opacity-0 group-hover:opacity-100"
+          {chatData?.list?.map((item) => {
+            console.log(item);
+            return (
+              <div
+                key={item.chatId}
+                onClick={() => {
+                  handleUserSelect({ ...item.userInfo, id: item.userInfo.uid });
+                  if (isMobile) setOpenSidebar(true); // faqat mobilda
+                }}
+                className="p-3 hover:bg-base-200 cursor-pointer flex justify-between group"
               >
-                <IoTrashOutline className="text-base-content w-5 h-5" />
-              </button>
-            </div>
-          ))}
+                <div className="flex gap-3 items-center">
+                  <img
+                    src={item.userInfo.photoURL}
+                    alt=""
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <div>
+                    <h4 className="font-semibold">
+                      {item.userInfo.displayName}
+                    </h4>
+                    <p className="text-sm opacity-60">
+                      {shortenText(item.lastMessage, 30) || "Say hi 👋"}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => deleteUserChat(item)}
+                  className="opacity-0 group-hover:opacity-100"
+                >
+                  <IoTrashOutline className="text-base-content w-5 h-5" />
+                </button>
+              </div>
+            );
+          })}
           {chatData?.list?.length > 0 && (
             <div className="absolute bottom-4 text-center w-full">
               <button

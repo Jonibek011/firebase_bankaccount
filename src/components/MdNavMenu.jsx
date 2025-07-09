@@ -89,12 +89,7 @@ function MdNavMenu({ toggleBtn, setToggleBtn }) {
               <span>Profile</span>
             </Link>
           </li>
-          <li>
-            <Link onClick={() => setToggleBtn(false)} className="nav-link">
-              <TbSettings className="sm-icons" />
-              <span>Settings</span>
-            </Link>
-          </li>
+
           <li>
             <button onClick={logoutButton} className="btn btn-xs">
               <RiLogoutCircleRLine className="sm-icons" />
