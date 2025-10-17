@@ -80,31 +80,31 @@ function Exchange() {
           ref={formRef}
           className=" flex flex-col sm:flex-row gap-2  md:gap-5 justify-center  items-center w-full"
         >
-          <label className="form-control border flex flex-row px-2 rounded-md w-full">
+          <label className="input input-bordered flex flex-row px-2 rounded-md w-full">
             <input
               ref={firstRef}
               onChange={changingCurency}
               type="number"
               step="any"
-              className="flex-1 border-none outline-none w-full"
+              className="flex-1 border-none outline-none w-full bg-transparent"
               placeholder={usaCurrency ? "Enter USD" : "Enter UZS"}
               name="firstInput"
             />
             <select
               onChange={selectChange}
-              className=" max-w-xs border-none outline-none ring-0 py-2"
+              className=" max-w-xs border-none outline-none ring-0 py-2 bg-transparent"
             >
               <option>USD</option>
               <option>UZS</option>
             </select>
           </label>
 
-          <label className="form-control border flex flex-row px-2 rounded-md w-full">
+          <label className="input input-bordered flex flex-row px-2 rounded-md w-full">
             <input
               name="secondInput"
               type="number"
               step="any"
-              className="flex-1 border-none outline-none py-2"
+              className="flex-1 border-none outline-none py-2 bg-transparent"
               placeholder={usaCurrency ? "Result for UZS" : "Result for USD"}
             />
           </label>

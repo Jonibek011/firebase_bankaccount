@@ -9,6 +9,7 @@ import { PiEyeBold } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa6";
 import { IoTrashOutline } from "react-icons/io5";
 import { GrEdit } from "react-icons/gr";
+import { FaRegCircleXmark } from "react-icons/fa6";
 
 //components
 import { ExtensesPieChart, Exchange } from "../components";
@@ -33,10 +34,29 @@ export const action = async ({ request }) => {
   const expenseTitle = formData.get("expenseTitle");
   const amaunt = formData.get("amaunt");
   const category = formData.get("category");
+  const date = new Date();
+  const hour = date.getHours();
+  const min = date.getMinutes();
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
   const expenseDate = formData.get("date");
   const note = formData.get("note");
 
-  return { expenseDate, expenseTitle, amaunt, category, note, submitted: true };
+  return {
+    expenseDate,
+    expenseTitle,
+    amaunt,
+    category,
+    note,
+    hour,
+    min,
+    day,
+    month,
+    year,
+    submitted: true,
+  };
 };
 //main function
 function Expense() {
@@ -60,6 +80,7 @@ function Expense() {
   const [lastDay, setLastDay] = useState(false);
   const [last7Days, setLast7Days] = useState(false);
   const [lastMonth, setLastMonth] = useState(false);
+  const [deleteItem, setDeleteItem] = useState(null);
 
   useEffect(() => {
     if (!actionData?.submitted) return;
@@ -175,12 +196,17 @@ function Expense() {
   //title ni qisqartirish
   const shortTitle = (text, maxLength) => {
     if (!text) return "";
-    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+    let newText = text[0].toUpperCase() + text.slice(1);
+    return newText.length > maxLength
+      ? newText.slice(0, maxLength) + "..."
+      : newText;
   };
 
   //delete expense
-  const deleteExpense = (id) => {
-    deleteDocument("Expenses", id);
+  const deleteExpense = () => {
+    deleteDocument("Expenses", deleteItem._id);
+
+    document.getElementById("expense-delete").close();
   };
 
   //expense edit
@@ -361,7 +387,11 @@ function Expense() {
         {/* ==================================== Filter section ===================================================================== */}
         <div className="filter-senction shadow-md  col-span-10 order-2 lg:order-1 lg:col-span-5 bg-base-100 rounded-lg p-4 flex  items-center gap-1 md:gap-3">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn m-1">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-outline btn-info  m-1"
+            >
               <span className="hidden md:inline-block">{categoryFilter}</span>{" "}
               <span className="md:hidden">
                 <FaFilter />
@@ -457,7 +487,11 @@ function Expense() {
           </div>
 
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn m-1 ">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-accent btn-outline btn- m-1 "
+            >
               <span className="flex gap-1 whitespace-nowrap">{dateFilter}</span>
             </div>
             <ul
@@ -534,16 +568,20 @@ function Expense() {
 
           <Form method="post" className="w-full flex " onSubmit={searchSubmit}>
             <label className="input input-bordered w-full max-w-xl pe-10 flex relative">
-              <input type=" text" className="w-full" placeholder="Search" />
+              <input
+                type=" text"
+                className="w-full bg-transparent"
+                placeholder="Search"
+              />
               <button
                 type="button"
-                className="bg-gray-50 h-full rounded-e-lg absolute border-none btn-sm right-0 bottom-0 top-0"
+                className="bg-base-100 h-full rounded-e-lg absolute border-none btn-sm right-0 bottom-0 top-0"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
                   fill="currentColor"
-                  className="h-4 w-4 opacity-70 text-black"
+                  className="h-4 w-4 opacity-70 text-neural"
                 >
                   <path
                     fillRule="evenodd"
@@ -570,75 +608,110 @@ function Expense() {
             </span>
           )}
           <h1 className="font-bold md:text-3xl md-4 md:mb-10">Expense List</h1>
-          <div className="min-w-[500px] md:min-w-fit  pb-20">
+          <div className=" w-full max-h-[600px]  overflow-auto   pb-20 ">
             {/* ==================== table ====================================== */}
-            <table className="table table-fixed">
+            <table className="table min-w-[1024px]   ">
               {/* head */}
               <thead>
                 <tr>
-                  <th colSpan={2} className="md:text-xl text-center">
+                  <th colSpan={2} className="md:text-lg text-center">
                     Title
                   </th>
-                  <th className=" w-14"></th>
-                  <th className="hidden lg:table-cell lg:text-xl">Category</th>
+                  <th></th>
+
+                  <th className="table-cell text-lg">Category</th>
                   <th className="md:text-xl">Price</th>
-                  <th className="hidden lg:table-cell md:text-xl">Date</th>
-                  <th className="md:text-xl">Options</th>
+                  <th className="table-cell md:text-lg">Date</th>
+                  <th className="table-cell md:text-lg">Time</th>
+
+                  <th className="md:text-lg">Options</th>
                 </tr>
               </thead>
               {/* =============== table body =================================================== */}
-              <tbody className="border-b">
+              <tbody className="border-b border-neutral/10 ">
                 {/* row 1 */}
                 {mapData?.map((collect) => {
                   return (
-                    <tr key={collect._id}>
-                      <td className="ps-10" colSpan={2}>
+                    <tr key={collect._id} className="hover:bg-info/10">
+                      <td colSpan={2} className="ps-10">
                         <div className="flex items-center gap-3">
                           <div>
-                            <div className="font-bold lg:text-xl opacity-80">
+                            <div className="font-bold text-lg opacity-80">
                               {shortTitle(collect.expenseTitle, 35)}
-                            </div>
-                            <div className="text-sm opacity-50 lg:hidden">
-                              {collect.category}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="w-14"></td>
-                      <td className="hidden lg:table-cell lg:font-medium text-lg text-warning">
-                        {collect.category}
+                      <td className={` table-cell text-lg font-medium  `}>
+                        <button
+                          className={`btn btn-sm w-[120px]  ${
+                            collect.category === "Transport"
+                              ? "btn-outline btn-info"
+                              : collect.category === "Other"
+                              ? "btn-outline btn-primary"
+                              : collect.category === "Entertainment"
+                              ? "btn-success btn-outline"
+                              : collect.category === "Food"
+                              ? "btn-warning btn-outline"
+                              : "btn-secondary btn-outline"
+                          }`}
+                        >
+                          {collect.category}
+                        </button>
                       </td>
-                      <td className="lg:hidden ">
+
+                      <td
+                        className={`table-cell font-semibold text-lg ${
+                          collect.amaunt < 50
+                            ? "text-green-500"
+                            : collect.amaunt < 100
+                            ? "text-warning"
+                            : "text-red-500"
+                        }  `}
+                      >
                         $ {collect.amaunt}
-                        <br />
-                        <span className="badge badge-ghost badge-sm">
-                          {collect.expenseDate}
+                      </td>
+                      <td className="table-cell font-medium   text-gray-400">
+                        <span>
+                          {collect.day < 10 ? "0" + collect.day : collect.day}.
+                          {collect.month + 1 < 10
+                            ? "0" + (collect.month + 1)
+                            : collect.month + 1}
+                          .{collect.year}
                         </span>
                       </td>
-                      <td className="hidden lg:table-cell lg:font-semibold text-lg text-red-400">
-                        $ {collect.amaunt}
+                      <td className="text-gray-400 font-medium">
+                        <span>
+                          {collect.hour < 10
+                            ? "0" + collect.hour
+                            : collect.hour}{" "}
+                          : {collect.min < 10 ? "0" + collect.min : collect.min}
+                        </span>
                       </td>
-                      <td className="hidden lg:table-cell lg:font-semibold text-lg text-gray-400">
-                        {collect.expenseDate}
-                      </td>
-                      <th className="relative flex justify-start gap-5 items-center">
-                        <button
-                          onClick={() => {
-                            setExpenseData(collect);
-                            document.getElementById("expense_view").showModal();
-                          }}
-                        >
-                          <PiEyeBold className="w-5 h-5" />
-                        </button>
-                        <div className="dropdown  dropdown-end">
+                      <td className="relative flex justify-start ps-10 gap-5 items-center">
+                        <div className="dropdown  dropdown-left">
                           <div tabIndex={0} role="button" className="m-1">
-                            <CiMenuKebab className="w-5 h-5 lg:w-7 lg:h-7" />
+                            <CiMenuKebab className="w-5 h-5 " />
                           </div>
 
                           <ul
                             tabIndex={-1}
                             className="dropdown-content overflow-auto z-50 menu bg-base-100 rounded-box w-32 p-2 shadow absolute"
                           >
+                            <li>
+                              <button
+                                onClick={() => {
+                                  setExpenseData(collect);
+                                  document
+                                    .getElementById("expense_view")
+                                    .showModal();
+                                }}
+                              >
+                                <PiEyeBold className="w-4 h-4" />{" "}
+                                <span>view</span>
+                              </button>
+                            </li>
                             <li>
                               <button
                                 onClick={() => {
@@ -653,7 +726,12 @@ function Expense() {
                             </li>
                             <li>
                               <button
-                                onClick={() => deleteExpense(collect._id)}
+                                onClick={() => {
+                                  setDeleteItem(collect);
+                                  document
+                                    .getElementById("expense-delete")
+                                    .showModal();
+                                }}
                               >
                                 <IoTrashOutline className="text-warning" />{" "}
                                 Delete
@@ -661,7 +739,7 @@ function Expense() {
                             </li>
                           </ul>
                         </div>
-                      </th>
+                      </td>
                     </tr>
                   );
                 })}
@@ -802,6 +880,33 @@ function Expense() {
               }}
             >
               Close
+            </button>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="expense-delete" className="modal">
+        <div className="modal-box max-w-sm">
+          <div className="text-center flex justify-center items-center">
+            <FaRegCircleXmark className="w-10 h-10 text-red-500" />
+          </div>
+          <p className="py-4 font-semibold text-2xl text-center">
+            Do you want to delete this expense?
+          </p>
+          <div className="modal-action flex gap-5 justify-center items-center">
+            <button
+              onClick={() => {
+                setDeleteItem(null);
+                document.getElementById("expense-delete").close();
+              }}
+              className="btn btn-sm h-9 rounded-lg px-7  bg-blue-500 hover:bg-blue-600 text-white "
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-sm h-9 bg-red-500 hover:bg-red-600 text-white rounded-lg px-7"
+              onClick={deleteExpense}
+            >
+              Delete
             </button>
           </div>
         </div>

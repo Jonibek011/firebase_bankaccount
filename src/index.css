@@ -45,10 +45,6 @@ body,
   }
 }
 
-.home {
-  /* background: linear-gradient(0deg, #d3c4ff, #ffeeee); */
-}
-
 .weather {
   background: rgba(182, 182, 182, 0.2);
   backdrop-filter: blur(50px);
@@ -58,4 +54,33 @@ body,
   border-bottom-left-radius: 100%;
   border-bottom-right-radius: 20%;
   background: linear-gradient(to right, rgb(247, 38, 128), rgb(239, 66, 13));
+}
+
+/* Scrollbar dizayni */
+::-webkit-scrollbar {
+  width: 4px; /* yupqa scroll bar */
+  height: 4px; /* gorizontal scroll uchun */
+}
+
+/* Track (orqa fon) */
+::-webkit-scrollbar-track {
+  background: #f5f5f5; /* juda och kulrang fon */
+  border-radius: 10px;
+}
+
+/* Thumb (harakatlanuvchi qism) */
+::-webkit-scrollbar-thumb {
+  background: #ffffff; /* och kulrang (gray-300) */
+  border-radius: 10px;
+}
+
+/* Hover holati */
+::-webkit-scrollbar-thumb:hover {
+  background: #e5e7eb; /* yanada ochroq kulrang (gray-200) */
+}
+
+/* Firefox uchun */
+* {
+  scrollbar-width: thin; /* yupqa scroll */
+  scrollbar-color: #d1d5db #f5f5f5; /* thumb | track */
 }
