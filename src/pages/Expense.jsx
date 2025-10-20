@@ -10,10 +10,12 @@ import { FaFilter } from "react-icons/fa6";
 import { IoTrashOutline } from "react-icons/io5";
 import { GrEdit } from "react-icons/gr";
 import { FaRegCircleXmark } from "react-icons/fa6";
+import { IoIosArrowDown } from "react-icons/io";
+import { LuCircleDollarSign } from "react-icons/lu";
 
 //components
 import { ExtensesPieChart, Exchange } from "../components";
-
+import LimitBar from "../components/LimitBar";
 //firebase
 import { useFirestore } from "../hooks/useFirestore";
 import { useAllCollection } from "../hooks/useAllCollection";
@@ -25,9 +27,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 //Global context
 import useGlobalContext from "../hooks/useGlobalContext";
 import toast from "react-hot-toast";
-
+//hooks
+import { useDebounce } from "../hooks/useDebounce";
 //date-fns - library
-import { differenceInDays, differenceInHours, parseISO } from "date-fns";
+import { differenceInDays, isWithinInterval, parseISO } from "date-fns";
+import { BiWallet } from "react-icons/bi";
 //action
 export const action = async ({ request }) => {
   const formData = await request.formData();
@@ -40,12 +44,11 @@ export const action = async ({ request }) => {
   const day = date.getDate();
   const month = date.getMonth();
   const year = date.getFullYear();
+  const timeStamp = new Date();
 
-  const expenseDate = formData.get("date");
   const note = formData.get("note");
 
   return {
-    expenseDate,
     expenseTitle,
     amaunt,
     category,
@@ -55,6 +58,7 @@ export const action = async ({ request }) => {
     day,
     month,
     year,
+    timeStamp,
     submitted: true,
   };
 };
@@ -72,15 +76,32 @@ function Expense() {
   const [expenseData, setExpenseData] = useState(null);
   const [totalSum, setTotalSum] = useState(0);
   const [maxSum, setMaxSum] = useState(0);
-  const [foodCategory, setFoodCategory] = useState(false);
-  const [transportCategory, setTransportCategory] = useState(false);
-  const [technologiaCategory, setTecnologiaCategory] = useState(false);
-  const [entertainmentCategory, setEntertainmentCategory] = useState(false);
-  const [otherCategory, setOtherCategory] = useState(false);
-  const [lastDay, setLastDay] = useState(false);
-  const [last7Days, setLast7Days] = useState(false);
-  const [lastMonth, setLastMonth] = useState(false);
+
   const [deleteItem, setDeleteItem] = useState(null);
+  const [expenseType, setExpenseType] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [mapData, setMapData] = useState(null);
+  const [originalData, setOriginalData] = useState(null);
+  const [startDateFilter, setStartDateFilter] = useState(null);
+  const [endDateFilter, setEndDateFilter] = useState(null);
+  const [searchData, setSearchData] = useState("");
+  const debouncedValue = useDebounce(searchData, 700);
+  const [monthlyExpense, setMonthlyExpense] = useState(0);
+
+  useEffect(() => {
+    if (debouncedValue && debouncedValue.length > 2) {
+      const newData = originalData.filter((item) => {
+        const title = item.expenseTitle ? item.expenseTitle.toLowerCase() : "";
+        const search = debouncedValue.toLowerCase();
+
+        return title.includes(search);
+      });
+
+      setMapData(newData);
+    } else {
+      setMapData(originalData);
+    }
+  }, [debouncedValue, originalData]);
 
   useEffect(() => {
     if (!actionData?.submitted) return;
@@ -96,7 +117,14 @@ function Expense() {
 
     (async () => {
       setIsSubmitted(true);
-      await addDocument("Expenses", { ...actionData, userId: user.uid });
+      await addDocument("Expenses", {
+        ...actionData,
+        expenseType,
+        category,
+        userId: user.uid,
+      });
+      setExpenseType(null);
+      setCategory(null);
       toast.success("Success !");
       formRef.current.reset();
       setIsSubmitted(false);
@@ -110,64 +138,12 @@ function Expense() {
     user.uid,
   ]);
   //=========== Map main data =====================================================================
-  const mapData = useMemo(() => {
+  useEffect(() => {
     if (Array.isArray(collectionData) && collectionData.length > 0) {
-      if (foodCategory) {
-        return collectionData.filter((data) => data.category === "Food");
-      }
-      if (transportCategory) {
-        return collectionData.filter((data) => data.category === "Transport");
-      }
-      if (technologiaCategory) {
-        return collectionData.filter((data) => data.category === "Technologia");
-      }
-      if (entertainmentCategory) {
-        return collectionData.filter(
-          (data) => data.category === "Entertainment"
-        );
-      }
-      if (otherCategory) {
-        return collectionData.filter((data) => data.category === "Other");
-      }
-
-      if (lastDay) {
-        return collectionData.filter((data) => {
-          const today = new Date();
-          const date = parseISO(data.expenseDate);
-          const diff = differenceInDays(today, date);
-          return diff >= 0 && diff <= 1;
-        });
-      }
-      if (last7Days) {
-        return collectionData.filter((data) => {
-          const today = new Date();
-          const date = parseISO(data.expenseDate);
-          const diff = differenceInDays(today, date);
-          return diff >= 0 && diff <= 7;
-        });
-      }
-      if (lastMonth) {
-        return collectionData.filter((data) => {
-          const today = new Date();
-          const date = parseISO(data.expenseDate);
-          const diff = differenceInDays(today, date);
-          return diff >= 0 && diff <= 30;
-        });
-      }
-
-      return collectionData;
+      setMapData(collectionData);
+      setOriginalData(collectionData);
     }
-  }, [
-    collectionData,
-    foodCategory,
-    transportCategory,
-    technologiaCategory,
-    entertainmentCategory,
-    otherCategory,
-    lastDay,
-    last7Days,
-    lastMonth,
-  ]);
+  }, [collectionData]);
 
   useEffect(() => {
     if (!collectionData) return;
@@ -211,11 +187,12 @@ function Expense() {
 
   //expense edit
   const modalFormSubmit = async (e) => {
+    e.preventDefault();
     setIsSubmitted(true);
+
     const newTitle = e.target.modalTitle.value;
     const newAmaunt = e.target.cost.value;
     const newCategory = e.target.modalCategory.value;
-    const newDate = e.target.modalDate.value;
     const newNote = e.target.modalNote.value;
 
     const EditingData = doc(db, "Expenses", expenseData._id);
@@ -224,9 +201,9 @@ function Expense() {
       expenseTitle: newTitle,
       amaunt: newAmaunt,
       category: newCategory,
-      expenseDate: newDate,
       note: newNote,
     });
+
     setIsSubmitted(false);
     modalFormRef.current.reset();
     document.getElementById("expense_modal").close();
@@ -244,6 +221,23 @@ function Expense() {
         });
 
         let sumMax = arr?.length ? Math.max(...arr) : 0;
+        const today = new Date();
+        const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const monthly = collectionData.filter((item) => {
+          if (!item.timeStamp) return false;
+          const expenseDate = item.timeStamp.toDate();
+          return isWithinInterval(expenseDate, {
+            start: firstOfMonth,
+            end: today,
+          });
+        });
+
+        let monthlySum = 0;
+        monthly.filter((item) => {
+          monthlySum += Number(item.amaunt);
+        });
+
+        setMonthlyExpense(monthlySum.toFixed(2));
 
         setTotalSum(sum.toFixed(2));
         setMaxSum(sumMax.toFixed(2));
@@ -251,32 +245,26 @@ function Expense() {
   }, [collectionData]);
 
   //category filterni dinamic qilish
-  const categoryFilter = useMemo(() => {
-    if (foodCategory) return "Food";
-    if (transportCategory) return "Transport";
-    if (technologiaCategory) return "Technologia";
-    if (entertainmentCategory) return "Entert...";
-    if (otherCategory) return "Other";
-    return "Category  ";
-  }, [
-    foodCategory,
-    transportCategory,
-    technologiaCategory,
-    entertainmentCategory,
-    otherCategory,
-  ]);
-
+  const filterByCategory = (category) => {
+    const newData = originalData.filter((item) => {
+      return item.category === category;
+    });
+    setMapData(newData);
+  };
   //date filter ni dinamik qilish
-  const dateFilter = useMemo(() => {
-    if (lastDay) return "A day";
-    if (last7Days) return "7 days";
-    if (lastMonth) return "A month";
-    return "From";
-  }, [lastDay, last7Days, lastMonth]);
+  const filterByDate = () => {
+    const filteredData = originalData.filter((item) => {
+      const expenseData = item.timeStamp.toDate();
+      return isWithinInterval(expenseData, {
+        start: parseISO(startDateFilter),
+        end: parseISO(endDateFilter),
+      });
+    });
 
-  // search orqali filter qilish
-  const searchSubmit = () => {
-    console.log("search button bosildi");
+    setMapData(filteredData);
+    setStartDateFilter("");
+    setEndDateFilter("");
+    document.getElementById("filter-modal").close();
   };
   return (
     <div className="w-full h-auto mb-5">
@@ -299,7 +287,7 @@ function Expense() {
               type="text"
               name="expenseTitle"
               placeholder="Title"
-              className=" col-span-2 lg:col-span-2 input input-bordered w-full "
+              className=" col-span-2 lg:col-span-3 input input-bordered w-full "
             />
             <input
               required
@@ -309,30 +297,110 @@ function Expense() {
               placeholder="Amaunt ($)"
               className="col-span-1 row-span-1 input input-bordered w-full "
             />
-            <select
-              className="select select-bordered w-full  col-span-1 row-span-1"
-              required
-              name="category"
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Category
-              </option>
-              <option>Food</option>
-              <option>Transport</option>
-              <option>Entertainment</option>
-              <option>Technologia</option>
-              <option>Other</option>
-            </select>
 
-            <label className="input input-bordered flex items-center col-span-1 lg:col-span-2 gap-2">
-              <input
-                type="date"
-                className="grow"
-                placeholder="Date"
-                name="date"
-              />
-            </label>
+            <div className="dropdown col-span-1 ">
+              <div
+                tabIndex={0}
+                role="button"
+                className=" input input-bordered flex justify-between items-center "
+              >
+                {category || (
+                  <span className="text-gray-400 font-normal">Category</span>
+                )}{" "}
+                <span className="text-gray-400">
+                  <IoIosArrowDown className="w-5 h-5" />
+                </span>
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              >
+                <li>
+                  <button
+                    onClick={() => setCategory("Food")}
+                    type="button"
+                    className="font-medium"
+                  >
+                    Food
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setCategory("Transport")}
+                    type="button"
+                    className="font-medium"
+                  >
+                    Transport
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setCategory("Entertainment")}
+                    type="button"
+                    className="font-medium"
+                  >
+                    Entertainment
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setCategory("Technology")}
+                    type="button"
+                    className="font-medium"
+                  >
+                    Technology
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setCategory("Other")}
+                    type="button"
+                    className="font-medium"
+                  >
+                    Other
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div className="dropdown col-span-1">
+              <div
+                tabIndex={0}
+                role="button"
+                className=" input input-bordered flex justify-between items-center "
+              >
+                {expenseType || (
+                  <span className="text-gray-400">Card or cash</span>
+                )}{" "}
+                <span className="text-gray-400">
+                  <IoIosArrowDown className="w-5 h-5" />
+                </span>
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              >
+                <li>
+                  <button
+                    onClick={() => setExpenseType("Cash")}
+                    type="button"
+                    className="text-medium"
+                  >
+                    Cash
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setExpenseType("Card")}
+                    type="button"
+                    className="text-medium"
+                  >
+                    Card
+                  </button>
+                </li>
+              </ul>
+            </div>
+
             <div className="col-span-1 lg:col-span-3 row-span-1 w-full flex  gap-4">
               <input
                 type="text"
@@ -358,7 +426,7 @@ function Expense() {
         </div>
 
         {/* =========================== Chart card =============================================================== */}
-        <div className="col-span-10  shadow-md rounded-xl sm:col-span-5 lg:col-span-4 xl:col-span-3 bg-base-100 lg:row-span-2 p-2 lg:p-4">
+        <div className="col-span-10  shadow-md rounded-xl md:col-span-5 lg:col-span-4 xl:col-span-3 bg-base-100 lg:row-span-2 p-2 lg:p-4">
           <h2 className="font-bold md:text-2xl lg:text-3xl ps-4">
             Expenses by Category
           </h2>
@@ -366,222 +434,132 @@ function Expense() {
         </div>
 
         {/* =================================== Total section ====================================================== */}
-        <div className="col-span-10 sm:col-span-5 shadow-md lg:col-span-6 xl:col-span-7  bg-base-100 rounded-xl flex flex-row sm:flex-col lg:flex-row  lg:justify-evenly  p-5">
-          <div className="total lg:border-e-2  lg:pe-5 flex-1 flex flex-col  gap-4 lg:gap-2">
-            <h2 className="font-bold text-lg sm:text-2xl">Total Spent</h2>
-            <span className="flex items-center gap-8 text-lg sm:text-2xl font-bold">
-              <SlWallet className="w-10 h-10 sm:w-14 sm:h-14 opacity-40 text-primary" />{" "}
-              ${totalSum}{" "}
-            </span>
+        <div className="col-span-10 md:col-span-5  lg:col-span-6 xl:col-span-7   overflow-x-auto   ">
+          <div className="flex md:flex-col lg:flex-row gap-4  rounded-xl min-w-[800px] md:min-w-[300px]">
+            <div className="card bg-base-100 flex-1  px-8 py-5 flex justify-center items-center">
+              <p className="flex justify-center items-center">
+                <BiWallet className="w-9 h-9 text-orange-600" />
+              </p>
+              <p className="text-2xl font-bold text-center text-orange-600">
+                ${totalSum}
+              </p>
+              <h2 className="text-lg font-semibold text-center">Total Spent</h2>
+            </div>
+            <div className="card bg-base-100 flex-1 px-8 py-5 flex flex-col gap-1 justify-center items-center">
+              <p className="flex justify-center items-center">
+                <RiMoneyPoundCircleLine className="w-9 h-9 text-green-500" />
+              </p>
+              <p className="text-2xl font-bold text-center text-green-500">
+                ${maxSum}
+              </p>
+              <h2 className="text-lg font-semibold text-center">
+                Highest Spent
+              </h2>
+            </div>
+
+            <div className="card bg-base-100 flex-1 px-8 py-5 flex flex-col gap-1 justify-center items-center">
+              <p className="flex justify-center items-center">
+                <LuCircleDollarSign className="w-9 h-9 text-purple-500" />
+              </p>
+              <p className="text-2xl font-bold text-center text-purple-500">
+                ${monthlyExpense}
+              </p>
+              <h2 className="text-lg font-semibold text-center">This month</h2>
+            </div>
           </div>
 
-          <div className="highest flex-1 flex flex-col gap-4 lg:ps-5 ">
-            <h2 className="font-bold text-lg sm:text-2xl">Highest Expense</h2>
-            <span className="flex items-center gap-8 text-lg sm:text-2xl font-bold">
-              {" "}
-              <RiMoneyPoundCircleLine className="w-10 h-10 sm:w-14 sm:h-14 opacity-40 text-primary " />{" "}
-              ${maxSum}
-            </span>
-          </div>
+          {/* <div className="flex-1">
+            <LimitBar />
+          </div> */}
         </div>
         {/* ==================================== Filter section ===================================================================== */}
         <div className="filter-senction shadow-md  col-span-10 order-2 lg:order-1 lg:col-span-5 bg-base-100 rounded-lg p-4 flex  items-center gap-1 md:gap-3">
-          <div className="dropdown">
+          <div className="dropdown dropdown-bottom">
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-outline btn-info  m-1"
+              className=" bg-blue-500 hover:bg-blue-600 text-white flex text-[14px] rounded-md px-4 py-1 h-8  items-center font-medium gap-1"
             >
-              <span className="hidden md:inline-block">{categoryFilter}</span>{" "}
-              <span className="md:hidden">
-                <FaFilter />
-              </span>
+              <FaFilter className="w-3 h-3" /> <span>Category</span>
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-auto p-2 shadow"
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
             >
               <li>
                 <button
-                  onClick={() => {
-                    setTransportCategory(false);
-                    setTecnologiaCategory(false);
-                    setEntertainmentCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(false);
-                    setLastDay(false);
-                    setLast7Days(false);
-                    setLastMonth(false);
-                  }}
-                >
-                  All
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setTransportCategory(false);
-                    setTecnologiaCategory(false);
-                    setEntertainmentCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(true);
-                  }}
+                  onClick={() => filterByCategory("Food")}
+                  className="font-medium"
                 >
                   Food
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => {
-                    setTecnologiaCategory(false);
-                    setEntertainmentCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(false);
-                    setTransportCategory(true);
-                  }}
+                  onClick={() => filterByCategory("Transport")}
+                  className="font-medium"
                 >
                   Transport
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => {
-                    setTransportCategory(false);
-                    setTecnologiaCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(false);
-                    setEntertainmentCategory(true);
-                  }}
+                  onClick={() => filterByCategory("Entertainment")}
+                  className="font-medium"
                 >
                   Entertainment
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => {
-                    setTransportCategory(false);
-                    setEntertainmentCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(false);
-                    setTecnologiaCategory(true);
-                  }}
+                  onClick={() => filterByCategory("Technology")}
+                  className="font-medium"
                 >
-                  Technologia
+                  Technology
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => {
-                    setTransportCategory(false);
-                    setEntertainmentCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(false);
-                    setTecnologiaCategory(false);
-                    setOtherCategory(true);
-                  }}
+                  onClick={() => filterByCategory("Other")}
+                  className="font-medium"
                 >
                   Other
                 </button>
               </li>
             </ul>
           </div>
+          <button
+            onClick={() => document.getElementById("filter-modal").showModal()}
+            className="btn btn-sm flex gap-1  bg-blue-500 hover:bg-blue-600 text-white"
+          >
+            <span>
+              <FaFilter className="w-3 h-3" />
+            </span>{" "}
+            <span>Date</span>
+          </button>
+          <button
+            onClick={() => setMapData(originalData)}
+            className="btn  btn-success btn-sm  rounded-md text-white "
+          >
+            All
+          </button>
 
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-accent btn-outline btn- m-1 "
-            >
-              <span className="flex gap-1 whitespace-nowrap">{dateFilter}</span>
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
-            >
-              <li>
-                <button
-                  onClick={() => {
-                    setTransportCategory(false);
-                    setEntertainmentCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(false);
-                    setTecnologiaCategory(false);
-                    setOtherCategory(false);
-                    setLastDay(false);
-                    setLast7Days(false);
-                    setLastMonth(false);
-                  }}
-                >
-                  All
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setTransportCategory(false);
-                    setEntertainmentCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(false);
-                    setTecnologiaCategory(false);
-                    setOtherCategory(false);
-                    setLastDay(true);
-                  }}
-                >
-                  Last a day
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setTransportCategory(false);
-                    setEntertainmentCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(false);
-                    setTecnologiaCategory(false);
-                    setOtherCategory(false);
-                    setLastDay(false);
-                    setLast7Days(true);
-                  }}
-                >
-                  Last 7 days
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setTransportCategory(false);
-                    setEntertainmentCategory(false);
-                    setOtherCategory(false);
-                    setFoodCategory(false);
-                    setTecnologiaCategory(false);
-                    setOtherCategory(false);
-                    setLastDay(false);
-                    setLast7Days(false);
-                    setLastMonth(true);
-                  }}
-                >
-                  Last a month
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          <Form method="post" className="w-full flex " onSubmit={searchSubmit}>
-            <label className="input input-bordered w-full max-w-xl pe-10 flex relative">
+          <div className="w-full hidden sm:flex ">
+            <label className="input input-sm input-bordered w-full max-w-xl pe-10 flex  items-center relative">
               <input
-                type=" text"
-                className="w-full bg-transparent"
+                type="search"
+                className=" w-full  bg-transparent"
                 placeholder="Search"
+                value={searchData}
+                onChange={(e) => setSearchData(e.target.value)}
               />
-              <button
-                type="button"
-                className="bg-base-100 h-full rounded-e-lg absolute border-none btn-sm right-0 bottom-0 top-0"
-              >
+
+              <span className="absolute right-3 top-[30%]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
                   fill="currentColor"
-                  className="h-4 w-4 opacity-70 text-neural"
+                  className="h-3 w-3 opacity-70 text-neural  "
                 >
                   <path
                     fillRule="evenodd"
@@ -589,9 +567,9 @@ function Expense() {
                     clipRule="evenodd"
                   />
                 </svg>
-              </button>
+              </span>
             </label>
-          </Form>
+          </div>
         </div>
 
         {/* ===================== Some content ======================================== */}
@@ -620,7 +598,8 @@ function Expense() {
                   <th></th>
 
                   <th className="table-cell text-lg">Category</th>
-                  <th className="md:text-xl">Price</th>
+                  <th className="md:text-lg">Price</th>
+                  <th className="table-cell md:text-lg">Type</th>
                   <th className="table-cell md:text-lg">Date</th>
                   <th className="table-cell md:text-lg">Time</th>
 
@@ -671,6 +650,11 @@ function Expense() {
                         }  `}
                       >
                         $ {collect.amaunt}
+                      </td>
+                      <td className="ps-5">
+                        <span className="font-semibold text-gray-400 text-center">
+                          {collect.expenseType || "-"}
+                        </span>
                       </td>
                       <td className="table-cell font-medium   text-gray-400">
                         <span>
@@ -810,16 +794,7 @@ function Expense() {
                 <option>Other</option>
               </select>
 
-              <label className="input input-bordered flex items-center col-span-1  gap-2">
-                <input
-                  type="date"
-                  className="grow"
-                  placeholder="Date"
-                  name="modalDate"
-                  defaultValue={expenseData?.expenseDate}
-                />
-              </label>
-              <div className="col-span-1  row-span-1 w-full flex  gap-4">
+              <div className="col-span-2  row-span-1 w-full flex  gap-4">
                 <input
                   type="text"
                   name="modalNote"
@@ -908,6 +883,55 @@ function Expense() {
             >
               Delete
             </button>
+          </div>
+        </div>
+      </dialog>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      <dialog id="filter-modal" className="modal">
+        <div className="modal-box max-w-xs">
+          <h3 className="font-bold text-lg text-center">Filter</h3>
+
+          <div className="modal-action ">
+            <div className="flex flex-col gap-4 w-full">
+              <label className="flex flex-col gap-1 w-full">
+                <span className="font-semibold">from</span>
+                <input
+                  type="date"
+                  value={startDateFilter}
+                  onChange={(e) => setStartDateFilter(e.target.value)}
+                  required
+                  className="input input-bordered "
+                />
+              </label>
+
+              <label className="flex flex-col gap-1 w-full">
+                <span className="font-semibold ">to</span>
+                <input
+                  required
+                  type="date"
+                  value={endDateFilter}
+                  onChange={(e) => setEndDateFilter(e.target.value)}
+                  className="input input-bordered "
+                />
+              </label>
+              <div className="flex gap-5 justify-end">
+                <button
+                  type="button"
+                  onClick={() =>
+                    document.getElementById("filter-modal").close()
+                  }
+                  className="btn bg-red-500 text-white text-[16px] hover:bg-red-600"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={filterByDate}
+                  className="btn bg-blue-500 hover:bg-blue-600 text-white text-[16px]"
+                >
+                  Filter
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </dialog>

@@ -84,3 +84,7 @@ body,
   scrollbar-width: thin; /* yupqa scroll */
   scrollbar-color: #d1d5db #f5f5f5; /* thumb | track */
 }
+body {
+  scroll-behavior: smooth;
+  overflow: hidden;
+}
