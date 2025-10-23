@@ -592,16 +592,16 @@ function Expense() {
               {/* head */}
               <thead>
                 <tr>
-                  <th colSpan={2} className="md:text-lg text-center">
+                  <th colSpan={2} className="text-lg text-center">
                     Title
                   </th>
                   <th></th>
 
                   <th className="table-cell text-lg">Category</th>
-                  <th className="md:text-lg">Price</th>
-                  <th className="table-cell md:text-lg">Type</th>
-                  <th className="table-cell md:text-lg">Date</th>
-                  <th className="table-cell md:text-lg">Time</th>
+                  <th className="text-lg">Price</th>
+                  <th className="table-cell text-lg">Type</th>
+                  <th className="table-cell ext-lg">Date</th>
+                  <th className="table-cell text-lg">Time</th>
 
                   <th className="md:text-lg">Options</th>
                 </tr>
@@ -622,7 +622,7 @@ function Expense() {
                         </div>
                       </td>
                       <td className="w-14"></td>
-                      <td className={` table-cell text-lg font-medium  `}>
+                      <td className={` table-cell  font-medium  `}>
                         <button
                           className={`btn btn-sm w-[120px]  ${
                             collect.category === "Transport"
@@ -900,7 +900,7 @@ function Expense() {
                   value={startDateFilter}
                   onChange={(e) => setStartDateFilter(e.target.value)}
                   required
-                  className="input input-bordered "
+                  className="input input-bordered w-full "
                 />
               </label>
 
@@ -911,7 +911,7 @@ function Expense() {
                   type="date"
                   value={endDateFilter}
                   onChange={(e) => setEndDateFilter(e.target.value)}
-                  className="input input-bordered "
+                  className="input input-bordered w-full "
                 />
               </label>
               <div className="flex gap-5 justify-end">
