@@ -209,6 +209,8 @@ function Chat() {
     <div className="h-[93vh] flex flex-col bg-base-100">
       <div className="chat-container h-full w-full flex">
         {/* Sidebar */}
+
+        {/* ================= Left side chat list ============================================== */}
         <div
           className={`chat-list h-full border-r border-base-200 ${
             openSidebar ? "hidden" : "block"
@@ -241,7 +243,7 @@ function Chat() {
                   handleUserSelect({ ...item.userInfo, id: item.userInfo.uid });
                   if (isMobile) setOpenSidebar(true); // faqat mobilda
                 }}
-                className="p-3 hover:bg-base-200 cursor-pointer flex justify-between group"
+                className="p-3 border-b border-gray-500/20 hover:bg-base-200 cursor-pointer flex justify-between group"
               >
                 <div className="flex gap-3 items-center">
                   <img
@@ -297,7 +299,7 @@ function Chat() {
           </header>
 
           {/* Messages */}
-          <div className="px-4 py-2 overflow-y-auto h-[calc(100%-120px)]">
+          <div className="px-4 py-2 overflow-y-auto bg-blue-600/5 h-[calc(100%-120px)]">
             {messages.length === 0 ? (
               <p className="text-center opacity-60 mt-10">
                 Start the conversation

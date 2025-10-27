@@ -39,7 +39,12 @@ export const useFirestore = () => {
   };
 
   const deleteDocument = async (collectionName, id) => {
-    await deleteDoc(doc(db, collectionName, id));
+    try {
+      await deleteDoc(doc(db, collectionName, id));
+      console.log(`✅ ${collectionName}/${id} o‘chirildi`);
+    } catch (err) {
+      console.error("❌ O‘chirishda xatolik:", err);
+    }
   };
 
   const updateDocument = async (collectionName, id, key, value) => {

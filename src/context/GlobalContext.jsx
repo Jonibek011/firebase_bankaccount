@@ -18,6 +18,8 @@ const changeState = (state, action) => {
       return { ...state, tasks: payload };
     case "MONTHLYSPEND":
       return { ...state, monthlySpend: payload };
+    case "CHART":
+      return { ...state, chartData: payload };
     default:
       return state;
   }
@@ -30,6 +32,7 @@ export function GlobalContextProvider({ children }) {
     loading: false,
     tasks: [],
     monthlySpend: null,
+    chartData: [],
   });
 
   // const data = useAllCollection("tasks", ["userId", "==", state.user.uid]);

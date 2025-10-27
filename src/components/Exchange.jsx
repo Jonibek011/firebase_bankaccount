@@ -24,25 +24,47 @@ function Exchange() {
 
         const data = await res.json();
         setCurrency(data);
-        localStorage.setItem("currencyData", Date.now());
+
+        // ✅ Sana bilan birga ma’lumotni ham saqlaymiz
+        localStorage.setItem(
+          "currencyData",
+          JSON.stringify({
+            time: Date.now(),
+            data,
+          })
+        );
       } catch (err) {
         console.log("❌ Xatolik:", err.message);
       }
     };
 
-    // Sahifa ochilganda doim ma’lumot olish
-    getData();
-
-    // Keyinchalik har 1 daqiqada tekshirish
-    const intervalId = setInterval(() => {
+    // 🔍 Avval localStorage'dan o‘qish
+    const saved = localStorage.getItem("currencyData");
+    if (saved) {
+      const parsed = JSON.parse(saved);
       const now = Date.now();
       const oneDay = 24 * 60 * 60 * 1000;
-      const lastRun = localStorage.getItem("currencyData");
+
+      // ✅ Agar 1 kundan kam vaqt o‘tgan bo‘lsa, saqlangan datani ishlatamiz
+      if (now - parsed.time < oneDay) {
+        setCurrency(parsed.data);
+        return; // yangi so‘rov yubormaymiz
+      }
+    }
+
+    // ❗ Agar ma’lumot yo‘q yoki 1 kun o‘tgan bo‘lsa, yangi so‘rov yuboramiz
+    getData();
+
+    // ✅ Har 1 daqiqada tekshirish
+    const intervalId = setInterval(() => {
+      const lastRun = saved ? JSON.parse(saved).time : null;
+      const now = Date.now();
+      const oneDay = 24 * 60 * 60 * 1000;
 
       if (!lastRun || now - lastRun > oneDay) {
         getData();
       }
-    }, 60000);
+    }, 3600000);
 
     return () => clearInterval(intervalId);
   }, []);

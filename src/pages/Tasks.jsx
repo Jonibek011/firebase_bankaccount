@@ -58,7 +58,7 @@ function Tasks() {
 
   useEffect(() => {
     dispatch({ type: "ADDTASK", payload: collectionData });
-  }, [collectionData]);
+  }, [collectionData, dispatch]);
 
   // Firebase ga yozish faqat form submit qilingandan so‘ng
   useEffect(() => {

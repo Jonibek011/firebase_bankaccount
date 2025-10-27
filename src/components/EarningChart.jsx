@@ -20,7 +20,7 @@ const data = [
 
 export default function EarningChart() {
   return (
-    <div className="w-full h-[95%] bg-base-100 p-6 rounded-2xl shadow-md">
+    <div className="w-full min-h-[300px] h-[95%] bg-base-100 p-6 rounded-2xl shadow-md">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Earning Summary</h2>
         <p className="text-sm text-gray-500">Mar 2022 – Oct 2022</p>

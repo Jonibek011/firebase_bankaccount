@@ -2,7 +2,7 @@ import { Form } from "react-router-dom";
 import { CiMenuKebab } from "react-icons/ci";
 import { useActionData } from "react-router-dom";
 //icons
-import { SlWallet } from "react-icons/sl";
+
 import { RiMoneyPoundCircleLine } from "react-icons/ri";
 import box from "../assets/images/folder.png";
 import { PiEyeBold } from "react-icons/pi";
@@ -12,16 +12,21 @@ import { GrEdit } from "react-icons/gr";
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuCircleDollarSign } from "react-icons/lu";
+import { SiCodefresh } from "react-icons/si";
 
+//context
+import { MainIncomContext } from "../context/IncomeContext";
+import { useContext } from "react";
 //components
-import { ExtensesPieChart, Exchange } from "../components";
-import LimitBar from "../components/LimitBar";
+import { Exchange } from "../components";
+
 //firebase
 import { useFirestore } from "../hooks/useFirestore";
 import { useAllCollection } from "../hooks/useAllCollection";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 
+import dollar from "../assets/images/credit-bg.png";
 //react
 import { useEffect, useMemo, useRef, useState } from "react";
 //Global context
@@ -87,6 +92,13 @@ function Expense() {
   const [searchData, setSearchData] = useState("");
   const debouncedValue = useDebounce(searchData, 700);
   const [monthlyExpense, setMonthlyExpense] = useState(0);
+  const [income, setIncome] = useState("");
+  const [totlaIncomes, setTotalIncomes] = useState(0);
+  const [nullishData, setNullishData] = useState(null);
+  const [periodIncome, setPeriodIncome] = useState(0);
+  const [fiterTotalMoney, setFilterTotalMoney] = useState(0);
+  const [filterMaxMoney, setFilterMaxMoney] = useState(0);
+  const { incomes } = useContext(MainIncomContext);
 
   useEffect(() => {
     if (debouncedValue && debouncedValue.length > 2) {
@@ -140,10 +152,11 @@ function Expense() {
   //=========== Map main data =====================================================================
   useEffect(() => {
     if (Array.isArray(collectionData) && collectionData.length > 0) {
+      dispatch({ type: "CHART", payload: collectionData });
       setMapData(collectionData);
       setOriginalData(collectionData);
     }
-  }, [collectionData]);
+  }, [collectionData, dispatch]);
 
   useEffect(() => {
     if (!collectionData) return;
@@ -163,6 +176,7 @@ function Expense() {
     dispatch({ type: "MONTHLYSPEND", payload: count });
   }, [collectionData]);
 
+  //Chart data
   const mapDataForChart = useMemo(() => {
     if (Array.isArray(collectionData) && collectionData.length > 0) {
       return collectionData;
@@ -240,7 +254,9 @@ function Expense() {
         setMonthlyExpense(monthlySum.toFixed(2));
 
         setTotalSum(sum.toFixed(2));
+        setFilterTotalMoney(sum.toFixed(2));
         setMaxSum(sumMax.toFixed(2));
+        setFilterMaxMoney(sumMax.toFixed(2));
       }
   }, [collectionData]);
 
@@ -249,6 +265,20 @@ function Expense() {
     const newData = originalData.filter((item) => {
       return item.category === category;
     });
+    let filteredTotalSum = 0;
+    newData?.forEach((item) => {
+      filteredTotalSum += Number(item.amaunt);
+    });
+
+    setFilterTotalMoney(filteredTotalSum.toFixed(2));
+
+    // Max qiymat
+    const filteredMaxSum = newData?.map((item) => Number(item.amaunt) || 0);
+
+    // Agar newData bo‘sh bo‘lsa, 0 qaytarsin
+    const max = filteredMaxSum.length > 0 ? Math.max(...filteredMaxSum) : 0;
+
+    setFilterMaxMoney(max.toFixed(2));
     setMapData(newData);
   };
   //date filter ni dinamik qilish
@@ -261,11 +291,74 @@ function Expense() {
       });
     });
 
+    let filteredTotalSum = 0;
+    filteredData.forEach((item) => {
+      filteredTotalSum += Number(item.amaunt);
+    });
+
+    setFilterTotalMoney(filteredTotalSum.toFixed(2));
+
+    const filteredMaxSum = filteredData.map((item) => {
+      return item.amaunt;
+    });
+
+    setFilterMaxMoney(Math.max(...filteredMaxSum).toFixed(2));
+
+    const filteredIncome = incomes.filter((item) => {
+      const expenseData = item.timeStamp.toDate();
+      return isWithinInterval(expenseData, {
+        start: parseISO(startDateFilter),
+        end: parseISO(endDateFilter),
+      });
+    });
+    let periodIncomeData = 0;
+    filteredIncome.forEach((item) => {
+      periodIncomeData += Number(item.income);
+    });
+
     setMapData(filteredData);
+    setPeriodIncome(periodIncomeData);
     setStartDateFilter("");
     setEndDateFilter("");
     document.getElementById("filter-modal").close();
   };
+
+  //add income to the firestore
+  const addIncome = async () => {
+    setNullishData(null);
+    await addDocument("Incomes", {
+      income,
+      timeStamp: new Date(),
+      userId: user.uid,
+    });
+    setIncome("");
+    document.getElementById("add-money").close();
+  };
+  // get total income
+  useEffect(() => {
+    if (!incomes || incomes.length === 0) return;
+    let income = 0;
+    incomes.forEach((i) => {
+      income += Number(i.income);
+    });
+
+    setTotalIncomes(income);
+    setPeriodIncome(income);
+  }, [incomes]);
+
+  //delete Incomes
+  const deleteIncomes = async () => {
+    try {
+      for (const item of incomes) {
+        await deleteDocument("Incomes", item._id);
+        setNullishData(0);
+      }
+      document.getElementById("clean-money").close();
+    } catch (err) {
+      console.error("Xatolik:", err.message);
+    }
+  };
+
   return (
     <div className="w-full h-auto mb-5">
       <h2 className="hidden sm:block font-semibold text-3xl sm:text-5xl my-6">
@@ -426,22 +519,50 @@ function Expense() {
         </div>
 
         {/* =========================== Chart card =============================================================== */}
-        <div className="col-span-10  shadow-md rounded-xl md:col-span-5 lg:col-span-4 xl:col-span-3 bg-base-100 lg:row-span-2 p-2 lg:p-4">
-          <h2 className="font-bold md:text-2xl lg:text-3xl ps-4">
-            Expenses by Category
-          </h2>
-          <ExtensesPieChart mapDataForChart={mapDataForChart} />
+        <div className="col-span-10 flex flex-col gap-6 shadow-md rounded-xl md:col-span-5 lg:col-span-4 xl:col-span-3 bg-base-100 lg:row-span-1 p-2 lg:p-4">
+          <div className="w-full p-5  flex flex-col justify-between  rounded-xl h-[300px] md:h-[200px]  relative overflow-hidden ">
+            <img
+              src={dollar}
+              alt=""
+              className=" absolute scale-150 z-0 top-0 left-0 w-full h-full "
+            />
+            <div className="flex justify-between items-center relative z-10 ">
+              <p className="text-gray-300 text-sm font-medium">Total earn</p>
+              <h2 className="text-4xl font-semibold text-white">
+                <span className="text-xl">$</span>
+                {nullishData ?? totlaIncomes}
+              </h2>
+            </div>
+            <div className="relative z-10 flex justify-between items-center gap-4">
+              <p className="text-gray-300 flex gap-2 items-center">
+                <button
+                  onClick={() =>
+                    document.getElementById("clean-money").showModal()
+                  }
+                >
+                  Clean
+                </button>
+                <SiCodefresh className="" />
+              </p>
+              <button
+                onClick={() => document.getElementById("add-money").showModal()}
+                className="btn text-black btn-sm bg-gradient-to-r from-yellow-400 to-white border-none "
+              >
+                +Add money
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* =================================== Total section ====================================================== */}
-        <div className="col-span-10 md:col-span-5  lg:col-span-6 xl:col-span-7   overflow-x-auto   ">
-          <div className="flex md:flex-col lg:flex-row gap-4  rounded-xl min-w-[800px] md:min-w-[300px]">
+        <div className="col-span-10   overflow-x-auto   ">
+          <div className="flex md:md:grid md:grid-cols-2 lg:grid-cols-none lg:flex lg:flex-row gap-4  rounded-xl min-w-[800px] md:min-w-[300px]">
             <div className="card bg-base-100 flex-1  px-8 py-5 flex justify-center items-center">
               <p className="flex justify-center items-center">
                 <BiWallet className="w-9 h-9 text-orange-600" />
               </p>
               <p className="text-2xl font-bold text-center text-orange-600">
-                ${totalSum}
+                ${fiterTotalMoney}
               </p>
               <h2 className="text-lg font-semibold text-center">Total Spent</h2>
             </div>
@@ -450,7 +571,7 @@ function Expense() {
                 <RiMoneyPoundCircleLine className="w-9 h-9 text-green-500" />
               </p>
               <p className="text-2xl font-bold text-center text-green-500">
-                ${maxSum}
+                ${filterMaxMoney || "0.00"}
               </p>
               <h2 className="text-lg font-semibold text-center">
                 Highest Spent
@@ -465,6 +586,17 @@ function Expense() {
                 ${monthlyExpense}
               </p>
               <h2 className="text-lg font-semibold text-center">This month</h2>
+            </div>
+            <div className="card bg-base-100 flex-1  px-8 py-5 flex justify-center items-center">
+              <p className="flex justify-center items-center">
+                <BiWallet className="w-9 h-9 text-blue-600" />
+              </p>
+              <p className="text-2xl font-bold text-center text-blue-600">
+                ${periodIncome}
+              </p>
+              <h2 className="text-lg font-semibold text-center">
+                Period income
+              </h2>
             </div>
           </div>
 
@@ -538,7 +670,12 @@ function Expense() {
             <span>Date</span>
           </button>
           <button
-            onClick={() => setMapData(originalData)}
+            onClick={() => {
+              setMapData(originalData);
+              setPeriodIncome(totlaIncomes);
+              setFilterTotalMoney(totalSum);
+              setFilterMaxMoney(maxSum);
+            }}
             className="btn  btn-success btn-sm  rounded-md text-white "
           >
             All
@@ -932,6 +1069,62 @@ function Expense() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="clean-money" className="modal">
+        <div className="modal-box max-w-sm flex flex-col gap-5">
+          <h2 className="text-center font-semibold text-lg">
+            Hey, please be careful. If you clean your total earned money, then
+            you will not able to return it.
+          </h2>
+          <h2 className="text-center text-red-500 text-lg">
+            Are you sure to clean?
+          </h2>
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={() => document.getElementById("clean-money").close()}
+              className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white shadow-none border-none te"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={deleteIncomes}
+              className="text-white bg-red-500 hover:bg-red-600 btn btn-sm  border-none shadow-none"
+            >
+              Clean
+            </button>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="add-money" className="modal">
+        <div className="modal-box max-w-sm py-10 flex flex-col gap-8">
+          <label className="flex flex-col gap-2">
+            <span className="text-gray-400 text-sm">
+              Please enter how much did you earn today
+            </span>
+            <input
+              type="number"
+              step="any"
+              value={income}
+              onChange={(e) => setIncome(e.target.value)}
+              className="input input-bordered w-full "
+              placeholder="Enter number"
+            />
+          </label>
+          <div className="flex gap-5 justify-center">
+            <button
+              onClick={() => document.getElementById("add-money").close()}
+              className="btn btn-sm btn-outline btn-success"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={addIncome}
+              className="btn btn-sm bg-transparent border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-600"
+            >
+              Save
+            </button>
           </div>
         </div>
       </dialog>
