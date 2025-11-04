@@ -20,6 +20,9 @@ const changeState = (state, action) => {
       return { ...state, monthlySpend: payload };
     case "CHART":
       return { ...state, chartData: payload };
+    case "isDARK":
+      return { ...state, isDark: payload };
+
     default:
       return state;
   }
@@ -33,6 +36,7 @@ export function GlobalContextProvider({ children }) {
     tasks: [],
     monthlySpend: null,
     chartData: [],
+    isDark: true,
   });
 
   // const data = useAllCollection("tasks", ["userId", "==", state.user.uid]);

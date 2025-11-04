@@ -16,7 +16,7 @@ import { useContext } from "react";
 import { MainIncomContext } from "../context/IncomeContext";
 import { differenceInDays, isWithinInterval, parseISO } from "date-fns";
 import { tr } from "date-fns/locale";
-import { Link } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 //main function
 function Dashboard() {
   const { width, height } = useWindowSize();
@@ -650,7 +650,7 @@ function Dashboard() {
                       <tr key={task.id}>
                         <td>{index + 1}</td>
                         <td>
-                          <span className="  py-3 rounded-md font-semibold text-[16px] text-neutral/80 border-none">
+                          <span className="  py-3 rounded-md font-semibold text-[16px] text-base-content/80 border-none">
                             {shortenText(task.taskTitle, 30)}
                           </span>
                         </td>
@@ -704,7 +704,61 @@ function Dashboard() {
         </div>
         <div className="flex flex-col md:flex-row lg:flex-row gap-8">
           {" "}
-          <div className="flex-1"></div>
+          <div className="flex-1 bg-base-100 rounded-xl shadow-md p-4 flex flex-col gap-4">
+            <h2 className="font-semibold text-xl text-center ">
+              Set monthly Expense limit{" "}
+              <span className="text-sm font-normal italic">default ($100)</span>
+            </h2>
+            <div className="w-full h-full flex flex-col gap-4">
+              <div className="flex flex-col">
+                <span className="text-gray-400">Choose category</span>
+                <div className="dropdown dropdown-end w-full">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="w-full h-10 rounded-md border border-base-content/30 shadow-sm flex items-center px-5 font-medium text-base-content/80"
+                  >
+                    <span className="text-gray-400">Category</span>
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content menu bg-base-100 rounded-md z-[1] w-full p-2 shadow"
+                  >
+                    <li>
+                      <a className="font-medium text-[15px]">Food</a>
+                    </li>
+                    <li>
+                      <a className="font-medium text-[15px]">Transport</a>
+                    </li>
+                    <li>
+                      <a className="font-medium text-[15px]">Entertainment</a>
+                    </li>
+                    <li>
+                      <a className="font-medium text-[15px]">Technology</a>
+                    </li>
+                    <li>
+                      <a className="font-medium text-[15px]">Other</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <label className="flex flex-col ">
+                <span className="text-gray-400">Set limit </span>
+                <input
+                  type="number"
+                  step="any"
+                  placeholder="Enter number ($)"
+                  className="input input-sm shadow-sm w-full h-10 text-[16px] px-5 bordered border-base-content/30 rounded-md focus:outline-none focus:ring-none"
+                />
+              </label>
+              <div className="w-full flex justify-end">
+                <button className="btn btn-sm px-10 h-10 bg-blue-500 hover:bg-blue-600 text-white text-[15px]">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
           <div className="flex-1 bg-base-100 shadow-md rounded-lg">
             <ExpensesPieChart mapDataForChart={mapDataForChart} />{" "}
           </div>
