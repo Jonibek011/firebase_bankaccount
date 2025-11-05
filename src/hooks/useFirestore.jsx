@@ -7,13 +7,39 @@ import {
   getDocs,
   updateDoc,
   serverTimestamp,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { doc, deleteDoc } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 export const useFirestore = () => {
   const addDocument = async (collectionName, data) => {
     await addDoc(collection(db, collectionName), data);
+  };
+
+  const addOrUpdateLimit = async (userId, category, amount) => {
+    try {
+      const userDocRef = doc(db, "expenseLimits", userId);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        await updateDoc(userDocRef, {
+          [`limits.${category}`]: amount,
+        });
+        toast.success(`${category} limit updated to ${amount}`);
+      } else {
+        await setDoc(userDocRef, {
+          userId,
+          limits: {
+            [category]: amount,
+          },
+        });
+        toast.success(`${category} limit updated to ${amount}`);
+      }
+    } catch (err) {
+      toast.error("Firebase error: ", err);
+    }
   };
 
   const addUserDocument = async (user) => {
@@ -61,5 +87,6 @@ export const useFirestore = () => {
     updateDocument,
     addUserDocument,
     getUserChats,
+    addOrUpdateLimit,
   };
 };

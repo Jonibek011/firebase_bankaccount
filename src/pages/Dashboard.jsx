@@ -7,19 +7,20 @@ import { TbUserDollar } from "react-icons/tb";
 import { BsCurrencyDollar } from "react-icons/bs";
 //components
 // import EarningChart from "../components/EarningChart";
-import useWindowSize from "../hooks/useWindowSize";
+// import useWindowSize from "../hooks/useWindowSize";
 import useGlobalContext from "../hooks/useGlobalContext";
 import ExpensesPieChart from "../components/ExtensesPieChart";
 import { useEffect, useMemo, useState } from "react";
 import { useAllCollection } from "../hooks/useAllCollection";
 import { useContext } from "react";
 import { MainIncomContext } from "../context/IncomeContext";
-import { differenceInDays, isWithinInterval, parseISO } from "date-fns";
-import { tr } from "date-fns/locale";
-import { Form, Link } from "react-router-dom";
+import { isWithinInterval } from "date-fns";
+import { useFirestore } from "../hooks/useFirestore";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 //main function
 function Dashboard() {
-  const { width, height } = useWindowSize();
+  // const { width, height } = useWindowSize();
   const [date, setDate] = useState(new Date());
   const [monthlyIncome, setMonthlyIncome] = useState(0);
   const [monthlyExpense, setMonthlyExpense] = useState(0);
@@ -33,10 +34,15 @@ function Dashboard() {
   const [weeklyExpense, setWeeklyExpense] = useState(0);
   const [lastWeekExpense, setLastWeekExpense] = useState(0);
   const [weeklyIncome, setWeeklyIncome] = useState(0);
+  const [category, setCategory] = useState("");
+  const [limitAmaunt, setLimitAmaunt] = useState(null);
+  const [limitLoader, setLimitLoader] = useState(false);
+  const [limitData, setLimitData] = useState(null);
 
   const [tasks, setTasks] = useState(null);
   const { user } = useGlobalContext();
   const { incomes } = useContext(MainIncomContext);
+  const { addOrUpdateLimit } = useFirestore();
 
   useEffect(() => {
     if (!Array.isArray(incomes)) {
@@ -142,6 +148,30 @@ function Dashboard() {
     user.uid,
   ]);
 
+  //firebasedan limit olish
+  const { data: collectionLimit } = useAllCollection("expenseLimits", [
+    "userId",
+    "==",
+    user.uid,
+  ]);
+
+  useEffect(() => {
+    setLimitData(collectionLimit[0]?.limits);
+  }, [collectionLimit]);
+
+  //collectionDatadan categoriya bo'yicha expenselarni olish
+  const getExByCategory = (category) => {
+    const filteredData = collectionData.filter((item) => {
+      return item.category === category;
+    });
+
+    let allSum = 0;
+    filteredData.forEach((item) => {
+      allSum += Number(item.amaunt);
+    });
+
+    return allSum;
+  };
   //firebase dan tasklarni olish
   const filterData = useMemo(() => ["userId", "==", user.uid], [user.uid]);
   const { data: taskData } = useAllCollection("Tasks", filterData);
@@ -306,6 +336,23 @@ function Dashboard() {
     const arr = text.split(" ");
     return arr[0];
   };
+
+  // Category lar orqali limit o'rnatish
+  const handleSetLimit = async () => {
+    if (!limitAmaunt || category === "") {
+      toast.error("Fields can't be empty");
+      return;
+    } else if (limitAmaunt === 0) {
+      toast.error("Limit can't be less than 0!");
+      return;
+    }
+    setLimitLoader(true);
+    await addOrUpdateLimit(user.uid, category, limitAmaunt);
+    setLimitLoader(false);
+    setLimitAmaunt("");
+    setCategory("");
+  };
+
   return (
     <section className="flex flex-col lg:flex-row w-full lg:h-[calc(100vh-70px)] bg-base-100/80">
       <div className="flex order-2 lg:order-1 flex-col gap-5 min-w-64 lg:h-[calc(100vh-70px)] overflow-y-auto bg-warning/5 p-6">
@@ -381,11 +428,30 @@ function Dashboard() {
                 <span className="w-2 h-2 rounded-full bg-green-500 "></span>
                 <span className="font-medium text-base-content/70">Food</span>
               </div>{" "}
-              <span className="flex-1 bg-gray-200 rounded-full h-2 relative overflow-hidden">
-                {" "}
-                <span className="absolute top-0 left-0 h-full w-[50%] bg-green-500"></span>{" "}
-              </span>{" "}
-              <span className="text-sm font-medium">50%</span>
+              <div className="relative w-full flex-1  h-2">
+                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%]">
+                  {getExByCategory("Food") || 0} /{limitData?.Food ?? 100}
+                </span>{" "}
+                <span className=" bg-gray-200 rounded-full w-full h-full absolute top-0 left-0  overflow-x-hidden">
+                  <span
+                    style={{
+                      width: `${(
+                        ((getExByCategory("Food") || 0) /
+                          (limitData?.Food ?? 100)) *
+                        100
+                      ).toFixed(0)}%`,
+                    }}
+                    className="absolute left-0 h-full  bg-green-500"
+                  ></span>{" "}
+                </span>{" "}
+              </div>
+              <span className="text-sm font-medium">
+                {(
+                  ((getExByCategory("Food") || 0) / (limitData?.Food ?? 100)) *
+                  100
+                ).toFixed(0)}
+                %
+              </span>
             </div>
 
             <div className="flex gap-3 justify-between items-center">
@@ -395,11 +461,32 @@ function Dashboard() {
                   Transport
                 </span>
               </div>
-              <span className="flex-1 bg-gray-200 rounded-full h-2 relative overflow-hidden">
-                {" "}
-                <span className="absolute top-0 left-0 h-full w-[75%] bg-purple-500"></span>{" "}
-              </span>{" "}
-              <span className="text-sm font-medium">75%</span>
+              <div className="relative w-full flex-1  h-2">
+                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%]">
+                  {getExByCategory("Transport") || 0}/
+                  {limitData?.Transport ?? 100}
+                </span>{" "}
+                <span className=" bg-gray-200 rounded-full w-full h-full absolute top-0 left-0  overflow-x-hidden">
+                  <span
+                    style={{
+                      width: `${(
+                        ((getExByCategory("Transport") || 0) /
+                          (limitData?.Transport ?? 100)) *
+                        100
+                      ).toFixed(0)}%`,
+                    }}
+                    className="absolute left-0 h-full  bg-purple-500"
+                  ></span>{" "}
+                </span>{" "}
+              </div>
+              <span className="text-sm font-medium">
+                {(
+                  ((getExByCategory("Transport") || 0) /
+                    (limitData?.Transport ?? 100)) *
+                  100
+                ).toFixed(0)}
+                %
+              </span>
             </div>
 
             <div className="flex gap-3 justify-between items-center">
@@ -409,11 +496,32 @@ function Dashboard() {
                   Entertainment
                 </span>
               </div>
-              <span className="flex-1 bg-gray-200 rounded-full h-2 relative overflow-hidden">
-                {" "}
-                <span className="absolute top-0 left-0 h-full w-[43%] bg-orange-500"></span>{" "}
-              </span>{" "}
-              <span className="text-sm font-medium">43%</span>
+              <div className="relative w-full flex-1  h-2">
+                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%]">
+                  {getExByCategory("Entertainment") || 0}/
+                  {limitData?.Entertainment ?? 100}
+                </span>{" "}
+                <span className=" bg-gray-200 rounded-full w-full h-full absolute top-0 left-0  overflow-x-hidden">
+                  <span
+                    style={{
+                      width: `${(
+                        ((getExByCategory("Entertainment") || 0) /
+                          (limitData?.Entertainment ?? 100)) *
+                        100
+                      ).toFixed(0)}%`,
+                    }}
+                    className="absolute left-0 h-full  bg-orange-500"
+                  ></span>{" "}
+                </span>{" "}
+              </div>
+              <span className="text-sm font-medium">
+                {(
+                  ((getExByCategory("Entertainment") || 0) /
+                    (limitData?.Entertainment ?? 100)) *
+                  100
+                ).toFixed(0)}
+                %
+              </span>
             </div>
 
             <div className="flex gap-3 justify-between items-center">
@@ -423,11 +531,32 @@ function Dashboard() {
                   Technology
                 </span>
               </div>
-              <span className="flex-1 bg-gray-200 rounded-full h-2 relative overflow-hidden">
-                {" "}
-                <span className="absolute top-0 left-0 h-full w-[86%] bg-blue-500"></span>{" "}
-              </span>{" "}
-              <span className="text-sm font-medium">86%</span>
+              <div className="relative w-full flex-1  h-2">
+                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%]">
+                  {getExByCategory("Technology") || 0}/
+                  {limitData?.Technology ?? 100}
+                </span>{" "}
+                <span className=" bg-gray-200 rounded-full w-full h-full absolute top-0 left-0  overflow-x-hidden">
+                  <span
+                    style={{
+                      width: `${(
+                        ((getExByCategory("Technology") || 0) /
+                          (limitData?.Technology ?? 100)) *
+                        100
+                      ).toFixed(0)}%`,
+                    }}
+                    className="absolute left-0 h-full  bg-blue-500"
+                  ></span>{" "}
+                </span>{" "}
+              </div>
+              <span className="text-sm font-medium">
+                {(
+                  ((getExByCategory("Technology") || 0) /
+                    (limitData?.Technology ?? 100)) *
+                  100
+                ).toFixed(0)}
+                %
+              </span>
             </div>
 
             <div className="flex gap-3 justify-between items-center">
@@ -435,11 +564,31 @@ function Dashboard() {
                 <span className="w-2 h-2 rounded-full bg-red-500 "></span>
                 <span className="font-medium text-base-content/70">Other</span>
               </div>
-              <span className="flex-1 bg-gray-200 rounded-full h-2 relative overflow-hidden">
-                {" "}
-                <span className="absolute top-0 left-0 h-full w-[100%] bg-red-500"></span>{" "}
-              </span>{" "}
-              <span className="text-sm font-medium">100%</span>
+              <div className="relative w-full flex-1  h-2">
+                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%]">
+                  {getExByCategory("Other") || 0}/{limitData?.Other ?? 100}
+                </span>{" "}
+                <span className=" bg-gray-200 rounded-full w-full h-full absolute top-0 left-0  overflow-x-hidden">
+                  <span
+                    style={{
+                      width: `${(
+                        ((getExByCategory("Other") || 0) /
+                          (limitData?.Other ?? 100)) *
+                        100
+                      ).toFixed(0)}%`,
+                    }}
+                    className="absolute left-0 h-full  bg-red-500"
+                  ></span>{" "}
+                </span>{" "}
+              </div>
+              <span className="text-sm font-medium">
+                {(
+                  ((getExByCategory("Other") || 0) /
+                    (limitData?.Other ?? 100)) *
+                  100
+                ).toFixed(0)}
+                %
+              </span>
             </div>
             <div className="flex justify-end">
               <button className="btn btn-sm btn-outline btn-primary rounded-md w-full">
@@ -645,7 +794,6 @@ function Dashboard() {
                     </>
                   )}
                   {tasks?.map((task, index) => {
-                    console.log(task);
                     return (
                       <tr key={task.id}>
                         <td>{index + 1}</td>
@@ -718,25 +866,29 @@ function Dashboard() {
                     role="button"
                     className="w-full h-10 rounded-md border border-base-content/30 shadow-sm flex items-center px-5 font-medium text-base-content/80"
                   >
-                    <span className="text-gray-400">Category</span>
+                    {category || (
+                      <span className="font-normal text-gray-400">
+                        Category
+                      </span>
+                    )}
                   </div>
                   <ul
                     tabIndex={0}
                     className="dropdown-content menu bg-base-100 rounded-md z-[1] w-full p-2 shadow"
                   >
-                    <li>
+                    <li onClick={() => setCategory("Food")}>
                       <a className="font-medium text-[15px]">Food</a>
                     </li>
-                    <li>
+                    <li onClick={() => setCategory("Transport")}>
                       <a className="font-medium text-[15px]">Transport</a>
                     </li>
-                    <li>
+                    <li onClick={() => setCategory("Entertainment")}>
                       <a className="font-medium text-[15px]">Entertainment</a>
                     </li>
-                    <li>
+                    <li onClick={() => setCategory("Technology")}>
                       <a className="font-medium text-[15px]">Technology</a>
                     </li>
-                    <li>
+                    <li onClick={() => setCategory("Other")}>
                       <a className="font-medium text-[15px]">Other</a>
                     </li>
                   </ul>
@@ -746,6 +898,8 @@ function Dashboard() {
               <label className="flex flex-col ">
                 <span className="text-gray-400">Set limit </span>
                 <input
+                  value={limitAmaunt}
+                  onChange={(e) => setLimitAmaunt(e.target.value)}
                   type="number"
                   step="any"
                   placeholder="Enter number ($)"
@@ -753,7 +907,14 @@ function Dashboard() {
                 />
               </label>
               <div className="w-full flex justify-end">
-                <button className="btn btn-sm px-10 h-10 bg-blue-500 hover:bg-blue-600 text-white text-[15px]">
+                <button
+                  onClick={handleSetLimit}
+                  disabled={limitLoader}
+                  className="btn btn-sm w-36 h-10 bg-blue-500 hover:bg-blue-600 text-white text-[15px]"
+                >
+                  {limitLoader && (
+                    <span className="loading loading-spinner loading-sm"></span>
+                  )}{" "}
                   Save
                 </button>
               </div>
