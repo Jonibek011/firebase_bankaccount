@@ -63,11 +63,11 @@ function Navbar() {
         <div className="flex gap-3 md:gap-5 ">
           {/* ================ Theme Controller ====================================== */}
 
-          <label className="flex cursor-pointer gap-2">
+          <label className="flex items-center cursor-pointer gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -82,12 +82,12 @@ function Navbar() {
               onClick={toggleDarkMode}
               type="checkbox"
               value="synthwave"
-              className="toggle theme-controller"
+              className="toggle h-3   theme-controller"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -99,22 +99,22 @@ function Navbar() {
             </svg>
           </label>
 
-          <Link
+          {/* <Link
             to="/tasks"
             className="new-task-button btn hidden md:flex justify-center items-center"
           >
             New Task
-          </Link>
+          </Link> */}
 
           {/* ================ Notification ======================== */}
-          <div className="notification">
+          {/* <div className="notification">
             <Link className="relative">
               <IoNotifications className="w-6 h-6 text-gray-400 " />
               <div className="badge badge-ghost badge-xs absolute -top-2 -right-2">
                 {uncompletedTasks?.length}
               </div>
             </Link>
-          </div>
+          </div> */}
           {/* ================= Profile =========================================== */}
           <div className="dropdown dropdown-end">
             <div

@@ -10,20 +10,26 @@ import { CiMenuKebab } from "react-icons/ci";
 import emptyBox from "../assets/images/empty-box.png";
 import { IoTrashOutline } from "react-icons/io5";
 import { GrEdit } from "react-icons/gr";
-import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { IoEyeOffOutline } from "react-icons/io5";
-import { FaFilter } from "react-icons/fa6";
 
+import { FaFilter } from "react-icons/fa6";
+import card1 from "../assets/images/tasks/image 18.png";
+import card2 from "../assets/images/tasks/image 17.png";
+import card3 from "../assets/images/tasks/image 19.png";
+import titleBg from "../assets/images/tasks/wooden-work-desk-laptop-documents-260nw-1716833923.png";
+import { LuListTodo } from "react-icons/lu";
+import { LuSearch } from "react-icons/lu";
+import { GrFlag } from "react-icons/gr";
 // Context and hooks
 import useGlobalContext from "../hooks/useGlobalContext";
 import { useAllCollection } from "../hooks/useAllCollection";
-
+import { useDebounce } from "../hooks/useDebounce";
 // 🔁 Action: Faqat formData ni qaytaradi
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const taskTitle = formData.get("title");
   const taskDate = formData.get("date");
   const taskTime = formData.get("time");
+  const taskCategory = formData.get("category");
   const taskBody = formData.get("body");
   const userId = formData.get("userId");
 
@@ -31,6 +37,7 @@ export const action = async ({ request }) => {
     taskTitle,
     taskDate,
     taskTime,
+    taskCategory,
     taskBody,
     userId,
   };
@@ -46,6 +53,14 @@ function Tasks() {
   const [editingModal, setEditingModal] = useState(false);
   const [editingData, setEditingData] = useState(null);
   const [editingModalLoading, setEditingModalLoading] = useState(false);
+  const [priority, setPriority] = useState("");
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [pendingTasks, setPendingTasks] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState(0);
+  const [searchData, setSearchData] = useState("");
+  const [mapData, setMapData] = useState(null);
+
+  const debouncedValue = useDebounce(searchData);
 
   //task filter
   const [sortCompleted, setSortCompleted] = useState(false);
@@ -92,6 +107,7 @@ function Tasks() {
         const fullData = {
           ...result,
           date: formattedDate,
+          taskPriority: priority,
           taskId: uuidv4(),
           status: "Pending",
         };
@@ -110,7 +126,7 @@ function Tasks() {
     };
 
     addTaskToFirestore();
-  }, [result]);
+  }, [result, priority]);
 
   //delete tasks
   const deleteTask = (id) => {
@@ -152,6 +168,8 @@ function Tasks() {
     const newTitle = e.target.title.value;
     const newDate = e.target.date.value;
     const newDueTime = e.target.time.value;
+    const newCategory = e.target.category.value;
+    const newPriority = priority;
     const newBody = e.target.body.value;
     formRef.current.reset();
     modalRef.current.close();
@@ -161,6 +179,8 @@ function Tasks() {
       taskTitle: newTitle,
       taskDate: newDate,
       taskTime: newDueTime,
+      taskCategory: newCategory,
+      taskPriority: newPriority,
       taskBody: newBody,
     });
 
@@ -171,26 +191,132 @@ function Tasks() {
 
   // tasklarni filter qilish
 
-  const mapData = useMemo(() => {
-    if (!collectionData) return [];
+  useEffect(() => {
+    if (!collectionData) return;
 
     if (sortCompleted) {
-      return collectionData.filter((r) => r.status === "Completed");
+      const completed = collectionData.filter((r) => r.status === "Completed");
+      setMapData(completed);
+      return;
     }
 
     if (sortPending) {
-      return collectionData.filter((r) => r.status === "Pending");
+      const pending = collectionData.filter((r) => r.status === "Pending");
+      setMapData(pending);
+      return;
     }
 
-    return collectionData;
+    setMapData(collectionData);
   }, [collectionData, sortCompleted, sortPending]);
 
+  useEffect(() => {
+    if (!debouncedValue || debouncedValue.length < 3) {
+      setMapData(collectionData);
+    } else if (debouncedValue.length > 2) {
+      const filterData = collectionData.filter((item) =>
+        item.taskTitle?.toLowerCase().includes(debouncedValue?.toLowerCase())
+      );
+      setMapData(filterData);
+    }
+  }, [debouncedValue, collectionData]);
+  useEffect(() => {
+    if (!collectionData) return;
+    setTotalTasks(collectionData.length);
+    const filterPending = collectionData.filter(
+      (item) => item.status === "Pending"
+    );
+    setPendingTasks(filterPending.length ? filterPending.length : 0);
+    const filterCompleted = collectionData.filter(
+      (item) => item.status === "Completed"
+    );
+    setCompletedTasks(filterCompleted.length ? filterCompleted.length : 0);
+  }, [collectionData]);
   return (
-    <div className="w-full min-h-[70vh] pt-14 md:px-10 bg-base-100 shadow-md relative mb-5 mt-5">
-      <div className="flex justify-end md:justify-between items-center pe-3">
-        <h2 className="text-5xl font-bold text-blue-700 hidden md:block">
-          Tasks.
-        </h2>
+    <div className="w-full min-h-[70vh] pb-6  bg-base-10  relative flex flex-col gap-5 ">
+      <div>
+        <div className="w-full h-64 bg-purple-500 overflow-hidden relative">
+          <img
+            src={titleBg}
+            className="w-full z-0 h-full object-cover absolute"
+            alt=""
+          />
+          <span className="absolute w-full h-full z-0 top-0 left-0 bg-gradient-to-r from-[#30237aea] to-[#7c1cb4d2]"></span>
+          <div className="w-full h-full flex flex-col gap-3 justify-center items-center relative z-10">
+            <div className="flex gap-4 items-center">
+              <span className="w-14 lg:w-20 h-14 lg:h-20 flex justify-center items-center rounded-xl bg-[#5a479efd]">
+                <LuListTodo className="w-10 lg:w-14 h-10 lg:h-14 text-white" />
+              </span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white">
+                My To-Do List
+              </h2>
+            </div>
+            <p className="text-gray-300 text-lg lg:text-xl">
+              Stay organized and get things done
+            </p>
+          </div>
+        </div>
+        <div className="bg-base-100 p-4 flex flex-col gap-4 border-b border-base-content/10">
+          <div className="flex flex-col gap-4 md:flex-row justify-between items-center">
+            <div className="flex justify-start gap-3 items-center w-full md:w-auto">
+              <span className="p-2 rounded-lg bg-indigo-700 inline-block">
+                <LuListTodo className="text-white w-6 h-6" />
+              </span>
+              <div>
+                <h2 className="font-semibold  text-2xl">Task Management</h2>
+                <p className="text-sm text-gray-500">
+                  Organize and track your team's progress
+                </p>
+              </div>
+            </div>
+            <div className="flex justify-end items-end  w-full md:w-auto">
+              <button
+                onClick={() => modalRef.current?.showModal()}
+                className="btn btn-primary btn-xs md:btn-sm shadow-sm"
+              >
+                + New Task
+              </button>
+            </div>
+          </div>
+          <label className="w-full flex items-center rounded-lg bg-base-200 h-8 overflow-hidden px-4 ">
+            <span>
+              <LuSearch className="text-gray-400" />
+            </span>
+            <input
+              onChange={(e) => setSearchData(e.target.value)}
+              value={searchData}
+              type="search"
+              className="flex-1 bg-base-200 px-3 focus:border-none focus:outline-none"
+              placeholder="Search tasks by title..."
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="card shadow-md transition-all hover:scale-105 duration-500 p-4 bg-base-100 flex flex-col gap-4 relative">
+          <img src={card1} className="w-20 absolute right-0 top-0" alt="" />
+          <div>
+            <h2 className="font-semibold text-lg">Total Tasks</h2>
+            <p className="text-4xl  font-semibold">{totalTasks}</p>
+          </div>
+        </div>
+
+        <div className="card shadow-md transition-all hover:scale-105 duration-500 p-4 bg-base-100 flex flex-col gap-4 relative">
+          <img src={card2} className="w-16 absolute right-0 top-2" alt="" />
+          <div>
+            <h2 className="font-semibold text-lg">Pending Tasks</h2>
+            <p className="text-4xl  font-semibold">{pendingTasks}</p>
+          </div>
+        </div>
+        <div className="card shadow-md transition-all hover:scale-105 duration-500 p-4 bg-base-100 flex flex-col gap-4 relative">
+          <img src={card3} className="w-20 absolute right-0 top-3" alt="" />
+          <div>
+            <h2 className="font-semibold text-lg">Completed Tasks</h2>
+            <p className="text-4xl  font-semibold">{completedTasks}</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-start  items-center pe-3 ">
         <div className="flex gap-4 items-center">
           <div className="shadow-sm rounded-xl shadow-cyan-800 p-1">
             <button
@@ -235,93 +361,115 @@ function Tasks() {
               </li>
             </ul>
           </div>
-          <button
-            onClick={() => modalRef.current?.showModal()}
-            className="btn btn-primary btn-xs md:btn-sm shadow-md shadow-cyan-800"
-          >
-            + Add task
-          </button>
         </div>
       </div>
-      <hr className="my-6" />
-      <div className="   pb-20">
-        <table className="table    ">
+
+      <div className=" bg-base-100 relative border border-base-content/10 rounded-xl overflow-y-hidden overflow-x-auto max-w-[100vw] pb-16 min-h-[50vh]   ">
+        <table className="table min-w-[1200px]   ">
           <thead>
             <tr className="">
-              <th className=" max-w-14 md:max-w-28  lg:font-bold lg:text-xl  w-14 ">
-                Complete
+              <th className=" max-w-14 md:max-w-28  lg:font-bold lg:text-xl  w-14 "></th>
+              <th className=" lg:text-lg font-medium text-base-content/80">
+                Task
               </th>
-              <th className=" lg:text-xl">Title</th>
-              <th className="hidden md:table-cell lg:text-xl ">Status</th>
-              <th className=" lg:text-xl">Created</th>
-              <th className=" hidden md:table-cell lg:text-xl ">Due Date</th>
-              <th className="lg:text-xl">Options</th>
+              <th className="lg:text-lg font-medium text-base-content/80 ">
+                Status
+              </th>
+              <th className="lg:text-lg font-medium text-base-content/80 ">
+                Priority
+              </th>
+              <th className="lg:text-lg font-medium text-base-content/80 ">
+                Category
+              </th>
+              <th className=" lg:text-lg font-medium text-base-content/80">
+                Created
+              </th>
+              <th className=" lg:text-lg font-medium text-base-content/80 ">
+                Due Date
+              </th>
+              <th className="lg:text-lg font-medium text-base-content/80">
+                Options
+              </th>
             </tr>
           </thead>
           <tbody className="">
-            {mapData?.map((task) => (
-              <tr
-                key={task.taskId}
-                className={`  ${
-                  task.status === "Completed" ? "bg-base-200" : ""
-                }`}
-              >
-                <td className=" ">
-                  <div className="flex flex-col gap-1 items-start">
-                    <input
-                      type="checkbox"
-                      checked={task.status === "Completed"}
-                      onChange={() => changeStatus(task._id, task.status)}
-                      className={`checkbox ${
-                        task.status === "completed" ? "opasity-50" : ""
-                      } checkbox-xs md:checkbox-md `}
-                    />
-                  </div>
-                </td>
-                <td
-                  className={`lg:font-semibold lg:text-xl ${
-                    task.status === "Completed" && "line-through opacity-50"
-                  } `}
-                >
-                  {shortenText(task.taskTitle, 25)}
-                </td>
-                <td
-                  className={`hidden md:table-cell lg:font-semibold lg:text-lg  ${
-                    task.status === "Completed" ? "opacity-100" : "opacity-50"
-                  } `}
-                >
-                  <span
-                    className={`badge ${
-                      task.status === "Completed"
-                        ? "badge-success"
-                        : "badge-warning"
+            {mapData?.length > 0 &&
+              mapData?.map((task) => {
+                return (
+                  <tr
+                    key={task.taskId}
+                    className={` hover:bg-base-content/5  ${
+                      task.status === "Completed" ? "bg-base-100" : ""
                     }`}
                   >
-                    {task.status}
-                  </span>
-                </td>
-                <td
-                  className={` lg:font-semibold  opacity-50 text-[9px] md:text-sm   ${
-                    task.status === "Completed" && "line-through "
-                  }`}
-                >
-                  {task.date}
-                </td>
-                <td className="hidden md:table-cell lg:font-semibold  opacity-50 ">
-                  {task.taskTime ? (
-                    <span
-                      className={` ${
-                        task.status === "Completed" && "line-through "
+                    <td className=" ">
+                      <div className="flex flex-col gap-1 items-start">
+                        <input
+                          type="checkbox"
+                          checked={task.status === "Completed"}
+                          onChange={() => changeStatus(task._id, task.status)}
+                          className={`checkbox ${
+                            task.status === "completed" ? "opasity-50" : ""
+                          } checkbox-xs md:checkbox-md `}
+                        />
+                      </div>
+                    </td>
+                    <td
+                      className={`lg:font-semibold text-lg ${
+                        task.status === "Completed" && "opacity-50"
                       } `}
                     >
-                      {task.taskTime}, {task.taskDate}
-                    </span>
-                  ) : (
-                    "----"
-                  )}
-                </td>
-                <td className="inline-flex  items-center  w-full  gap-5">
-                  <div>
+                      <p>{shortenText(task.taskTitle, 40)}</p>
+                      <p className="text-sm font-normal">
+                        {task?.taskBody || ""}
+                      </p>
+                    </td>
+                    <td
+                      className={`table-cell lg:font-semibold lg:text-lg  ${
+                        task.status === "Completed"
+                          ? "opacity-100"
+                          : "opacity-100"
+                      } `}
+                    >
+                      <span
+                        className={`badge ${
+                          task.status === "Completed"
+                            ? "rounded-md px-3 py-2 text-green-500 border-none bg-[#5dfa6538]"
+                            : "px-3 py-2 rounded-md text-purple-500 border-none bg-[#ec0bc72f]"
+                        }`}
+                      >
+                        {task.status}
+                      </span>
+                    </td>
+                    <td className="text-center">
+                      {task?.taskPriority ? (
+                        <p className="py-1 flex items-center justify-center gap-3 font-semibold text-red-700 px-3 rounded-md bg-[#ec4a4a3b]">
+                          <GrFlag /> <span>{task?.taskPriority}</span>
+                        </p>
+                      ) : (
+                        <span>-</span>
+                      )}
+                    </td>
+                    <td className="text-center">
+                      <span className="badge border-base-content/20 font-medium">
+                        {task?.taskCategory || "-"}
+                      </span>
+                    </td>
+                    <td className={`   font-medium text-[10px] md:text-sm   `}>
+                      {task.date}
+                    </td>
+                    <td className=" table-cell font-medium whitespace-nowrap text-[10px] md:text-sm">
+                      {task.taskTime ? (
+                        <span className={`flex flex-col `}>
+                          <span>{task.taskTime},</span>{" "}
+                          <span> {task.taskDate}</span>
+                        </span>
+                      ) : (
+                        "----"
+                      )}
+                    </td>
+                    <td className=" flex justify-center items-center w-full  gap-5">
+                      {/* <div>
                     {task.status === "Completed" ? (
                       <span>
                         <IoEyeOffOutline className="w-4 h-4 md:w-5 md:h-5 opacity-50" />
@@ -336,35 +484,47 @@ function Tasks() {
                         <MdOutlineRemoveRedEye className="w-4 h-4 md:w-5 md:h-5 opacity-75" />
                       </button>
                     )}
-                  </div>
-                  <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button" className=" m-1 ">
-                      <CiMenuKebab className="w-5 h-5 lg:w-7 lg:h-7 " />
-                    </div>
+                  </div> */}
+                      <div className="dropdown dropdown-end">
+                        <div tabIndex={0} role="button" className=" mt-5 ">
+                          <CiMenuKebab className="w-4 h-4 lg:w-5 lg:h-5 " />
+                        </div>
 
-                    <ul
-                      tabIndex={-1}
-                      className="dropdown-content menu bg-base-100 rounded-box z-[100] w-32 p-2 shadow"
-                    >
-                      {task.status !== "Completed" && (
-                        <li>
-                          <button onClick={() => editFunction(task)}>
-                            <GrEdit className="text-warning" /> Edit
-                          </button>
-                        </li>
-                      )}
-                      <li>
-                        <button onClick={() => deleteTask(task._id)}>
-                          <IoTrashOutline className="text-warning" /> Delete
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                        <ul
+                          tabIndex={-1}
+                          className="dropdown-content menu bg-base-100 rounded-box z-[100] w-32 p-2 shadow"
+                        >
+                          {task.status !== "Completed" && (
+                            <li>
+                              <button onClick={() => editFunction(task)}>
+                                <GrEdit className="text-warning" /> Edit
+                              </button>
+                            </li>
+                          )}
+                          <li>
+                            <button onClick={() => deleteTask(task._id)}>
+                              <IoTrashOutline className="text-warning" /> Delete
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
+        {!collectionData && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        )}
+        {collectionData?.length === 0 && (
+          <div className="w-full h-[400px] flex flex-col items-center justify-center opacity-40">
+            <img src={emptyBox} className="w-20 mb-2" alt="Empty" />
+            <p className="font-semibold">No tasks yet</p>
+          </div>
+        )}
       </div>
       {/* Modal */}
       <dialog ref={modalRef} id="my_modal_2" className="modal ">
@@ -408,6 +568,46 @@ function Tasks() {
                 className="input input-bordered"
               />
             </label>
+            <div className="flex items-center gap-4">
+              <label className="flex flex-col">
+                <span>Category</span>
+                <input
+                  defaultValue={editingModal ? editingData?.taskCategory : ""}
+                  type="text"
+                  name="category"
+                  className="input input-bordered"
+                  placeholder="Enter category"
+                />
+              </label>
+              <div className="flex flex-col w-full ">
+                <span>Prioraty</span>
+                <div className="dropdown">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="input input-bordered flex items-center "
+                  >
+                    {priority ?? (
+                      <span className="text-gray-400">Priority</span>
+                    )}
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content menu bg-base-100 rounded-box z-[1] w-44 p-2 shadow"
+                  >
+                    <li onClick={() => setPriority("High")}>
+                      <a className="font-medium">High</a>
+                    </li>
+                    <li onClick={() => setPriority("Medium")}>
+                      <a className="font-medium">Medium</a>
+                    </li>
+                    <li onClick={() => setPriority("Low")}>
+                      <a className="font-medium">Low</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             <label className="flex flex-col">
               <span>Task Body</span>
               <textarea
@@ -476,7 +676,7 @@ function Tasks() {
           </div>
         </div>
       </dialog>
-      {!collectionData && (
+      {/* {!collectionData && (
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
@@ -486,7 +686,7 @@ function Tasks() {
           <img src={emptyBox} className="w-20 mb-2" alt="Empty" />
           <p className="font-semibold">No tasks yet</p>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

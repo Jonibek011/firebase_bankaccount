@@ -35,7 +35,7 @@ function Dashboard() {
   const [lastWeekExpense, setLastWeekExpense] = useState(0);
   const [weeklyIncome, setWeeklyIncome] = useState(0);
   const [category, setCategory] = useState("");
-  const [limitAmaunt, setLimitAmaunt] = useState(null);
+  const [limitAmaunt, setLimitAmaunt] = useState("");
   const [limitLoader, setLimitLoader] = useState(false);
   const [limitData, setLimitData] = useState(null);
 

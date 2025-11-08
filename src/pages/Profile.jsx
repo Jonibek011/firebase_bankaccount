@@ -1,25 +1,68 @@
 import useGlobalContext from "../hooks/useGlobalContext";
 //icons
-import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { IoCameraOutline } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
+import { MdVerified } from "react-icons/md";
 //firebase
-import { sendEmailVerification } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
+import { sendEmailVerification, updateEmail } from "firebase/auth";
+import { auth, db } from "../firebase/firebaseConfig";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 //hooks
 import { useStorage } from "../hooks/useStorage";
 import { Form } from "react-router-dom";
+import { useForm } from "react-hook-form";
+//firebase
 
+import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 //main function
 function Profile() {
-  const { user, loading, isDark } = useGlobalContext();
+  const { user: authUser, loading, isDark } = useGlobalContext();
   const [inputValue, setInputValue] = useState(null);
-  console.log(user);
-  const { UploadUserImage } = useStorage();
+  const [user, setUser] = useState(null);
+  const [submitLoader, setSubmitLoader] = useState(false);
+  const [emailLoader, setEmailLoader] = useState(false);
+  const [newEmail, setNewEmail] = useState("");
+  const formRef = useRef(null);
 
+  const { UploadUserImage } = useStorage();
+  const { register, reset, handleSubmit } = useForm();
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const unsub = onSnapshot(doc(db, "Users", user.uid), (docSnap) => {
+      if (docSnap.exists()) {
+        setUser(docSnap.data());
+      }
+    });
+
+    return () => unsub();
+  }, []);
+
+  const onSubmit = async (data) => {
+    const user = auth.currentUser;
+    if (!user) return;
+    setSubmitLoader(true);
+    const userRef = doc(db, "Users", user.uid);
+    await updateDoc(userRef, {
+      displayName: data.fullName,
+      phoneNumber: data.phoneNumber,
+      age: data.age,
+      country: data.country,
+      address: data.address,
+      subject: data.subject,
+    });
+    setSubmitLoader(false);
+    reset();
+    toast.success("Profile has been updated!");
+  };
+
+  const handleExternalSubmit = () => {
+    if (formRef.current) formRef.current.requestSubmit();
+    console.log("submitted");
+  };
   const sendVerification = () => {
     sendEmailVerification(auth.currentUser).then(() => {
       toast.success("Verification request has been sent to your email!");
@@ -45,7 +88,27 @@ function Profile() {
     UploadUserImage(inputValue);
     setInputValue(null);
   };
-
+  //emailni almashtirish
+  const handleEmailChange = async () => {
+    try {
+      setEmailLoader(true);
+      await updateEmail(auth.currentUser, newEmail);
+      toast.success("Email changed!");
+      document.getElementById("email-change").close();
+      setNewEmail("");
+    } catch (err) {
+      console.log(err.message);
+      if (err.code === "auth/requires-recent-login") {
+        toast.error("Please log in again to change your email.");
+      } else {
+        toast.error(err.message);
+      }
+    } finally {
+      setEmailLoader(false);
+      document.getElementById("email-change").close();
+      setNewEmail("");
+    }
+  };
   return (
     <div className=" md:mt-5 md:rounded-xl overflow-hidden w-full min-h-[80vh] bg-base-100">
       <div
@@ -57,12 +120,17 @@ function Profile() {
       ></div>
       <div className="profile-photo flex items-center justify-between  px-8 pt-8 pb-2">
         <div className="flex items-center gap-8">
-          <div className="image relative w-24 h-24 group overflow-hidden rounded-full bg-gray-400">
-            <img
-              src={inputValue ?? user.photoURL}
-              alt=""
-              className="object-cover"
-            />
+          <div className="image relative w-24 h-24 group overflow-hidden rounded-full bg-gray-400 flex justify-center items-center">
+            {user?.photoURL && (
+              <img
+                src={inputValue ?? user?.photoURL}
+                alt=""
+                className="object-cover"
+              />
+            )}
+            {!user?.photoURL && (
+              <span className="loading loading-spinner loading-md"></span>
+            )}
             <span
               onClick={() => document.getElementById("input").click()}
               className="absolute bottom-[-100%] group-hover:bottom-0 bg-[#20202096] z-10 w-full h-[40%] flex items-center justify-center transition-all duration-200 cursor-pointer"
@@ -87,15 +155,30 @@ function Profile() {
             )}
           </div>
           <div className="name ">
-            <h2 className="font-semibold text-3xl">{user.displayName}</h2>
-            <p className="text-gray-400 text-sm">{user.email}</p>
-            {user.phoneNumber && (
-              <p className="text-gray-400 text-xs">Tel: {user.phoneNumber}</p>
+            <h2 className="font-semibold text-3xl flex  items-center gap-2">
+              {user?.displayName}{" "}
+              {authUser.emailVerified && (
+                <span className="text-lg text-blue-500">
+                  <MdVerified />
+                </span>
+              )}
+            </h2>
+            <p className="text-gray-400 text-sm">{user?.email}</p>
+            {user?.phoneNumber && (
+              <p className="text-gray-400 text-xs">Tel: {user?.phoneNumber}</p>
             )}
           </div>
         </div>
         <div>
-          <button className="btn hidden sm:block btn-sm h-10  px-8 text-lg bg-blue-500 hover:bg-blue-600 text-white">
+          <button
+            onClick={handleExternalSubmit}
+            className="btn hidden sm:block btn-sm h-10  px-8 text-lg bg-blue-500 hover:bg-blue-600 text-white"
+            disabled={submitLoader}
+          >
+            {" "}
+            {submitLoader && (
+              <span className="loading loading-spinner loading-sm"></span>
+            )}
             Edit
           </button>
         </div>
@@ -107,6 +190,7 @@ function Profile() {
               onClick={savaNewProfileImage}
               className="btn btn-primary btn-sm"
             >
+              {" "}
               Save
             </button>
             <button
@@ -121,12 +205,15 @@ function Profile() {
       <span className="bg-base-content/20 w-full h-[1px] inline-block"></span>
       <div className="">
         <Form
+          ref={formRef}
+          onSubmit={handleSubmit(onSubmit)}
           method="post"
           className="grid grid-cols-1 md:grid-cols-2 gap-5 px-10"
         >
           <label className="flex flex-col gap-1">
             <span className="text-sm font-medium">Display name</span>
             <input
+              {...register("fullName", { required: true })}
               type="text"
               className="input w-full input-bordered"
               placeholder="Enter full name"
@@ -135,6 +222,7 @@ function Profile() {
           <label className="flex flex-col gap-1">
             <span className="text-sm font-medium">Phone number</span>
             <input
+              {...register("phoneNumber", { required: true })}
               type="tel"
               className="input w-full input-bordered"
               placeholder="Enter phone number"
@@ -143,6 +231,7 @@ function Profile() {
           <label className="flex flex-col gap-1">
             <span className="text-sm font-medium">Age</span>
             <input
+              {...register("age", { required: true })}
               type="number"
               className="input w-full input-bordered"
               placeholder="Enter your age"
@@ -151,25 +240,28 @@ function Profile() {
           <label className="flex flex-col gap-1">
             <span className="text-sm font-medium">Country</span>
             <input
+              {...register("country", { required: true })}
               type="text"
               className="input w-full input-bordered"
               placeholder="Enter your country"
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="text-sm font-medium">Country</span>
+            <span className="text-sm font-medium">Full address</span>
             <input
+              {...register("address", { required: true })}
               type="text"
               className="input w-full input-bordered"
-              placeholder="Enter your country"
+              placeholder="Enter your address"
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="text-sm font-medium">Country</span>
+            <span className="text-sm font-medium">Profession</span>
             <input
+              {...register("subject", { required: true })}
               type="text"
               className="input w-full input-bordered"
-              placeholder="Enter your country"
+              placeholder="Enter your subject"
             />
           </label>
           <div className="flex justify-end sm:hidden">
@@ -187,89 +279,72 @@ function Profile() {
             <MdEmail className="w-5 h-5 text-blue-500" />
           </div>
           <div>
-            <p className="text-sm font-medium">{user.email}</p>
+            <p className="text-sm font-medium">{authUser?.email}</p>
             <p className="text-gray-400 text-sm">1 month ago</p>
           </div>
         </div>
-        <div>
-          <button className="btn btn-sm h-9 border-none bg-[#1b7cf318] hover:bg-[#1b7cf32f] text-blue-500 text-[16px] font-normal ">
+        <div className="flex gap-4">
+          <button
+            onClick={() => document.getElementById("email-change").showModal()}
+            className="btn btn-sm h-9 border-none bg-[#1b7cf318] hover:bg-[#1b7cf32f] text-blue-500 text-[16px] font-normal "
+          >
             Change email adderess
           </button>
+          {authUser.emailVerified !== true && (
+            <button
+              onClick={sendVerification}
+              className="btn btn-secondary btn-sm h-9"
+            >
+              Verify email
+            </button>
+          )}
         </div>
       </div>
-      <div className=" flex hidden items-center gap-5 flex-col sm:flex-row ">
-        <div className="w-40 h-40   flex flex-col justify-between items-center">
-          <div className="relative">
-            <img
-              className=" rounded-full object-cover h-28 w-28"
-              src={inputValue ?? user.photoURL}
-              alt={user.displayName + " profile"}
-            />
-            {loading && (
-              <span className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                <span className="loading loading-spinner text-primary"></span>
-              </span>
-            )}
-          </div>
-          {!inputValue && (
-            <label>
-              <input
-                onChange={imageBase64}
-                id="input"
-                accept="image/*"
-                type="file"
-                className="file-input file-input-xs file-input-bordered file-input-primary w-full max-w-xs"
-              />
-            </label>
-          )}
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
 
-          {inputValue && (
-            <div className="flex gap-2">
-              <button
-                onClick={savaNewProfileImage}
-                className="btn btn-primary btn-sm"
-              >
-                Save
-              </button>
-              <button
-                onClick={() => setInputValue(null)}
-                className="btn btn-neutral btn-sm"
-              >
-                Cancel
-              </button>
-            </div>
-          )}
-        </div>
+      <dialog id="email-change" className="modal">
+        <div className="modal-box max-w-sm">
+          {/* <div className="w-14 h-14 rounded-full bg-[#527ff84b] flex justify-center items-center ">
+            <MdAlternateEmail className="w-12 h-12 text-blue-500" />
+          </div> */}
 
-        <div className="bg-base-100 shadow-md w-full grow h-40 p-4 rounded-lg flex flex-col  xl:flex-row justify-evenly">
-          <h2 className="flex xl:flex-col md:text-xl gap-1">
-            <span className="font-medium">User name: </span> {user.displayName}
-          </h2>
-          <p className="flex xl:flex-col  md:text-xl gap-1">
-            <span className="font-medium">Email:</span> {user.email}
-          </p>
-          <p className="flex items-center gap-2 xl:flex-col   md:text-xl ">
-            <span className="font-medium">Verification: </span>{" "}
-            {user.emailVerified ? (
-              <span className="flex items-center gap-1">
-                Verified
-                <RiVerifiedBadgeFill />
-              </span>
-            ) : (
-              <div className="flex gap-2 items-center">
-                <span>Not verified</span>
+          <div className="modal-action">
+            <div className="w-full flex flex-col gap-5">
+              <label className="felx flex-col gap-1 w-full">
+                <span className="">New email</span>
+                <input
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  type="email"
+                  className="w-full border border-base-content/20 h-10 rounded-md shadow-sm px-5"
+                  placeholder="Enter your new email"
+                />
+              </label>
+              <div className="flex justify-end items-center gap-5">
                 <button
-                  onClick={sendVerification}
-                  className="btn btn-primary btn-xs"
-                  type="button"
+                  className="btn btn-sm btn-primary "
+                  onClick={() =>
+                    document.getElementById("email-change").close()
+                  }
                 >
-                  Verify now
+                  Cansel
+                </button>
+                <button
+                  disabled={emailLoader}
+                  onClick={handleEmailChange}
+                  className="btn btn-sm text-white bg-blue-500 hover:bg-blue-600"
+                >
+                  {emailLoader ? (
+                    <span className="loading loading-spinner loading-sm"></span>
+                  ) : (
+                    "Save"
+                  )}
                 </button>
               </div>
-            )}
-          </p>
+            </div>
+          </div>
         </div>
-      </div>
+      </dialog>
     </div>
   );
 }
