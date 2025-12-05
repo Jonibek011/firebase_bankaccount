@@ -292,7 +292,7 @@ function Tasks() {
         </div>
       </div>
 
-      <div className="cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="cards px-1 md:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="card shadow-md transition-all hover:scale-105 duration-500 p-4 bg-base-100 flex flex-col gap-4 relative">
           <img src={card1} className="w-20 absolute right-0 top-0" alt="" />
           <div>
@@ -443,7 +443,15 @@ function Tasks() {
                     </td>
                     <td className="text-center">
                       {task?.taskPriority ? (
-                        <p className="py-1 flex items-center justify-center gap-3 font-semibold text-red-700 px-3 rounded-md bg-[#ec4a4a3b]">
+                        <p
+                          className={`py-1 flex items-center justify-center gap-3 font-semibold ${
+                            task.taskPriority == "High"
+                              ? "text-red-700 bg-[#ec4a4a3b]"
+                              : task.taskPriority == "Low"
+                              ? "bg-[#1e60db48] text-blue-500"
+                              : "text-orange-700 bg-[#ffab2c5b]"
+                          }  px-3 rounded-md `}
+                        >
                           <GrFlag /> <span>{task?.taskPriority}</span>
                         </p>
                       ) : (

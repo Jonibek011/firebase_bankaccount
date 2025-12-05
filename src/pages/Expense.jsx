@@ -387,7 +387,7 @@ function Expense() {
               type="number"
               name="amaunt"
               step="any"
-              placeholder="Amaunt ($)"
+              placeholder="Amount ($)"
               className="col-span-1 row-span-1 input input-bordered w-full "
             />
 
@@ -406,7 +406,7 @@ function Expense() {
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                className="dropdown-content relative z-30 menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
               >
                 <li>
                   <button
@@ -732,7 +732,6 @@ function Expense() {
                   <th colSpan={2} className="text-lg text-center">
                     Title
                   </th>
-                  <th></th>
 
                   <th className="table-cell text-lg">Category</th>
                   <th className="text-lg">Price</th>
@@ -752,14 +751,18 @@ function Expense() {
                       <td colSpan={2} className="ps-10">
                         <div className="flex items-center gap-3">
                           <div>
-                            <div className="font-bold text-lg opacity-80">
-                              {shortTitle(collect.expenseTitle, 35)}
+                            <div className=" ">
+                              <p className="font-medium text-lg">
+                                {" "}
+                                {shortTitle(collect.expenseTitle, 35)}
+                              </p>
+                              <p> {collect.note}</p>
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="w-14"></td>
-                      <td className={` table-cell  font-medium  `}>
+
+                      <td className={` table-cell  font-medium  max-w-xs `}>
                         <button
                           className={`btn btn-sm w-[120px]  ${
                             collect.category === "Transport"

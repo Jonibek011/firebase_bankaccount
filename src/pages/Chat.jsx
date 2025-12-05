@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import useGlobalContext from "../hooks/useGlobalContext";
 import { db } from "../firebase/firebaseConfig";
 import { IoChatboxEllipses } from "react-icons/io5";
-import { deleteField } from "firebase/firestore";
+import { deleteDoc, deleteField } from "firebase/firestore";
 import {
   doc,
   getDoc,
@@ -24,10 +24,13 @@ import {
   onValue,
   getDatabase,
 } from "firebase/database";
+import { LuSearch } from "react-icons/lu";
+import { useDebounce } from "../hooks/useDebounce";
 //main function
 function Chat() {
   const { user, isDark } = useGlobalContext();
   const [allUsers, setAllUsers] = useState([]);
+  const [mapUsers, setMapUsers] = useState([]);
   const [chatData, setChatData] = useState({ list: null, activeChat: null });
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
@@ -37,9 +40,13 @@ function Chat() {
   const [selectedUserStatus, setSelectedUserStatus] = useState("");
   const [deletingChat, setDeletingChat] = useState(null);
   const [chatDeleteLoader, setChatDeleteLoader] = useState(false);
+  const [searchUser, setSearchUser] = useState("");
   const messageEndRef = useRef();
   const isMobile = window.innerWidth < 640; // sm dan kichikmi
   const dbase = getDatabase();
+
+  const debouncedValue = useDebounce(searchUser);
+
   //userning online rejimini ko'rish
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -67,6 +74,9 @@ function Chat() {
     }
   });
 
+  useEffect(() => {
+    setMapUsers(allUsers);
+  }, [allUsers]);
   useEffect(() => {
     if (!chatData.length) return;
 
@@ -136,6 +146,17 @@ function Chat() {
     });
     return () => unsubscribe();
   }, [user?.uid]);
+
+  useEffect(() => {
+    if (debouncedValue.length > 2) {
+      const filterUsers = allUsers.filter((item) =>
+        item.displayName?.toLowerCase().includes(debouncedValue.toLowerCase())
+      );
+      setMapUsers(filterUsers);
+    } else {
+      setMapUsers(allUsers);
+    }
+  }, [debouncedValue]);
 
   const handleUserSelect = async (selectedUser) => {
     if (!user?.uid || !selectedUser?.id) return;
@@ -269,13 +290,27 @@ function Chat() {
   // yozishmalar chatini delete qilish
   const deleteUserChat = async () => {
     setChatDeleteLoader(true);
+
     const chatId = deletingChat.chatId;
-    const userRef = doc(db, "userChats", user.uid);
+    const otherUserId = deletingChat.userInfo.uid; // sidebar object ichida bor
+
+    const currentUserRef = doc(db, "userChats", user.uid);
+    const otherUserRef = doc(db, "userChats", otherUserId);
+    const chatRef = doc(db, "chats", chatId);
 
     try {
-      await updateDoc(userRef, {
-        [chatId]: deleteField(), // <-- Firebase'dan o‘chirish
+      // 1) Current userdan chatni o‘chir
+      await updateDoc(currentUserRef, {
+        [chatId]: deleteField(),
       });
+
+      // 2) Other userdan ham o‘chir
+      await updateDoc(otherUserRef, {
+        [chatId]: deleteField(),
+      });
+
+      // 3) Chats kolleksiyasidan ham o‘chir (agar to‘liq chatni o‘chirmoqchi bo‘lsang)
+      await deleteDoc(chatRef);
     } catch (err) {
       console.error("Chat o‘chirishda xatolik:", err);
     }
@@ -283,6 +318,7 @@ function Chat() {
     setChatDeleteLoader(false);
     document.getElementById("delete-chat").close();
   };
+
   return (
     <div className="h-[93vh] flex flex-col bg-base-100">
       <div className="chat-container h-full w-full flex">
@@ -364,7 +400,7 @@ function Chat() {
                             selectedUserStatus === "online"
                               ? "bg-green-500"
                               : "bg-gray-400"
-                          } rounded-full border-2 border-white`}
+                          } rounded-full border-2 border-base-100`}
                         ></span>
                       </div>
                       <div>
@@ -517,10 +553,22 @@ function Chat() {
 
       {/* Modal for selecting users */}
       <dialog id="chat_list_modal" className="modal">
-        <div className="modal-box max-w-sm relative">
+        <div className="modal-box max-w-sm min-h-[60vh] relative">
           <h3 className="text-lg font-bold mb-4">Select user</h3>
+          <label className="flex items-center px-3 gap-2 mb-4 overflow-hidden border border-base-content/10 rounded-lg h-8">
+            <input
+              value={searchUser}
+              onChange={(e) => setSearchUser(e.target.value)}
+              type="search"
+              className="w-full px-4 focus:border-none focus:outline-none"
+              placeholder="Search user"
+            />
+            <span>
+              <LuSearch className="text-gray-400" />
+            </span>
+          </label>
           <div className="flex flex-col gap-2">
-            {allUsers.map((user) => (
+            {mapUsers.map((user) => (
               <div
                 key={user.id}
                 onClick={() => handleUserSelect(user)}
@@ -537,6 +585,7 @@ function Chat() {
               </div>
             ))}
           </div>
+          {mapUsers.length === 0 && <p className="text-center">No user</p>}
           <form method="dialog" className="modal-action">
             <button className="btn btn-ghost absolute top-1 right-1">
               Close

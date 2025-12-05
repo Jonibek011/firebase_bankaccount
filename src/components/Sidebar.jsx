@@ -50,7 +50,7 @@ function Sidebar() {
   return (
     <div
       style={{ width: isOpenSidebar ? "200px" : "75px" }}
-      className=" border-r py-10 hidden md:flex flex-col transition-all duration-300 h-full flex-shrink-0 overflow-y-auto overflow-hidden"
+      className=" border-r border-base-content/15 py-10 hidden md:flex flex-col transition-all duration-300 h-full flex-shrink-0 overflow-y-auto overflow-hidden"
     >
       <Link to="/">
         <div className="logo h-10 flex ml-4 cursor-pointer">
@@ -154,7 +154,7 @@ function Sidebar() {
             </button>
           </ul>
         </div>
-        <hr className=" w-full" />
+        <span className="w-full h-[1px] bg-base-content/15"></span>
       </div>
       <LogoutModal />
       <dialog id="sidebar_modal" className="modal">

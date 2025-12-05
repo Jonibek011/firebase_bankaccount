@@ -102,7 +102,7 @@ function Exchange() {
           ref={formRef}
           className=" flex flex-col sm:flex-row gap-2  md:gap-5 justify-center  items-center w-full"
         >
-          <label className="input input-sm input-bordered flex flex-row px-2 rounded-md w-full">
+          <label className="input relative input-sm input-bordered flex flex-row px-2 rounded-md w-full">
             <input
               ref={firstRef}
               onChange={changingCurency}
@@ -114,10 +114,10 @@ function Exchange() {
             />
             <select
               onChange={selectChange}
-              className=" max-w-xs border-none outline-none ring-0 py-2 bg-transparent text-xs"
+              className="max-w-xs bg-base-100 text-base-content text-xs py-2 rounded border-none outline-none"
             >
-              <option>USD</option>
-              <option>UZS</option>
+              <option className="bg-base-100 text-base-content">USD</option>
+              <option className="bg-base-100 text-base-content">UZS</option>
             </select>
           </label>
 

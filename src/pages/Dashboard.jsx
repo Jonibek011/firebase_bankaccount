@@ -161,14 +161,29 @@ function Dashboard() {
 
   //collectionDatadan categoriya bo'yicha expenselarni olish
   const getExByCategory = (category) => {
+    const toDateSafe = (ts) => {
+      if (!ts) return null;
+      if (typeof ts.toDate === "function") return ts.toDate();
+      const d = new Date(ts);
+      return isNaN(d.getTime()) ? null : d;
+    };
     const filteredData = collectionData.filter((item) => {
-      return item.category === category;
-    });
+      const now = new Date();
+      const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      const itemTime = toDateSafe(item?.timeStamp);
 
-    let allSum = 0;
-    filteredData.forEach((item) => {
-      allSum += Number(item.amaunt);
+      return isWithinInterval(itemTime, { start: firstOfMonth, end: now });
     });
+    let allSum = 0;
+    if (filteredData.length > 0) {
+      const filterByCategory = filteredData.filter((item) => {
+        return item.category === category;
+      });
+
+      filterByCategory.forEach((item) => {
+        allSum += Number(item.amaunt);
+      });
+    }
 
     return allSum;
   };
@@ -420,9 +435,13 @@ function Dashboard() {
           </div>
 
           <div className="chart rounded-lg px-5 py-3  flex flex-col gap-5 bg-base-100 shadow-lg">
-            <h2 className="py-3 border-b border-base-content/10 font-medium ">
-              Where do you spend money?
+            <h2 className="py-3 border-b border-base-content/10 font-medium flex flex-col text-center ">
+              <span>Where do you spend money? </span>{" "}
+              <span className="text-xs font-normal text-gray-400">
+                (this month)
+              </span>
             </h2>
+
             <div className="flex gap-3 justify-between items-center">
               <div className="flex  items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-green-500 "></span>
