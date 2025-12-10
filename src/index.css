@@ -88,3 +88,7 @@ body {
   scroll-behavior: smooth;
   overflow: hidden;
 }
+
+.span {
+  box-shadow: 0 0 100px 150px #3c046b;
+}

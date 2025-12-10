@@ -292,7 +292,7 @@ function Tasks() {
         </div>
       </div>
 
-      <div className="cards px-1 md:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="cards  px-1 md:px-0 max-w-screen-2xl w-full mx-auto  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="card shadow-md transition-all hover:scale-105 duration-500 p-4 bg-base-100 flex flex-col gap-4 relative">
           <img src={card1} className="w-20 absolute right-0 top-0" alt="" />
           <div>
@@ -316,7 +316,7 @@ function Tasks() {
           </div>
         </div>
       </div>
-      <div className="flex justify-start  items-center pe-3 ">
+      <div className="flex max-w-screen-2xl w-full mx-auto justify-start  items-center pe-3 ">
         <div className="flex gap-4 items-center">
           <div className="shadow-sm rounded-xl shadow-cyan-800 p-1">
             <button
@@ -364,7 +364,7 @@ function Tasks() {
         </div>
       </div>
 
-      <div className=" bg-base-100 relative border border-base-content/10 rounded-xl overflow-y-hidden overflow-x-auto max-w-[100vw] pb-16 min-h-[50vh]   ">
+      <div className=" bg-base-100 max-w-screen-2xl w-full mx-auto relative border border-base-content/10 rounded-xl overflow-y-hidden overflow-x-auto max-w-[100vw] pb-16 min-h-[50vh]   ">
         <table className="table min-w-[1200px]   ">
           <thead>
             <tr className="">

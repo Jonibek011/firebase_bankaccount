@@ -360,7 +360,7 @@ function Expense() {
   };
 
   return (
-    <div className="w-full h-auto mb-5">
+    <div className="w-full h-auto mb-5 max-w-screen-2xl mx-auto">
       <h2 className="hidden sm:block font-semibold text-3xl sm:text-5xl my-6">
         Expenses
       </h2>
