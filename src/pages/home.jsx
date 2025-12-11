@@ -232,7 +232,7 @@ import { motion } from "framer-motion";
 import Features from "../components/home/Features";
 function home() {
   return (
-    <section className="min-h-[300vh] bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
+    <section className="min-h-[400vh] bg-gradient-to-br from-slate-950 via-purple-950  to-slate-950">
       <motion.div
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

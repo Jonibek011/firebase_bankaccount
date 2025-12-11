@@ -27,126 +27,128 @@ function Features() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-purple-300 mb-6 border border-purple-500/20">
               <LuZap className="w-4 h-4" />
-              <span>Imkoniyatlar</span>
+              <span>Opportunities</span>
             </div>
             <h2 className="text-white text-5xl md:text-6xl mb-6">
-              Barcha kerakli vositalar{" "}
+              All the necessary tools{" "}
               <span className="bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-                bir joyda
+                in one place
               </span>
             </h2>
             <p className="text-gray-400 text-xl max-w-2xl mx-auto">
-              lifeHub bilan hayotingizni yanada samarali va tartibli qiling
+              Make your life more productive and organized with LifeHub
             </p>
           </motion.div>
         </AnimatePresence>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <motion.div
-            className="bg-gradient-to-br flex flex-col gap-6  from-purple-500/5 to-purple-700/5 border border-purple-500/20 rounded-3xl p-6 "
+            className="bg-gradient-to-br pb-10 flex flex-col gap-6  from-purple-500/0 to-purple-700/5 border border-purple-500/20 rounded-3xl p-6 "
             initial={{ y: 150, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ amount: 0.4, once: true }}
             transition={{ duration: 0.8 }}
             exit={{ opacity: 0 }}
           >
-            <div className="rounded-xl w-16 h-16 flex justify-center items-center bg-gradient-to-br from-purple-500 to-purple-950">
-              <BsChat className="w-8 h-8 text-white" />
+            <div className="rounded-xl w-14 h-14 flex justify-center items-center bg-gradient-to-br from-purple-500 to-purple-800">
+              <BsChat className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-white text-xl font-medium">Smart Chat</h2>
+            <h2 className="text-white text-2xl font-medium">Smart Chat</h2>
             <p className="text-gray-400 text-lg">
-              Jamoangiz bilan real vaqtda muloqot qiling. Guruhlar, fayllar va
-              emodjilarga to'liq qo'llab quvvatlash
+              Communicate with your team in real time. Full support for groups,
+              files, and emojis
             </p>
           </motion.div>
 
           <motion.div
-            className="bg-gradient-to-br flex flex-col gap-6 from-purple-500/5 to-purple-700/5 border border-purple-500/20  rounded-3xl p-6 "
+            className="bg-gradient-to-br pb-10 flex flex-col gap-6 from-purple-500/0 to-purple-700/5 border border-purple-500/20  rounded-3xl p-6 "
             initial={{ y: 150, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ amount: 0.4, once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="rounded-xl w-16 h-16 flex justify-center items-center bg-gradient-to-br from-blue-600 to-blue-700">
-              <LuWallet className="w-8 h-8 text-white" />
+            <div className="rounded-xl w-14 h-14 flex justify-center items-center bg-gradient-to-br from-blue-600 to-blue-700">
+              <LuWallet className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-white text-xl font-medium">Smart Chat</h2>
+            <h2 className="text-white text-2xl font-medium">Cost Control</h2>
             <p className="text-gray-400 text-lg">
-              Jamoangiz bilan real vaqtda muloqot qiling. Guruhlar, fayllar va
-              emodjilarga to'liq qo'llab quvvatlash
+              Monitor your financial status in real time. Complete analysis with
+              charts and reports
             </p>
           </motion.div>
 
           <motion.div
-            className="bg-gradient-to-br flex flex-col gap-6 from-purple-500/5 to-purple-700/5 border border-purple-500/20  rounded-3xl p-6 "
+            className="bg-gradient-to-br pb-10 flex flex-col gap-6 from-purple-500/0 to-purple-700/5 border border-purple-500/20  rounded-3xl p-6 "
             initial={{ y: 150, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ amount: 0.4, once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
             exit={{ opacity: 0 }}
           >
-            <div className="rounded-xl w-16 h-16 flex justify-center items-center bg-gradient-to-br from-pink-500 to-pink-700">
-              <FiCheckSquare className="w-8 h-8 text-white" />
+            <div className="rounded-xl w-14 h-14 flex justify-center items-center bg-gradient-to-br from-pink-500 to-pink-700">
+              <FiCheckSquare className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-white text-xl font-medium">Smart Chat</h2>
+            <h2 className="text-white text-2xl font-medium">Managing Tasks</h2>
             <p className="text-gray-400 text-lg">
-              Jamoangiz bilan real vaqtda muloqot qiling. Guruhlar, fayllar va
-              emodjilarga to'liq qo'llab quvvatlash
+              Organize all your tasks in one place. Work with priorities and
+              deadlines
             </p>
           </motion.div>
 
           <motion.div
-            className="bg-gradient-to-br flex flex-col gap-6  from-purple-500/5 to-purple-700/5 border border-purple-500/20 rounded-3xl p-6 "
+            className="bg-gradient-to-br pb-10 flex flex-col gap-6  from-purple-500/0 to-purple-700/5 border border-purple-500/20 rounded-3xl p-6 "
             initial={{ y: 150, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ amount: 0.4, once: true }}
             transition={{ duration: 0.8 }}
             exit={{ opacity: 0 }}
           >
-            <div className="rounded-xl w-16 h-16 flex justify-center items-center bg-gradient-to-br from-orange-600 to-orange-700">
-              <LuZap className="w-8 h-8 text-white" />
+            <div className="rounded-xl w-14 h-14 flex justify-center items-center bg-gradient-to-br from-orange-600 to-orange-700">
+              <LuZap className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-white text-xl font-medium">Smart Chat</h2>
+            <h2 className="text-white text-2xl font-medium">Fast Work</h2>
             <p className="text-gray-400 text-lg">
-              Jamoangiz bilan real vaqtda muloqot qiling. Guruhlar, fayllar va
-              emodjilarga to'liq qo'llab quvvatlash
+              High speed and efficiency. A platform that works without any
+              delays
             </p>
           </motion.div>
 
           <motion.div
-            className="bg-gradient-to-br flex flex-col gap-6 from-purple-500/5 to-purple-700/5 border border-purple-500/20  rounded-3xl p-6 "
+            className="bg-gradient-to-br pb-10 flex flex-col gap-6 from-purple-500/0 to-purple-700/5 border border-purple-500/20  rounded-3xl p-6 "
             initial={{ y: 150, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ amount: 0.4, once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="rounded-xl w-16 h-16 flex justify-center items-center bg-gradient-to-br from-green-600 to-green-700">
-              <LuShield className="w-8 h-8 text-white" />
+            <div className="rounded-xl w-14 h-14 flex justify-center items-center bg-gradient-to-br from-green-600 to-green-700">
+              <LuShield className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-white text-xl font-medium">Smart Chat</h2>
+            <h2 className="text-white text-2xl font-medium">Security</h2>
             <p className="text-gray-400 text-lg">
-              Jamoangiz bilan real vaqtda muloqot qiling. Guruhlar, fayllar va
-              emodjilarga to'liq qo'llab quvvatlash
+              Your data is encrypted and protected. Your privacy is our
+              priority.
             </p>
           </motion.div>
 
           <motion.div
-            className="bg-gradient-to-br flex flex-col gap-6 from-purple-500/5 to-purple-700/5 border border-purple-500/20  rounded-3xl p-6 "
+            className="bg-gradient-to-br pb-10 flex flex-col gap-6 from-purple-500/0 to-purple-700/5 border border-purple-500/20  rounded-3xl p-6 "
             initial={{ y: 150, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ amount: 0.4, once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
             exit={{ opacity: 0 }}
           >
-            <div className="rounded-xl w-16 h-16 flex justify-center items-center bg-gradient-to-br from-indigo-500 to-indigo-700">
-              <LuSmartphone className="w-8 h-8 text-white" />
+            <div className="rounded-xl w-14 h-14 flex justify-center items-center bg-gradient-to-br from-indigo-500 to-indigo-700">
+              <LuSmartphone className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-white text-xl font-medium">Smart Chat</h2>
+            <h2 className="text-white text-2xl font-medium">
+              Responsive Design
+            </h2>
             <p className="text-gray-400 text-lg">
-              Jamoangiz bilan real vaqtda muloqot qiling. Guruhlar, fayllar va
-              emodjilarga to'liq qo'llab quvvatlash
+              Works perfectly on any device. Optimized for mobile, tablet and
+              desktop
             </p>
           </motion.div>
         </div>
