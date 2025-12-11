@@ -229,6 +229,7 @@ import { FiDollarSign } from "react-icons/fi";
 import { LuSparkles } from "react-icons/lu";
 import { HiArrowRight } from "react-icons/hi";
 import { motion } from "framer-motion";
+import Features from "../components/home/Features";
 function home() {
   return (
     <section className="min-h-[300vh] bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
@@ -513,6 +514,9 @@ function home() {
             </div>
           </motion.div>
         </div>
+      </div>
+      <div>
+        <Features />
       </div>
     </section>
   );
