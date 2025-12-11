@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 
 function Rootlayout() {
   const location = useLocation();
-  const hideFooter = location.pathname.startsWith("/");
+  const hideFooter = location.pathname.endsWith("/");
   return (
     <div className="h-screen flex ">
       {!hideFooter && <Sidebar />}

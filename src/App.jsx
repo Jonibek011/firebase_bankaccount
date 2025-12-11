@@ -31,7 +31,7 @@ import {
 //action
 import { action as RegisterAction } from "./pages/Register";
 import { action as LoginAction } from "./pages/login";
-import { action as HomeAction } from "./pages/home";
+
 import { action as TaskAction } from "./pages/Tasks";
 import { action as ExpenseAction } from "./pages/Expense";
 //react
@@ -51,7 +51,6 @@ function App() {
         {
           index: true,
           element: <Home />,
-          action: HomeAction,
         },
         {
           path: "/about",
