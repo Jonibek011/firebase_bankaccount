@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import { Testimonials } from "../components/home/Testimonial";
 import Features from "../components/home/Features";
 import { Articles } from "../components/home/Articles";
+import { Pricing } from "../components/home/Pricing";
+import { Footer } from "../components/home/Footer";
 function home() {
   return (
     <section className="min-h-[400vh] bg-gradient-to-br from-slate-950 via-purple-950  to-slate-950">
@@ -309,6 +311,12 @@ function home() {
       </div>
       <div className="article">
         <Articles />
+      </div>
+      <div className="pricing">
+        <Pricing />
+      </div>
+      <div className="footer">
+        <Footer />
       </div>
     </section>
   );

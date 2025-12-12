@@ -369,7 +369,7 @@ function Dashboard() {
   };
 
   return (
-    <section className="flex flex-col lg:flex-row w-full lg:h-[calc(100vh-70px)] bg-base-100/80">
+    <section className="flex max-w-[1500px] mx-auto flex-col lg:flex-row w-full lg:h-[calc(100vh-70px)] bg-base-100/80">
       <div className="flex order-2 lg:order-1 flex-col gap-5 min-w-64 lg:h-[calc(100vh-70px)] overflow-y-auto bg-warning/5 p-6">
         <div>
           <h2 className="font-medium text-lg">Monthly Statistics</h2>
@@ -380,8 +380,8 @@ function Dashboard() {
           </p>
         </div>
         <div className="flex flex-col gap-5">
-          <div className="flex flex-col gap-5 md:flex-row lg:flex-col">
-            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-base-100 shadow-lg">
+          <div className="flex flex-col gap-5 md:flex-row lg:flex-col ">
+            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-purple-400/10 shadow-md shadow-purple-400/40">
               <div className="border-b border-base-content/10 flex justify-between items-center py-2">
                 <h3 className="font-medium">Income</h3>
                 <span className="badge badge-sm  bg-base-200 font-medium text-base-content/50 rounded-sm py-2 px-2">
@@ -407,7 +407,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-base-100 shadow-lg">
+            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-base-100 shadow-md bg-green-400/10  shadow-green-400/40">
               <div className="border-b border-base-content/10 flex justify-between items-center py-2">
                 <h3 className="font-medium">Expenses</h3>
                 <span className="badge badge-sm  bg-base-200 font-medium text-base-content/50 rounded-sm py-2 px-2">
@@ -434,7 +434,7 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="chart rounded-lg px-5 py-3  flex flex-col gap-5 bg-base-100 shadow-lg">
+          <div className="chart rounded-lg px-5 py-3  flex flex-col gap-5 bg-pink-400/10 shadow-md shadow-pink-400/40">
             <h2 className="py-3 border-b border-base-content/10 font-medium flex flex-col text-center ">
               <span>Where do you spend money? </span>{" "}
               <span className="text-xs font-normal text-gray-400">
@@ -617,7 +617,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="lg:flex-1 order-1 lg:order-2  p-5 flex flex-col gap-4 w-full    md:pb-10 lg:min md:h-[calc(100vh-70px)] overflow-y-auto ">
+      <div className="lg:flex-1 order-1 lg:order-2  p-5 flex flex-col gap-4 w-full    md:pb-10 lg:min md:h-[calc(100vh-70px)] overflow-y-auto bg-purple-400/5">
         {/* ============================ High section ================================= */}
         <div className="w-full flex gap-10 justify-between items-center">
           <h2 className="text-lg font-medium">

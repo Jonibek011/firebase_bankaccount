@@ -4,36 +4,35 @@ import { useInView } from "../../hooks/useInView";
 
 const articles = [
   {
-    title: "Ish samaradorligini oshirishning 7 ta usuli",
+    title: "7 ways to improve work efficiancy",
     excerpt:
-      "Zamonaviy vositalar yordamida kundalik vazifalaringizni qanday qilib yanada samarali bajarishni o'rganing.",
+      "Learn how to perform your daily tasks more efficiently with modern tools.",
     image:
       "https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9kdWN0aXZpdHklMjB3b3Jrc3BhY2UlMjBtb2Rlcm58ZW58MXx8fHwxNzY1NDY1MjUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    date: "8 Dekabr, 2025",
-    readTime: "5 daqiqa",
-    category: "Samaradorlik",
+    date: "8 December, 2025",
+    readTime: "5 minutes",
+    category: "Efficancy",
     gradient: "from-purple-500 to-blue-500",
   },
   {
-    title: "Jamoaviy ishlashda muhim qoidalar",
-    excerpt:
-      "Muvaffaqiyatli jamoa bilan ishlash uchun zarur bo'lgan asosiy tamoyillar va amaliy maslahatlar.",
+    title: "Importent rules for teamwork",
+    excerpt: "Basic principles and practical tips for successful team work.",
     image:
       "https://images.unsplash.com/photo-1739298061740-5ed03045b280?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG9mZmljZXxlbnwxfHx8fDE3NjU0MjQ3MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    date: "5 Dekabr, 2025",
-    readTime: "7 daqiqa",
-    category: "Jamoaviy ish",
+    date: "5 December, 2025",
+    readTime: "7 minutes",
+    category: "Teamwork",
     gradient: "from-pink-500 to-purple-500",
   },
   {
-    title: "Raqamli transformatsiya: Biznesni modernizatsiya qilish",
+    title: "Digital Transformation: Modernizing Business",
     excerpt:
-      "Zamonaviy texnologiyalar biznesingizni qanday yangi bosqichga olib chiqishi mumkinligini bilib oling.",
+      "Learn how modern technologies can take your business to the next level.",
     image:
       "https://images.unsplash.com/photo-1593642633279-1796119d5482?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwdGVjaG5vbG9neSUyMGJ1c2luZXNzfGVufDF8fHx8MTc2NTM2NDAxOXww&ixlib=rb-4.1.0&q=80&w=1080",
-    date: "2 Dekabr, 2025",
-    readTime: "6 daqiqa",
-    category: "Texnologiya",
+    date: "2 December, 2025",
+    readTime: "6 minutes",
+    category: "Technology",
     gradient: "from-blue-500 to-cyan-500",
   },
 ];
@@ -56,14 +55,14 @@ export function Articles() {
             <span>Blog</span>
           </div>
           <h2 className="text-white text-5xl md:text-6xl mb-6">
-            So'ngi{" "}
+            Last{" "}
             <span className="bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-              maqolalar
+              articles
             </span>
           </h2>
           <p className="text-gray-400 text-xl max-w-2xl mx-auto">
-            Ish samaradorligi, jamoaviy hamkorlik va zamonaviy texnologiyalar
-            haqida foydali ma'lumotlar
+            Useful information about work efficiency, teamwork, and modern
+            technologies
           </p>
         </motion.div>
 
@@ -145,7 +144,7 @@ function ArticleCard({ article, index }) {
 
           {/* Read more link */}
           <button className="flex items-center gap-2 text-purple-400 group-hover:text-purple-300 transition-colors duration-300">
-            <span>Batafsil</span>
+            <span>View more</span>
             <LuArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
           </button>
         </div>

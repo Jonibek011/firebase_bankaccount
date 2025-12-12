@@ -110,7 +110,7 @@ function Profile() {
     }
   };
   return (
-    <div className=" md:mt-5 md:rounded-xl overflow-hidden w-full min-h-[80vh] bg-base-100">
+    <div className=" md:mt-5 max-w-[1500px] mx-auto md:rounded-xl overflow-hidden w-full min-h-[80vh] bg-base-100">
       <div
         className={`upper-color w-full h-20  ${
           isDark
