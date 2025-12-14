@@ -11,11 +11,11 @@ export function Footer() {
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
-              <span className="text-white text-2xl">lifeHub</span>
+              <span className="text-white text-2xl">LifeHub</span>
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
-              Hayotingizni osonlashtiring. Chat, xarajatlar va vazifalarni
-              boshqarish - hammasi bir joyda.
+              Make your life easier. Manage chat, expenses, and tasks all in one
+              place.
             </p>
             <div className="flex items-center gap-4">
               <a
@@ -47,14 +47,14 @@ export function Footer() {
 
           {/* Product */}
           <div>
-            <h4 className="text-white mb-4">Mahsulot</h4>
+            <h4 className="text-white mb-4">Product</h4>
             <ul className="space-y-3">
               <li>
                 <a
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Imkoniyatlar
+                  Opportunities
                 </a>
               </li>
               <li>
@@ -62,7 +62,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Narxlar
+                  Prices
                 </a>
               </li>
               <li>
@@ -70,7 +70,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Yangiliklar
+                  News
                 </a>
               </li>
               <li>
@@ -86,14 +86,14 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-white mb-4">Kompaniya</h4>
+            <h4 className="text-white mb-4">Company</h4>
             <ul className="space-y-3">
               <li>
                 <a
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Biz haqimizda
+                  About us
                 </a>
               </li>
               <li>
@@ -109,7 +109,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Ish o&apos;rinlari
+                  Vacancy
                 </a>
               </li>
               <li>
@@ -117,7 +117,7 @@ export function Footer() {
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Aloqa
+                  Contact
                 </a>
               </li>
             </ul>
@@ -126,27 +126,25 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400">
-            © 2025 lifeHub. Barcha huquqlar himoyalangan.
-          </p>
+          <p className="text-gray-400">© 2025 LifeHub. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <a
               href="#"
               className="text-gray-400 hover:text-white transition-colors"
             >
-              Maxfiylik siyosati
+              Privacy policy
             </a>
             <a
               href="#"
               className="text-gray-400 hover:text-white transition-colors"
             >
-              Shartlar
+              Conditions
             </a>
             <a
               href="#"
               className="text-gray-400 hover:text-white transition-colors"
             >
-              Cookie&apos;lar
+              Cookies
             </a>
           </div>
         </div>

@@ -64,17 +64,16 @@ export function Pricing() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-purple-300 mb-6 border border-purple-500/20">
             <LuStar className="w-4 h-4" />
-            <span>Narxlar</span>
+            <span>Prices</span>
           </div>
           <h2 className="text-white text-5xl md:text-6xl mb-6">
-            O&apos;zingizga mos{" "}
+            Choose the plan that{" "}
             <span className="bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-              rejani tanlang
+              suits you
             </span>
           </h2>
           <p className="text-gray-400 text-xl max-w-2xl mx-auto">
-            Har qanday ehtiyoj uchun moslashtirilgan narxlar. Istalgan vaqtda
-            bekor qilish mumkin.
+            Customized pricing for any need. Cancel anytime.
           </p>
         </motion.div>
 

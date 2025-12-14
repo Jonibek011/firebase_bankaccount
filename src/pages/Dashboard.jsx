@@ -5,6 +5,7 @@ import ellipses from "../assets/images/Ellipse 3.png";
 import { LiaBalanceScaleSolid } from "react-icons/lia";
 import { TbUserDollar } from "react-icons/tb";
 import { BsCurrencyDollar } from "react-icons/bs";
+import { AiOutlineFall } from "react-icons/ai";
 //components
 // import EarningChart from "../components/EarningChart";
 // import useWindowSize from "../hooks/useWindowSize";
@@ -370,7 +371,7 @@ function Dashboard() {
 
   return (
     <section className="flex max-w-[1500px] mx-auto flex-col lg:flex-row w-full lg:h-[calc(100vh-70px)] bg-base-100/80">
-      <div className="flex order-2 lg:order-1 flex-col gap-5 min-w-64 lg:h-[calc(100vh-70px)] overflow-y-auto bg-warning/5 p-6">
+      <div className="flex order-2 lg:order-1 flex-col gap-5 min-w-64 lg:h-[calc(100vh-70px)] overflow-y-auto bg-base-100 border border-t-0 border-b-0 border-base-content/10 p-6">
         <div>
           <h2 className="font-medium text-lg">Monthly Statistics</h2>
           <p className="text-sm text-gray-400">
@@ -381,7 +382,7 @@ function Dashboard() {
         </div>
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-5 md:flex-row lg:flex-col ">
-            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-purple-400/10 shadow-md shadow-purple-400/40">
+            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-orange-400/5 shadow-md shadow-purple-400/40">
               <div className="border-b border-base-content/10 flex justify-between items-center py-2">
                 <h3 className="font-medium">Income</h3>
                 <span className="badge badge-sm  bg-base-200 font-medium text-base-content/50 rounded-sm py-2 px-2">
@@ -407,7 +408,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-base-100 shadow-md bg-green-400/10  shadow-green-400/40">
+            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-base-100 shadow-md bg-green-400/5  shadow-green-400/20">
               <div className="border-b border-base-content/10 flex justify-between items-center py-2">
                 <h3 className="font-medium">Expenses</h3>
                 <span className="badge badge-sm  bg-base-200 font-medium text-base-content/50 rounded-sm py-2 px-2">
@@ -434,7 +435,7 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="chart rounded-lg px-5 py-3  flex flex-col gap-5 bg-pink-400/10 shadow-md shadow-pink-400/40">
+          <div className="chart rounded-lg px-5 py-3  flex flex-col gap-5 bg-pink-400/5 shadow-md shadow-pink-400/20">
             <h2 className="py-3 border-b border-base-content/10 font-medium flex flex-col text-center ">
               <span>Where do you spend money? </span>{" "}
               <span className="text-xs font-normal text-gray-400">
@@ -641,13 +642,13 @@ function Dashboard() {
           </div>
         </div>
         {/* ================================== Middle section ============================= */}
-        <div className=" p-5 2xl:shadow-md  bg-base-100  overflow-x-auto min-h-[160px] xl:min-h-[140px]  max-w-[90vw] lg:max-w-full   lg:w-[calc(100vw-450px)] flex gap-8 rounded-xl ">
-          <div className="flex-1 shadow-md  2xl:shadow-none rounded-md min-w-[300px]    border-e py-0 lg:pe-2  ">
-            <div className={`flex justify-center items-center gap-8`}>
+        <div className=" p-5       max-w-[90vw] lg:max-w-full   lg:w-[calc(100vw-450px)] flex gap-8 flex-wrap  ">
+          <div className="flex-1 shadow-md bg-white py-4   rounded-md min-w-[300px]    border-elg:pe-2  ">
+            <div className={`flex px-4 gap-8`}>
               <p
-                className={` flex justify-center items-center bg-gradient-to-b from-green-500/10 to-green-300/10 w-24 h-24  rounded-full  `}
+                className={` flex justify-center items-center bg-gradient-to-br from-purple-400 to-purple-700 w-14 h-14  rounded-xl  `}
               >
-                <LiaBalanceScaleSolid className={`w-14 h-14 text-green-600 `} />
+                <LiaBalanceScaleSolid className={`w-8 h-8 text-white `} />
               </p>
               <div className="flex items-center justify-center flex-col gap-1">
                 <p className="text-gray-400">Monthly Savings</p>
@@ -659,12 +660,12 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="flex-1 shadow-md 2xl:shadow-none rounded-md min-w-[300px]    border-e py-0 lg:pe-2  ">
+          <div className="flex-1 shadow-md  rounded-md min-w-[300px]     py-8 bg-base-100 lg:pe-2  ">
             <div className={`flex items-center justify-center gap-8`}>
               <p
-                className={` flex justify-center items-center bg-gradient-to-b from-green-500/10 to-green-300/10 w-24 h-24  rounded-full`}
+                className={` flex justify-center items-center bg-gradient-to-br  from-red-500/10 to-red-300 w-24 h-24  rounded-2xl`}
               >
-                <TbUserDollar className={`w-14 h-14 text-green-600 `} />
+                <AiOutlineFall className={`w-14 h-14 text-red-600 `} />
               </p>
               <div className="flex flex-col gap-1">
                 <p className="text-gray-400">Weakly expense</p>
@@ -676,7 +677,7 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="flex-1 shadow-md 2xl:shadow-none rounded-md  min-w-[300px]    py-0 lg:pe-2  ">
+          <div className="flex-1 shadow-md  rounded-md  min-w-[300px]    py-8 bg-white lg:pe-2  ">
             <div className={`flex justify-center items-center gap-8 `}>
               <p
                 className={` flex justify-center items-center bg-gradient-to-b from-green-500/10 to-green-300/10 w-24 h-24  rounded-full`}
