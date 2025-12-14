@@ -15,12 +15,12 @@ import { Pricing } from "../components/home/Pricing";
 import { Footer } from "../components/home/Footer";
 function home() {
   return (
-    <section className="min-h-[400vh] bg-gradient-to-br from-slate-950 via-purple-950  to-slate-950">
+    <section className="min-h-[400vh] relative bg-gradient-to-br from-slate-950 via-purple-950  to-slate-950 w-full">
       <motion.div
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="absolute  top-0 left-[40%] translate-x-[-50%] inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-purple-300 mb-8 border border-purple-500/20"
+        className="absolute hidden   top-0 left-[33%] xl:left-[40%] -translate-x-1/2  lg:flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-purple-300  border border-purple-500/20"
       >
         {" "}
         <LuSparkles className="w-4 h-4" />
@@ -43,7 +43,7 @@ function home() {
           />
 
           <motion.div
-            className="absolute bottom-[-15%] left-[40%] translate-x-[-50%] w-96 h-96 bg-purple-500/30 rounded-full blur-3xl"
+            className="absolute hidden sm:block bottom-[-15%] left-[40%] translate-x-[-50%] w-96 h-96 bg-purple-500/30 rounded-full blur-3xl"
             animate={{
               scale: [1, 1.2, 1],
               opacity: [0.3, 0.5, 0.3],
@@ -104,7 +104,7 @@ function home() {
         {/* Hero Content */}
         <div className="relative w-full z-10 max-w-6xl mt-40  mx-auto px-6 text-center">
           <motion.h1
-            className="text-white text-7xl  mb-6 max-w-4xl mx-auto"
+            className="text-white text-5xl md:text-7xl  mb-6 max-w-4xl mx-auto"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -116,7 +116,7 @@ function home() {
           </motion.h1>
 
           <motion.p
-            className="text-gray-400 text-lg md:text-2xl mb-12 max-w-2xl mx-auto"
+            className="text-gray-400  sm:text-lg md:text-2xl mb-12 max-w-2xl mx-auto"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -134,11 +134,11 @@ function home() {
               to="dashboard"
               initial={{ scale: 1 }}
               whileTap={{ scale: 0.95 }}
-              className="group cursor-pointer px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full text-white flex items-center gap-2 hover:shadow-2xl hover:shadow-purple-500/50 transition-all"
+              className="group cursor-pointer px-8 py-2 sm:py-4 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full text-white flex items-center gap-2 hover:shadow-2xl hover:shadow-purple-500/50 transition-all"
             >
               Get started <HiArrowRight className="text-white w-6 h-6" />
             </Link>
-            <button className="px-8 py-4 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-colors border border-white/20">
+            <button className="px-8 py-2 sm:py-4 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-colors border border-white/20">
               Get demo
             </button>
           </motion.div>
@@ -151,15 +151,21 @@ function home() {
           >
             <div>
               <h2 className="text-white text-3xl">10K+</h2>
-              <p className="text-gray-400">Active Users</p>
+              <p className="text-sm sm:text-[16px] text-gray-400">
+                Active Users
+              </p>
             </div>
             <div>
               <h2 className="text-white text-3xl">50K+</h2>
-              <p className="text-gray-400">Tasks Completed</p>
+              <p className="text-gray-400 text-sm sm:text-[16px]">
+                Tasks Completed
+              </p>
             </div>
             <div>
               <h2 className="text-white text-3xl">99%</h2>
-              <p className="text-gray-400">Satisfaction</p>
+              <p className="text-gray-400 text-sm sm:text-[16px]">
+                Satisfaction
+              </p>
             </div>
           </motion.div>
 
@@ -172,7 +178,7 @@ function home() {
           >
             <div className="relative w-full max-w-4xl mx-auto">
               <motion.div
-                className="absolute left-0 top-0 w-64 h-80 bg-[#ffffff09] shadow-xl   backdrop-blur-2xl rounded-2xl border border-purple-500/20 p-6"
+                className="absolute -left-1/2 sm:left-0 top-0 w-64 h-80 bg-[#ffffff09] shadow-xl   backdrop-blur-2xl rounded-2xl border border-purple-500/20 p-6"
                 animate={{
                   y: [0, -20, 0],
                   rotate: [-2, -4, -2],
@@ -258,7 +264,7 @@ function home() {
               </motion.div>
 
               <motion.div
-                className="absolute shadow-xl right-0 top-0 w-64 h-80 bg-gradient-to-br from-pink-500/10 to-pink-500/5 backdrop-blur-xl rounded-2xl border border-pink-500/10 p-6 flex flex-col gap-5"
+                className="absolute shadow-xl -right-1/2 sm:right-0 top-0 w-64 h-80 bg-gradient-to-br from-pink-500/10 to-pink-500/5 backdrop-blur-xl rounded-2xl border border-pink-500/10 p-6 flex flex-col gap-5"
                 animate={{
                   y: [0, -20, 0],
                   rotate: [2, 4, 2],

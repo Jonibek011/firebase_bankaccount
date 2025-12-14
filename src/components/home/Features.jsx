@@ -10,7 +10,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 
 function Features() {
   return (
-    <section id="features" className="relative py-32 px-6">
+    <section id="features" className="relative py-16 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
         <AnimatePresence>
           <motion.div

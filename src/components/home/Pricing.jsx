@@ -53,7 +53,7 @@ export function Pricing() {
   const { ref, inView } = useInView();
 
   return (
-    <section id="pricing" className="relative py-32 px-6">
+    <section id="pricing" className="relative py-16 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           ref={ref}

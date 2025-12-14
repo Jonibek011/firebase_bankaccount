@@ -35,7 +35,7 @@ export function Testimonials() {
   const { ref, inView } = useInView();
 
   return (
-    <section id="testimonials" className="relative py-32 px-6">
+    <section id="testimonials" className="relative py-16 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           ref={ref}
