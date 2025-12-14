@@ -556,8 +556,8 @@ function Expense() {
 
         {/* =================================== Total section ====================================================== */}
         <div className="col-span-10   overflow-x-auto   ">
-          <div className="flex md:md:grid md:grid-cols-2 lg:grid-cols-none lg:flex lg:flex-row gap-4  rounded-xl min-w-[800px] md:min-w-[300px]">
-            <div className="card bg-base-100 flex-1  px-8 py-5 flex justify-center items-center">
+          <div className="flex py-2 md:md:grid md:grid-cols-2 lg:grid-cols-none lg:flex lg:flex-row gap-4  rounded-xl min-w-[800px] md:min-w-[300px]">
+            <div className="card shadow-md bg-base-100 flex-1  px-8 py-5 flex justify-center items-center">
               <p className="flex justify-center items-center">
                 <BiWallet className="w-9 h-9 text-orange-600" />
               </p>
@@ -566,7 +566,7 @@ function Expense() {
               </p>
               <h2 className="text-lg font-semibold text-center">Total Spent</h2>
             </div>
-            <div className="card bg-base-100 flex-1 px-8 py-5 flex flex-col gap-1 justify-center items-center">
+            <div className="card shadow-md bg-base-100 flex-1 px-8 py-5 flex flex-col gap-1 justify-center items-center">
               <p className="flex justify-center items-center">
                 <RiMoneyPoundCircleLine className="w-9 h-9 text-green-500" />
               </p>
@@ -578,7 +578,7 @@ function Expense() {
               </h2>
             </div>
 
-            <div className="card bg-base-100 flex-1 px-8 py-5 flex flex-col gap-1 justify-center items-center">
+            <div className="card  shadow-md bg-base-100 flex-1 px-8 py-5 flex flex-col gap-1 justify-center items-center">
               <p className="flex justify-center items-center">
                 <LuCircleDollarSign className="w-9 h-9 text-purple-500" />
               </p>
@@ -587,7 +587,7 @@ function Expense() {
               </p>
               <h2 className="text-lg font-semibold text-center">This month</h2>
             </div>
-            <div className="card bg-base-100 flex-1  px-8 py-5 flex justify-center items-center">
+            <div className="card shadow-md bg-base-100 flex-1  px-8 py-5 flex justify-center items-center">
               <p className="flex justify-center items-center">
                 <BiWallet className="w-9 h-9 text-blue-600" />
               </p>

@@ -370,8 +370,8 @@ function Dashboard() {
   };
 
   return (
-    <section className="flex max-w-[1500px] mx-auto flex-col lg:flex-row w-full lg:h-[calc(100vh-70px)] bg-base-100/80">
-      <div className="flex order-2 lg:order-1 flex-col gap-5 min-w-64 lg:h-[calc(100vh-70px)] overflow-y-auto bg-base-100 border border-t-0 border-b-0 border-base-content/10 p-6">
+    <section className="flex max-w-[1500px] mx-auto flex-col lg:flex-row w-full md:w-[calc(100vw-70px)] lg:h-[calc(100vh-70px)] bg-base-100/80">
+      <div className="flex order-2 lg:order-1 flex-col gap-5 min-w-64 lg:h-[calc(100vh-70px)] overflow-y-auto bg-base-100 lg:border-r border-base-content/10 p-6">
         <div>
           <h2 className="font-medium text-lg">Monthly Statistics</h2>
           <p className="text-sm text-gray-400">
@@ -382,7 +382,7 @@ function Dashboard() {
         </div>
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-5 md:flex-row lg:flex-col ">
-            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-orange-400/5 shadow-md shadow-purple-400/40">
+            <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-orange-400/5 shadow-md shadow-purple-400/20">
               <div className="border-b border-base-content/10 flex justify-between items-center py-2">
                 <h3 className="font-medium">Income</h3>
                 <span className="badge badge-sm  bg-base-200 font-medium text-base-content/50 rounded-sm py-2 px-2">
@@ -642,11 +642,11 @@ function Dashboard() {
           </div>
         </div>
         {/* ================================== Middle section ============================= */}
-        <div className=" p-5       max-w-[90vw] lg:max-w-full   lg:w-[calc(100vw-450px)] flex gap-8 flex-wrap  ">
-          <div className="flex-1 shadow-md bg-white py-4   rounded-md min-w-[300px]    border-elg:pe-2  ">
+        <div className="       max-w-full lg:max-w-full   lg:w-[calc(100vw-410px)]  gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 ">
+          <div className="flex-1 shadow-md bg-base-100 py-8   rounded-2xl     border-elg:pe-2  ">
             <div className={`flex px-4 gap-8`}>
               <p
-                className={` flex justify-center items-center bg-gradient-to-br from-purple-400 to-purple-700 w-14 h-14  rounded-xl  `}
+                className={` flex justify-center items-center bg-gradient-to-br from-green-400 to-green-700 w-14 h-14  rounded-xl  `}
               >
                 <LiaBalanceScaleSolid className={`w-8 h-8 text-white `} />
               </p>
@@ -660,12 +660,12 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="flex-1 shadow-md  rounded-md min-w-[300px]     py-8 bg-base-100 lg:pe-2  ">
-            <div className={`flex items-center justify-center gap-8`}>
+          <div className="flex-1 shadow-md  rounded-2xl     py-8 bg-base-100 lg:pe-2  ">
+            <div className={`flex px-4 gap-8`}>
               <p
-                className={` flex justify-center items-center bg-gradient-to-br  from-red-500/10 to-red-300 w-24 h-24  rounded-2xl`}
+                className={` flex justify-center items-center bg-gradient-to-br from-pink-400/80 to-pink-700 w-14 h-14  rounded-xl  `}
               >
-                <AiOutlineFall className={`w-14 h-14 text-red-600 `} />
+                <AiOutlineFall className={`w-8 h-8 text-pink-200 `} />
               </p>
               <div className="flex flex-col gap-1">
                 <p className="text-gray-400">Weakly expense</p>
@@ -677,12 +677,12 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="flex-1 shadow-md  rounded-md  min-w-[300px]    py-8 bg-white lg:pe-2  ">
-            <div className={`flex justify-center items-center gap-8 `}>
+          <div className="flex-1 shadow-md  rounded-2xl      py-8 bg-base-100 lg:pe-2  ">
+            <div className={`flex px-4 gap-8 `}>
               <p
-                className={` flex justify-center items-center bg-gradient-to-b from-green-500/10 to-green-300/10 w-24 h-24  rounded-full`}
+                className={` flex justify-center items-center bg-gradient-to-br from-indigo-400 to-indigo-700 w-14 h-14  rounded-xl  `}
               >
-                <BsCurrencyDollar className={`w-14 h-14  text-green-600 `} />
+                <BsCurrencyDollar className={`w-8 h-8  text-white `} />
               </p>
               <div className="flex flex-col gap-1">
                 <p className="text-gray-400">Highest Expense</p>
