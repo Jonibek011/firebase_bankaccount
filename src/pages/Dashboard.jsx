@@ -1,7 +1,12 @@
 import { LuSearch } from "react-icons/lu";
 import { BsBellFill } from "react-icons/bs";
 import ellipses from "../assets/images/Ellipse 3.png";
-
+import card1 from "../assets/images/dashboard/10973844-removebg-preview.png";
+import card2 from "../assets/images/dashboard/m024t0237_d_finance_21sep22-removebg-preview.png";
+import card3 from "../assets/images/dashboard/9a04e59f-39b9-42de-9d05-d933becf10b4-removebg-preview.png";
+import card4 from "../assets/images/dashboard/cfe33d3d-c9b6-45ae-b96b-c2e7d1433fd7-removebg-preview.png";
+import card5 from "../assets/images/dashboard/e3d64c73-f923-4e97-9b61-90e58b13ecc5-removebg-preview.png";
+import card6 from "../assets/images/dashboard/10907038-removebg-preview.png";
 import { LiaBalanceScaleSolid } from "react-icons/lia";
 import { TbUserDollar } from "react-icons/tb";
 import { BsCurrencyDollar } from "react-icons/bs";
@@ -643,8 +648,13 @@ function Dashboard() {
         </div>
         {/* ================================== Middle section ============================= */}
         <div className="       max-w-full lg:max-w-full   lg:w-[calc(100vw-410px)]  gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 ">
-          <div className="flex-1 shadow-md bg-base-100 py-8   rounded-2xl     border-elg:pe-2  ">
-            <div className={`flex px-4 gap-8`}>
+          <div className="flex-1 shadow-md bg-base-100 py-4  min-h-[150px] rounded-2xl relative  overflow-hidden    lg:pe-2  ">
+            <img
+              src={card5}
+              className="w-36 z-0 -rotate-45 absolute -right-14 -bottom-5 "
+              alt=""
+            />
+            <div className={`flex px-4 gap-8 relative z-10`}>
               <p
                 className={` flex justify-center items-center bg-gradient-to-br from-green-400 to-green-700 w-14 h-14  rounded-xl  `}
               >
@@ -652,7 +662,7 @@ function Dashboard() {
               </p>
               <div className="flex items-center justify-center flex-col gap-1">
                 <p className="text-gray-400">Monthly Savings</p>
-                <h2 className={`text-4xl  font-bold`}>${monthlySaving}</h2>
+                <h2 className={`text-3xl  font-bold`}>${monthlySaving}</h2>
                 <p>
                   <span className="text-green-600 font-medium">16% </span>this
                   month
@@ -660,8 +670,13 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="flex-1 shadow-md  rounded-2xl     py-8 bg-base-100 lg:pe-2  ">
-            <div className={`flex px-4 gap-8`}>
+          <div className="flex-1 relative overflow-hidden shadow-md  min-h-[150px] rounded-2xl     py-4 bg-base-100 lg:pe-2  ">
+            <img
+              src={card6}
+              className="w-36 absolute z-0 -right-14 -bottom-4 -rotate-12 "
+              alt=""
+            />
+            <div className={`flex px-4 gap-8 relative z-10`}>
               <p
                 className={` flex justify-center items-center bg-gradient-to-br from-pink-400/80 to-pink-700 w-14 h-14  rounded-xl  `}
               >
@@ -669,7 +684,7 @@ function Dashboard() {
               </p>
               <div className="flex flex-col gap-1">
                 <p className="text-gray-400">Weakly expense</p>
-                <h2 className={`text-4xl font-bold`}>${weeklyExpense}</h2>
+                <h2 className={`text-3xl font-bold`}>${weeklyExpense}</h2>
                 <p>
                   <span className="text-red-600 font-medium">14% </span>this
                   week
@@ -677,8 +692,13 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="flex-1 shadow-md  rounded-2xl      py-8 bg-base-100 lg:pe-2  ">
-            <div className={`flex px-4 gap-8 `}>
+          <div className="flex-1 shadow-md  rounded-2xl  relative overflow-hidden  min-h-[150px]   py-4 bg-base-100 lg:pe-2  ">
+            <img
+              src={card4}
+              className="w-40 absolute z-0 -right-14 -bottom-1  "
+              alt=""
+            />
+            <div className={`flex px-4 gap-8 relative z-10 `}>
               <p
                 className={` flex justify-center items-center bg-gradient-to-br from-indigo-400 to-indigo-700 w-14 h-14  rounded-xl  `}
               >
@@ -686,7 +706,7 @@ function Dashboard() {
               </p>
               <div className="flex flex-col gap-1">
                 <p className="text-gray-400">Highest Expense</p>
-                <h2 className={`text-4xl  font-bold`}>${maxExpense}</h2>
+                <h2 className={`text-3xl  font-bold`}>${maxExpense}</h2>
                 <p className="text-green-500 flex items-center gap-3">
                   <span className="inline-block w-2 h-2 rounded-full bg-green-500"></span>{" "}
                   {maxCategory}

@@ -13,12 +13,23 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuCircleDollarSign } from "react-icons/lu";
 import { SiCodefresh } from "react-icons/si";
+import { FiPlusCircle } from "react-icons/fi";
+import { FaArrowTrendDown } from "react-icons/fa6";
+import { HiMiniArrowTrendingDown } from "react-icons/hi2";
+import { MdOutlineErrorOutline } from "react-icons/md";
+import { IoCalendarClearOutline } from "react-icons/io5";
+import { FaArrowTrendUp } from "react-icons/fa6";
+import { LuFilter } from "react-icons/lu";
+import { MdOutlineCurrencyExchange } from "react-icons/md";
+import { IoCardOutline } from "react-icons/io5";
+import { BiWallet } from "react-icons/bi";
 
 //context
 import { MainIncomContext } from "../context/IncomeContext";
 import { useContext } from "react";
 //components
 import { Exchange } from "../components";
+import IncomeChart from "../components/expense/incomeChart";
 
 //firebase
 import { useFirestore } from "../hooks/useFirestore";
@@ -27,6 +38,10 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 
 import dollar from "../assets/images/credit-bg.png";
+import card1 from "../assets/images/dashboard/3d-hand-take-out-paper-money-cash-from-wallet-removebg-preview.png";
+import card2 from "../assets/expense/2211.w018.n002.1412A.p30.1412-removebg-preview.png";
+import card3 from "../assets/expense/man-hand-with-money-bag-with-dollar-sign-removebg-preview.png";
+import card4 from "../assets/expense/9994014-removebg-preview.png";
 //react
 import { useEffect, useMemo, useRef, useState } from "react";
 //Global context
@@ -36,7 +51,7 @@ import toast from "react-hot-toast";
 import { useDebounce } from "../hooks/useDebounce";
 //date-fns - library
 import { differenceInDays, isWithinInterval, parseISO } from "date-fns";
-import { BiWallet } from "react-icons/bi";
+
 //action
 export const action = async ({ request }) => {
   const formData = await request.formData();
@@ -360,27 +375,24 @@ function Expense() {
   };
 
   return (
-    <div className="w-full h-auto mb-5 max-w-screen-2xl mx-auto">
-      <h2 className="hidden sm:block font-semibold text-3xl sm:text-5xl my-6">
-        Expenses
-      </h2>
+    <div className="w-full pt-5 px-3 h-auto mb-5 max-w-screen-2xl mx-auto">
       <div className="main-container grid grid-cols-10 grid-rows-none auto-rows-auto  w-full  gap-4 lg:gap-5  ">
         {/* ==================== Add card ====================================================== */}
-        <div className="add-card shadow-md  bg-base-100 w-full rounded-xl p-2 sm:p-4 col-span-10 lg:col-span-6 xl:col-span-7 h-auto">
-          <h3 className="text-xl sm:text-3xl font-semibold mb-5">
-            Add Expense
+        <div className="add-card shadow-md  bg-base-100 w-full rounded-xl p-2 sm:p-8 col-span-10 lg:col-span-5 xl:col-span-6 h-auto">
+          <h3 className="text-lg sm:text-lg font-semibold mb-5 flex items-center gap-2">
+            <FiPlusCircle className="w-6 h-6 text-indigo-700 " /> Add new
           </h3>
           <Form
             ref={formRef}
             method="post"
-            className="grid grid-cols-2 lg:grid-cols-3 grid-rows-4 lg:grid-rows-3 gap-2 sm:gap-5 "
+            className="grid grid-cols-2 xl:grid-cols-3 grid-rows-4 lg:grid-rows-3 gap-2 sm:gap-5 "
           >
             <input
               required
               type="text"
               name="expenseTitle"
               placeholder="Title"
-              className=" col-span-2 lg:col-span-3 input input-bordered w-full "
+              className=" col-span-2 bg-base-content/5 lg:col-span-3 input input-bordered w-full focus:outline-purple-600 "
             />
             <input
               required
@@ -388,14 +400,14 @@ function Expense() {
               name="amaunt"
               step="any"
               placeholder="Amount ($)"
-              className="col-span-1 row-span-1 input input-bordered w-full "
+              className="col-span-1 bg-base-content/5  row-span-1 input input-bordered w-full focus:outline-purple-500 "
             />
 
             <div className="dropdown col-span-1 ">
               <div
                 tabIndex={0}
                 role="button"
-                className=" input input-bordered flex justify-between items-center "
+                className=" input bg-base-content/5  input-bordered flex justify-between items-center "
               >
                 {category || (
                   <span className="text-gray-400 font-normal">Category</span>
@@ -460,7 +472,7 @@ function Expense() {
               <div
                 tabIndex={0}
                 role="button"
-                className=" input input-bordered flex justify-between items-center "
+                className=" bg-base-content/5  input input-bordered flex justify-between items-center "
               >
                 {expenseType || (
                   <span className="text-gray-400">Card or cash</span>
@@ -499,28 +511,66 @@ function Expense() {
                 type="text"
                 name="note"
                 placeholder="Note"
-                className=" input input-bordered w-full flex-grow flex-1"
+                className="bg-base-content/5  input focus:outline-purple-500 input-bordered w-full flex-grow flex-1"
               />
               <button
                 disabled={isSubmitted}
-                className="btn  bg-sky-600 hover:bg-sky-500 text-white hidden lg:inline-block"
+                className="btn   bg-gradient-to-r from-indigo-500 to-purple-500 hover:bg-sky-500 text-white hidden lg:flex items-center"
               >
-                Add
+                <FiPlusCircle className="w-5 h-5" /> Add expense
               </button>
             </div>
 
             <button
               disabled={isSubmitted}
-              className="lg:hidden btn col-span-2 row-span-1 bg-sky-600 hover:bg-sky-500 text-white"
+              className="flex items-center  lg:hidden btn col-span-2 row-span-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:bg-sky-500 text-white"
             >
-              Add
+              <FiPlusCircle className="w-4 h-4" /> Add expense
             </button>
           </Form>
         </div>
 
         {/* =========================== Chart card =============================================================== */}
-        <div className="col-span-10 flex flex-col gap-6 shadow-md rounded-xl md:col-span-5 lg:col-span-4 xl:col-span-3 bg-base-100 lg:row-span-1 p-2 lg:p-4">
-          <div className="w-full p-5  flex flex-col justify-between  rounded-xl h-[300px] md:h-[200px]  relative overflow-hidden ">
+        <div className="col-span-10  bg-base-100 flex flex-col gap-6 shadow-md rounded-xl md:col-span-10 lg:col-span-5 xl:col-span-4 lg:row-span-1 p-2 lg:p-4">
+          <div className="flex justify-between items-center">
+            <span className="rounded-xl w-12 h-12 bg-blue-500 flex justify-center items-center">
+              <BiWallet className="w-6 h-6 text-white" />
+            </span>
+            <p className="text-[12px] text-gray-600">
+              {" "}
+              Total earn{" "}
+              <span className="text-lg text-gray-900">
+                {nullishData ?? totlaIncomes}$
+              </span>
+            </p>
+            <span className="bg-blue-500 text-white flex items-center gap-1 rounded-full px-2 py-1 text-sm">
+              <SiCodefresh /> Incomes
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="text-gray-500 text-[12px] font-thin">
+                This month earn
+              </p>
+              <p className="font-semibold text-base-content text-3xl">$00.0</p>
+              <p className="flex items-center gap-3">
+                <FaArrowTrendUp className="text-base-content/50" />{" "}
+                <span className="text-base-content/50 text-[12px] font-thin">
+                  +87.1%
+                </span>{" "}
+                <span className="text-[12px] font-thin text-base-content/50">
+                  last month
+                </span>
+              </p>
+            </div>
+            <button className="btn btn-sm rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 border-none text-white">
+              <FiPlusCircle className="w-4 h-4" /> Add income
+            </button>
+          </div>
+          <div>
+            <IncomeChart />
+          </div>
+          {/* <div className="w-full p-5  flex flex-col justify-between  rounded-xl h-[300px] md:h-[200px]  relative overflow-hidden ">
             <img
               src={dollar}
               alt=""
@@ -551,52 +601,64 @@ function Expense() {
                 +Add money
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* =================================== Total section ====================================================== */}
-        <div className="col-span-10   overflow-x-auto   ">
-          <div className="flex py-2 md:md:grid md:grid-cols-2 lg:grid-cols-none lg:flex lg:flex-row gap-4  rounded-xl min-w-[800px] md:min-w-[300px]">
-            <div className="card shadow-md bg-base-100 flex-1  px-8 py-5 flex justify-center items-center">
-              <p className="flex justify-center items-center">
-                <BiWallet className="w-9 h-9 text-orange-600" />
+        <div className="col-span-10      ">
+          <div className="py-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4  rounded-xl  md:min-w-[300px]">
+            <div className="card relative shadow-md bg-base-100 flex-1 overflow-hidden px-8 py-5 flex flex-col gap-2 ">
+              <img src={card1} className="absolute -right-8 w-40" alt="" />
+              <p className="w-12 h-12 rounded-xl flex justify-center items-center bg-red-500/10">
+                <HiMiniArrowTrendingDown className="w-7 h-7 text-red-500" />
               </p>
-              <p className="text-2xl font-bold text-center text-orange-600">
+              <p>Total spent</p>
+              <p className="text-3xl font-bold  text-base-content">
                 ${fiterTotalMoney}
               </p>
-              <h2 className="text-lg font-semibold text-center">Total Spent</h2>
+              <h2 className=" font-medium ">All expenses</h2>
             </div>
-            <div className="card shadow-md bg-base-100 flex-1 px-8 py-5 flex flex-col gap-1 justify-center items-center">
-              <p className="flex justify-center items-center">
-                <RiMoneyPoundCircleLine className="w-9 h-9 text-green-500" />
+            <div className="card overflow-hidden shadow-md relative bg-base-100 flex-1  px-8 py-5 flex flex-col gap-2 ">
+              <img
+                src={card2}
+                className="absolute -right-10 bottom-3 w-40"
+                alt=""
+              />
+              <p className="w-12 h-12 rounded-xl flex justify-center items-center bg-orange-500/10">
+                <MdOutlineErrorOutline className="w-7 h-7 text-orange-500" />
               </p>
-              <p className="text-2xl font-bold text-center text-green-500">
+              <p>Total spent</p>
+              <p className="text-3xl font-bold  text-base-content">
                 ${filterMaxMoney || "0.00"}
               </p>
-              <h2 className="text-lg font-semibold text-center">
-                Highest Spent
-              </h2>
+              <h2 className=" font-medium ">The high priority</h2>
             </div>
 
-            <div className="card  shadow-md bg-base-100 flex-1 px-8 py-5 flex flex-col gap-1 justify-center items-center">
-              <p className="flex justify-center items-center">
-                <LuCircleDollarSign className="w-9 h-9 text-purple-500" />
+            <div className="card overflow-hidden relative shadow-md bg-base-100 flex-1  px-8 py-5 flex flex-col gap-2 ">
+              <img
+                src={card3}
+                className="absolute -right-10 bottom-3 w-48"
+                alt=""
+              />
+              <p className="w-12 h-12 rounded-xl flex justify-center items-center bg-blue-500/10">
+                <IoCalendarClearOutline className="w-7 h-7 text-blue-500" />
               </p>
-              <p className="text-2xl font-bold text-center text-purple-500">
+              <p>Monthly Spent</p>
+              <p className="text-3xl font-bold  text-base-content">
                 ${monthlyExpense}
               </p>
-              <h2 className="text-lg font-semibold text-center">This month</h2>
+              <h2 className=" font-medium ">This month</h2>
             </div>
-            <div className="card shadow-md bg-base-100 flex-1  px-8 py-5 flex justify-center items-center">
-              <p className="flex justify-center items-center">
-                <BiWallet className="w-9 h-9 text-blue-600" />
+            <div className="card overflow-hidden shadow-md bg-base-100 flex-1  px-8 relative py-5 flex flex-col gap-2 ">
+              <img src={card4} className="absolute -right-10 w-48" alt="" />
+              <p className="w-12 h-12 rounded-xl flex justify-center items-center bg-green-500/10">
+                <FaArrowTrendUp className="w-7 h-7 text-green-500" />
               </p>
-              <p className="text-2xl font-bold text-center text-blue-600">
+              <p>Period Income</p>
+              <p className="text-3xl font-bold  text-base-content">
                 ${periodIncome}
               </p>
-              <h2 className="text-lg font-semibold text-center">
-                Period income
-              </h2>
+              <h2 className=" font-medium ">Filtered period</h2>
             </div>
           </div>
 
@@ -605,112 +667,123 @@ function Expense() {
           </div> */}
         </div>
         {/* ==================================== Filter section ===================================================================== */}
-        <div className="filter-senction shadow-md  col-span-10 order-2 lg:order-1 lg:col-span-5 bg-base-100 rounded-lg p-4 flex  items-center gap-1 md:gap-3">
-          <div className="dropdown dropdown-bottom">
-            <div
-              tabIndex={0}
-              role="button"
-              className=" bg-blue-500 hover:bg-blue-600 text-white flex text-[14px] rounded-md px-4 py-1 h-8  items-center font-medium gap-1"
-            >
-              <FaFilter className="w-3 h-3" /> <span>Category</span>
+        <div className="filter-senction flex flex-col gap-4 shadow-md  col-span-10 order-2 lg:order-1 lg:col-span-5 bg-base-100 rounded-lg p-4  md:gap-3">
+          <h3 className="font-medium text-lg flex items-center gap-1">
+            <LuFilter className="text-indigo-600 w-6 h-6" /> Filter section
+          </h3>
+          <div className="flex  items-center gap-3">
+            <div className="dropdown dropdown-bottom">
+              <div
+                tabIndex={0}
+                role="button"
+                className=" bg-blue-500 hover:bg-blue-600 text-white flex text-[14px] rounded-md px-4 py-1 h-8  items-center font-medium gap-1"
+              >
+                <FaFilter className="w-3 h-3" /> <span>Category</span>
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              >
+                <li>
+                  <button
+                    onClick={() => filterByCategory("Food")}
+                    className="font-medium"
+                  >
+                    Food
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => filterByCategory("Transport")}
+                    className="font-medium"
+                  >
+                    Transport
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => filterByCategory("Entertainment")}
+                    className="font-medium"
+                  >
+                    Entertainment
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => filterByCategory("Technology")}
+                    className="font-medium"
+                  >
+                    Technology
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => filterByCategory("Other")}
+                    className="font-medium"
+                  >
+                    Other
+                  </button>
+                </li>
+              </ul>
             </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+            <button
+              onClick={() =>
+                document.getElementById("filter-modal").showModal()
+              }
+              className="btn btn-sm flex gap-1  bg-blue-500 hover:bg-blue-600 text-white"
             >
-              <li>
-                <button
-                  onClick={() => filterByCategory("Food")}
-                  className="font-medium"
-                >
-                  Food
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => filterByCategory("Transport")}
-                  className="font-medium"
-                >
-                  Transport
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => filterByCategory("Entertainment")}
-                  className="font-medium"
-                >
-                  Entertainment
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => filterByCategory("Technology")}
-                  className="font-medium"
-                >
-                  Technology
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => filterByCategory("Other")}
-                  className="font-medium"
-                >
-                  Other
-                </button>
-              </li>
-            </ul>
-          </div>
-          <button
-            onClick={() => document.getElementById("filter-modal").showModal()}
-            className="btn btn-sm flex gap-1  bg-blue-500 hover:bg-blue-600 text-white"
-          >
-            <span>
-              <FaFilter className="w-3 h-3" />
-            </span>{" "}
-            <span>Date</span>
-          </button>
-          <button
-            onClick={() => {
-              setMapData(originalData);
-              setPeriodIncome(totlaIncomes);
-              setFilterTotalMoney(totalSum);
-              setFilterMaxMoney(maxSum);
-            }}
-            className="btn  btn-success btn-sm  rounded-md text-white "
-          >
-            All
-          </button>
+              <span>
+                <FaFilter className="w-3 h-3" />
+              </span>{" "}
+              <span>Date</span>
+            </button>
+            <button
+              onClick={() => {
+                setMapData(originalData);
+                setPeriodIncome(totlaIncomes);
+                setFilterTotalMoney(totalSum);
+                setFilterMaxMoney(maxSum);
+              }}
+              className="btn  btn-success btn-sm  rounded-md text-white "
+            >
+              All
+            </button>
 
-          <div className="w-full hidden sm:flex ">
-            <label className="input input-sm input-bordered w-full max-w-xl pe-10 flex  items-center relative">
-              <input
-                type="search"
-                className=" w-full  bg-transparent"
-                placeholder="Search"
-                value={searchData}
-                onChange={(e) => setSearchData(e.target.value)}
-              />
+            <div className="w-full hidden sm:flex ">
+              <label className="input input-sm input-bordered w-full max-w-xl pe-10 flex  items-center relative">
+                <input
+                  type="search"
+                  className=" w-full  bg-transparent"
+                  placeholder="Search"
+                  value={searchData}
+                  onChange={(e) => setSearchData(e.target.value)}
+                />
 
-              <span className="absolute right-3 top-[30%]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-3 w-3 opacity-70 text-neural  "
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-            </label>
+                <span className="absolute right-3 top-[30%]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="h-3 w-3 opacity-70 text-neural  "
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </label>
+            </div>
           </div>
         </div>
 
         {/* ===================== Some content ======================================== */}
-        <div className="change-curracy shadow-md order-1 lg:order-2 flex  items-center col-span-10 lg:col-span-5 bg-base-100 p-4 rounded-lg">
+        <div className="change-curracy shadow-md order-1  lg:order-2 flex flex-col  items-start gap-4 col-span-10 lg:col-span-5 bg-base-100 p-4 rounded-lg">
+          <h3 className="font-medium flex items-center gap-2">
+            <MdOutlineCurrencyExchange className="w-6 h-6 text-indigo-600" />{" "}
+            Currency section
+          </h3>
           <Exchange />
         </div>
 
@@ -736,7 +809,7 @@ function Expense() {
                   <th className="table-cell text-lg">Category</th>
                   <th className="text-lg">Price</th>
                   <th className="table-cell text-lg">Type</th>
-                  <th className="table-cell ext-lg">Date</th>
+                  <th className="table-cell text-lg">Date</th>
                   <th className="table-cell text-lg">Time</th>
 
                   <th className="md:text-lg">Options</th>
@@ -748,9 +821,22 @@ function Expense() {
                 {mapData?.map((collect) => {
                   return (
                     <tr key={collect._id} className="hover:bg-info/10">
-                      <td colSpan={2} className="ps-10">
+                      <td colSpan={2} className="ps-6 max-w-[330px]">
                         <div className="flex items-center gap-3">
-                          <div>
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`w-10 h-10  rounded-xl flex justify-center items-center ${
+                                collect.amaunt > 100
+                                  ? "bg-red-500/5"
+                                  : "bg-green-500/10"
+                              }`}
+                            >
+                              {collect.amaunt > 100 ? (
+                                <HiMiniArrowTrendingDown className="w-5 h-5 text-red-500" />
+                              ) : (
+                                <FaArrowTrendUp className="w-5 h-5 text-green-500" />
+                              )}
+                            </span>
                             <div className=" ">
                               <p className="font-medium text-lg">
                                 {" "}
@@ -762,7 +848,7 @@ function Expense() {
                         </div>
                       </td>
 
-                      <td className={` table-cell  font-medium  max-w-xs `}>
+                      <td className={` table-cell  font-  max-w-xs `}>
                         <button
                           className={`btn btn-sm w-[120px]  ${
                             collect.category === "Transport"
@@ -781,7 +867,7 @@ function Expense() {
                       </td>
 
                       <td
-                        className={`table-cell font-semibold text-lg ${
+                        className={`table-cell  text-lg ${
                           collect.amaunt < 50
                             ? "text-green-500"
                             : collect.amaunt < 100
@@ -792,11 +878,18 @@ function Expense() {
                         $ {collect.amaunt}
                       </td>
                       <td className="ps-5">
-                        <span className="font-semibold text-gray-400 text-center">
+                        <span
+                          className={`font-  text-center flex items-center gap-1`}
+                        >
+                          {collect.expenseType === "Card" ? (
+                            <IoCardOutline className="w-5 h-5 text-green-500" />
+                          ) : (
+                            <BiWallet className="w-5 h-5 text-indigo-500" />
+                          )}{" "}
                           {collect.expenseType || "-"}
                         </span>
                       </td>
-                      <td className="table-cell font-medium   text-gray-400">
+                      <td className="table-cell ">
                         <span>
                           {collect.day < 10 ? "0" + collect.day : collect.day}.
                           {collect.month + 1 < 10
