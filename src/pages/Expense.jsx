@@ -383,156 +383,158 @@ function Expense() {
     <div className="w-full pt-5 px-3 h-auto mb-5 max-w-screen-2xl mx-auto">
       <div className="main-container grid grid-cols-10 grid-rows-none auto-rows-auto  w-full  gap-4 lg:gap-5  ">
         {/* ==================== Add card ====================================================== */}
-        <div className="add-card shadow-md  bg-gradient-to-b from-fuchsia-100 to-transparent w-full rounded-xl p-2 sm:p-8 col-span-10 lg:col-span-5 xl:col-span-6 h-auto">
-          <h3 className="text-lg sm:text-lg font-semibold mb-5 flex items-center gap-2">
-            <FiPlusCircle className="w-6 h-6 text-indigo-700 " /> Add new
+        <div className="add-card shadow-md flex flex-col justify-between   bg-base-100 w-full rounded-xl  col-span-10 lg:col-span-5 xl:col-span-6 h-auto">
+          <h3 className="text-lg px-6 pt-4 sm:text-lg font-semibold text-base-content  flex items-center gap-2">
+            <FiPlusCircle className="w-6 h-6 text-purple-500 " /> Add new
           </h3>
-          <Form
-            ref={formRef}
-            method="post"
-            className="grid grid-cols-2 xl:grid-cols-3 grid-rows-4 lg:grid-rows-3 gap-2 sm:gap-5 "
-          >
-            <input
-              required
-              type="text"
-              name="expenseTitle"
-              placeholder="Title"
-              className=" col-span-2 bg-base-content/5 lg:col-span-3 input input-bordered w-full focus:outline-purple-600 "
-            />
-            <input
-              required
-              type="number"
-              name="amaunt"
-              step="any"
-              placeholder="Amount ($)"
-              className="col-span-1 bg-base-content/5  row-span-1 input input-bordered w-full focus:outline-purple-500 "
-            />
-
-            <div className="dropdown col-span-1 ">
-              <div
-                tabIndex={0}
-                role="button"
-                className=" input bg-base-content/5  input-bordered flex justify-between items-center "
-              >
-                {category || (
-                  <span className="text-gray-400 font-normal">Category</span>
-                )}{" "}
-                <span className="text-gray-400">
-                  <IoIosArrowDown className="w-5 h-5" />
-                </span>
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content relative z-30 menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-              >
-                <li>
-                  <button
-                    onClick={() => setCategory("Food")}
-                    type="button"
-                    className="font-medium"
-                  >
-                    Food
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => setCategory("Transport")}
-                    type="button"
-                    className="font-medium"
-                  >
-                    Transport
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => setCategory("Entertainment")}
-                    type="button"
-                    className="font-medium"
-                  >
-                    Entertainment
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => setCategory("Technology")}
-                    type="button"
-                    className="font-medium"
-                  >
-                    Technology
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => setCategory("Other")}
-                    type="button"
-                    className="font-medium"
-                  >
-                    Other
-                  </button>
-                </li>
-              </ul>
-            </div>
-
-            <div className="dropdown col-span-1">
-              <div
-                tabIndex={0}
-                role="button"
-                className=" bg-base-content/5  input input-bordered flex justify-between items-center "
-              >
-                {expenseType || (
-                  <span className="text-gray-400">Card or cash</span>
-                )}{" "}
-                <span className="text-gray-400">
-                  <IoIosArrowDown className="w-5 h-5" />
-                </span>
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-              >
-                <li>
-                  <button
-                    onClick={() => setExpenseType("Cash")}
-                    type="button"
-                    className="text-medium"
-                  >
-                    Cash
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => setExpenseType("Card")}
-                    type="button"
-                    className="text-medium"
-                  >
-                    Card
-                  </button>
-                </li>
-              </ul>
-            </div>
-
-            <div className="col-span-1 lg:col-span-3 row-span-1 w-full flex  gap-4">
+          <div className="p-2 sm:px-8 sm:py-12 rounded-xl bg-base-100">
+            <Form
+              ref={formRef}
+              method="post"
+              className="grid grid-cols-2 xl:grid-cols-3 grid-rows-4  lg:grid-rows-3 gap-2 sm:gap-5 "
+            >
               <input
+                required
                 type="text"
-                name="note"
-                placeholder="Note"
-                className="bg-base-content/5  input focus:outline-purple-500 input-bordered w-full flex-grow flex-1"
+                name="expenseTitle"
+                placeholder="Title"
+                className=" col-span-2  lg:col-span-3 input  border-purple-500/50 border-2   w-full focus:outline-purple-600 "
               />
+              <input
+                required
+                type="number"
+                name="amaunt"
+                step="any"
+                placeholder="Amount ($)"
+                className="col-span-1  border-purple-500/50 border-2  row-span-1 input  w-full focus:outline-purple-500 "
+              />
+
+              <div className="dropdown col-span-1 ">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className=" input  border-purple-500/50 border-2 flex justify-between items-center "
+                >
+                  {category || (
+                    <span className="text-gray-400 font-normal">Category</span>
+                  )}{" "}
+                  <span className="text-gray-400">
+                    <IoIosArrowDown className="w-5 h-5" />
+                  </span>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content relative z-30 menu bg-base-100 rounded-box  w-52 p-2 shadow"
+                >
+                  <li>
+                    <button
+                      onClick={() => setCategory("Food")}
+                      type="button"
+                      className="font-medium"
+                    >
+                      Food
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setCategory("Transport")}
+                      type="button"
+                      className="font-medium"
+                    >
+                      Transport
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setCategory("Entertainment")}
+                      type="button"
+                      className="font-medium"
+                    >
+                      Entertainment
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setCategory("Technology")}
+                      type="button"
+                      className="font-medium"
+                    >
+                      Technology
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setCategory("Other")}
+                      type="button"
+                      className="font-medium"
+                    >
+                      Other
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="dropdown col-span-1">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="  border-purple-500/50 border-2  input  flex justify-between items-center "
+                >
+                  {expenseType || (
+                    <span className="text-gray-400">Card or cash</span>
+                  )}{" "}
+                  <span className="text-gray-400">
+                    <IoIosArrowDown className="w-5 h-5" />
+                  </span>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                >
+                  <li>
+                    <button
+                      onClick={() => setExpenseType("Cash")}
+                      type="button"
+                      className="text-medium"
+                    >
+                      Cash
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setExpenseType("Card")}
+                      type="button"
+                      className="text-medium"
+                    >
+                      Card
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="col-span-1 lg:col-span-3 row-span-1 w-full flex  gap-4">
+                <input
+                  type="text"
+                  name="note"
+                  placeholder="Note"
+                  className=" border-purple-500/50 border-2 input focus:outline-purple-500  w-full flex-grow flex-1"
+                />
+                <button
+                  disabled={isSubmitted}
+                  className="btn   bg-gradient-to-r from-indigo-500 to-purple-500 hover:bg-sky-500 text-white hidden lg:flex items-center"
+                >
+                  <FiPlusCircle className="w-5 h-5" /> Add expense
+                </button>
+              </div>
+
               <button
                 disabled={isSubmitted}
-                className="btn   bg-gradient-to-r from-indigo-500 to-purple-500 hover:bg-sky-500 text-white hidden lg:flex items-center"
+                className="flex items-center  lg:hidden btn col-span-2 row-span-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:bg-sky-500 text-white"
               >
-                <FiPlusCircle className="w-5 h-5" /> Add expense
+                <FiPlusCircle className="w-4 h-4" /> Add expense
               </button>
-            </div>
-
-            <button
-              disabled={isSubmitted}
-              className="flex items-center  lg:hidden btn col-span-2 row-span-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:bg-sky-500 text-white"
-            >
-              <FiPlusCircle className="w-4 h-4" /> Add expense
-            </button>
-          </Form>
+            </Form>
+          </div>
         </div>
 
         {/* =========================== Chart card =============================================================== */}
