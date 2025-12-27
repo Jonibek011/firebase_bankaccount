@@ -42,6 +42,7 @@ import card1 from "../assets/images/dashboard/3d-hand-take-out-paper-money-cash-
 import card2 from "../assets/expense/2211.w018.n002.1412A.p30.1412-removebg-preview.png";
 import card3 from "../assets/expense/man-hand-with-money-bag-with-dollar-sign-removebg-preview.png";
 import card4 from "../assets/expense/9994014-removebg-preview.png";
+import fundImage from "../assets/expense/9289146-removebg-preview.png";
 //react
 import { useEffect, useMemo, useRef, useState } from "react";
 //Global context
@@ -531,7 +532,7 @@ function Expense() {
         </div>
 
         {/* =========================== Chart card =============================================================== */}
-        <div className="col-span-10  bg-base-100 flex flex-col gap-6 shadow-md rounded-xl md:col-span-10 lg:col-span-5 xl:col-span-4 lg:row-span-1 p-2 lg:p-4">
+        <div className="col-span-10 bg-base-100 flex flex-col gap-6 shadow-md rounded-xl md:col-span-10 lg:col-span-5 xl:col-span-4 lg:row-span-1 p-2 lg:p-4 ">
           <div className="flex justify-between items-center">
             <span className="rounded-xl w-12 h-12 bg-blue-500 flex justify-center items-center">
               <BiWallet className="w-6 h-6 text-white" />
@@ -548,24 +549,39 @@ function Expense() {
             </span>
           </div>
           <div className="flex justify-between items-center">
-            <div>
-              <p className="text-gray-500 text-[12px] font-thin">
+            <div className="relative min-w-[150px] p-4 rounded-xl bg-gradient-to-b from-indigo-400 to-purple-700">
+              <div className="group">
+                <div className="absolute btn p-0 btn-sm border-none  top-2 right-2 w-8 h-8 cursor-pointer flex justify-center items-center rounded-xl bg-gradient-to-t from-blue-400 to-fuchsia-500">
+                  <FiPlusCircle className="text-white w-5 h-5 " />
+                </div>
+                <span className="absolute -top-3 bg-base-100 border border-gray-400/20  text-base-content px-2 rounded-full -right-5 text-[11px] opacity-0 group-hover:opacity-100 transition-all duration-700">
+                  + Add income
+                </span>
+              </div>
+              <p className="text-gray-300 text-[12px] font-thin">
                 This month earn
               </p>
-              <p className="font-semibold text-base-content text-3xl">$00.0</p>
-              <p className="flex items-center gap-3">
-                <FaArrowTrendUp className="text-base-content/50" />{" "}
-                <span className="text-base-content/50 text-[12px] font-thin">
+              <p className="font-semibold text-gray-100 text-xl">$00.0</p>
+              <p className="flex items-center gap-2">
+                <FaArrowTrendUp className="text-gray-200 w-3 h-3" />{" "}
+                <span className="text-gray-200 text-[11px] font-thin">
                   +87.1%
                 </span>{" "}
-                <span className="text-[12px] font-thin text-base-content/50">
+                <span className="text-[10px] font-thin text-gray-200">
                   last month
                 </span>
               </p>
             </div>
-            <button className="btn btn-sm rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 border-none text-white">
-              <FiPlusCircle className="w-4 h-4" /> Add income
-            </button>
+            <div className=" h-full relative min-w-[150px] perspect">
+              <div className="absolute top-2 card-1 -left-5 w-full h-full transform rotate-x-12  bg-gradient-to-br from-cyan-400 to-green-700 rounded-xl"></div>
+              <div className="absolute top-1 card-2 -left-3 w-full h-full  bg-gradient-to-br from-blue-400 to-blue-700 rounded-xl"></div>
+              <div className="group  flex justify-center items-center absolute top-0  card-3  -left-1 w-full h-full overflow-hidden  bg-gradient-to-br cursor-pointer from-indigo-500 via-fuchsia-500 to-purple-500 rounded-xl">
+                <span className="absolute  top-[-100%] group-hover:top-0 transition-all duration-300 cursor-pointer left-0 w-full h-full bg-white/20 backdrop:blur-md flex justify-center items-center text-xl font-semibold text-white">
+                  + Fund
+                </span>
+                <img src={fundImage} className="w-24" alt="" />
+              </div>
+            </div>
           </div>
           <div>
             <IncomeChart />
