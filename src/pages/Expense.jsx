@@ -29,7 +29,7 @@ import { MainIncomContext } from "../context/IncomeContext";
 import { useContext } from "react";
 //components
 import { Exchange } from "../components";
-import IncomeChart from "../components/expense/incomeChart";
+import IncomeChart from "../components/expense/IncomeChart";
 
 //firebase
 import { useFirestore } from "../hooks/useFirestore";
