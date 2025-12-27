@@ -23,7 +23,10 @@ import { LuFilter } from "react-icons/lu";
 import { MdOutlineCurrencyExchange } from "react-icons/md";
 import { IoCardOutline } from "react-icons/io5";
 import { BiWallet } from "react-icons/bi";
+import { FaArrowRightLong } from "react-icons/fa6";
 
+//animationn
+import { motion } from "framer-motion";
 //context
 import { MainIncomContext } from "../context/IncomeContext";
 import { useContext } from "react";
@@ -43,6 +46,7 @@ import card2 from "../assets/expense/2211.w018.n002.1412A.p30.1412-removebg-prev
 import card3 from "../assets/expense/man-hand-with-money-bag-with-dollar-sign-removebg-preview.png";
 import card4 from "../assets/expense/9994014-removebg-preview.png";
 import fundImage from "../assets/expense/9289146-removebg-preview.png";
+import incomeImage from "../assets/expense/10800827-removebg-preview.png";
 //react
 import { useEffect, useMemo, useRef, useState } from "react";
 //Global context
@@ -85,7 +89,7 @@ export const action = async ({ request }) => {
 };
 //main function
 function Expense() {
-  const { user, dispatch } = useGlobalContext();
+  const { user, dispatch, isDark } = useGlobalContext();
   //action data
   const actionData = useActionData();
   //addDocument
@@ -379,7 +383,7 @@ function Expense() {
     <div className="w-full pt-5 px-3 h-auto mb-5 max-w-screen-2xl mx-auto">
       <div className="main-container grid grid-cols-10 grid-rows-none auto-rows-auto  w-full  gap-4 lg:gap-5  ">
         {/* ==================== Add card ====================================================== */}
-        <div className="add-card shadow-md  bg-base-100 w-full rounded-xl p-2 sm:p-8 col-span-10 lg:col-span-5 xl:col-span-6 h-auto">
+        <div className="add-card shadow-md  bg-gradient-to-b from-fuchsia-100 to-transparent w-full rounded-xl p-2 sm:p-8 col-span-10 lg:col-span-5 xl:col-span-6 h-auto">
           <h3 className="text-lg sm:text-lg font-semibold mb-5 flex items-center gap-2">
             <FiPlusCircle className="w-6 h-6 text-indigo-700 " /> Add new
           </h3>
@@ -532,24 +536,38 @@ function Expense() {
         </div>
 
         {/* =========================== Chart card =============================================================== */}
-        <div className="col-span-10 bg-base-100 flex flex-col gap-6 shadow-md rounded-xl md:col-span-10 lg:col-span-5 xl:col-span-4 lg:row-span-1 p-2 lg:p-4 ">
-          <div className="flex justify-between items-center">
-            <span className="rounded-xl w-12 h-12 bg-blue-500 flex justify-center items-center">
-              <BiWallet className="w-6 h-6 text-white" />
-            </span>
-            <p className="text-[12px] text-gray-600">
-              {" "}
-              Total earn{" "}
-              <span className="text-lg text-gray-900">
+        <div className="col-span-10 bg-base-100 flex flex-col gap-3 shadow-md rounded-xl md:col-span-10 lg:col-span-5 xl:col-span-4 lg:row-span-1 p-2 lg:p-4 ">
+          <div className="flex p-3 justify-between bg-gradient-to-r from-fuchsia-500 to-blue-500 rounded-xl items-center">
+            <span className="rounded-xl text-[10px] text-white  bg-blue-500 flex justify-center items-center gap-2 px-2 py-1">
+              {/* <BiWallet className="w-6 h-6 text-white" /> */}
+              <span className="text-sm text-white ">
                 {nullishData ?? totlaIncomes}$
               </span>
-            </p>
-            <span className="bg-blue-500 text-white flex items-center gap-1 rounded-full px-2 py-1 text-sm">
-              <SiCodefresh /> Incomes
+              Total
+            </span>
+
+            <span className="bg-gradient-to-r from-blue-400 cursor-pointer to-fuchsia-500 text-white flex items-center gap-1 rounded-full px-2 py-1 text-sm">
+              <SiCodefresh /> Statistics{" "}
+              <motion.span
+                initial={{ x: 0 }}
+                animate={{ x: 5 }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
+              >
+                <FaArrowRightLong />
+              </motion.span>
             </span>
           </div>
-          <div className="flex justify-between items-center">
-            <div className="relative min-w-[150px] p-4 rounded-xl bg-gradient-to-b from-indigo-400 to-purple-700">
+          <div className="flex justify-between items-center gap-6 sm:gap-10">
+            <div className="relative min-w-[150px] overflow-hidden w-full p-4 rounded-xl bg-gradient-to-b from-indigo-400 to-purple-700">
+              <img
+                src={incomeImage}
+                className="hidden sm:flex w-36 absolute -top-4 right-8 lg:top-4 lg:-right-2 2xl:-top-4 2xl:right-8"
+                alt=""
+              />
               <div className="group">
                 <div className="absolute btn p-0 btn-sm border-none  top-2 right-2 w-8 h-8 cursor-pointer flex justify-center items-center rounded-xl bg-gradient-to-t from-blue-400 to-fuchsia-500">
                   <FiPlusCircle className="text-white w-5 h-5 " />
@@ -573,9 +591,9 @@ function Expense() {
               </p>
             </div>
             <div className=" h-full relative min-w-[150px] perspect">
-              <div className="absolute top-2 card-1 -left-5 w-full h-full transform rotate-x-12  bg-gradient-to-br from-cyan-400 to-green-700 rounded-xl"></div>
-              <div className="absolute top-1 card-2 -left-3 w-full h-full  bg-gradient-to-br from-blue-400 to-blue-700 rounded-xl"></div>
-              <div className="group  flex justify-center items-center absolute top-0  card-3  -left-1 w-full h-full overflow-hidden  bg-gradient-to-br cursor-pointer from-indigo-500 via-fuchsia-500 to-purple-500 rounded-xl">
+              <div className="absolute top-1 card-1 -left-5 w-full h-full transform rotate-x-12  bg-gradient-to-br from-cyan-400 to-green-700 rounded-xl"></div>
+              <div className="absolute top-0 card-2 -left-3 w-full h-full  bg-gradient-to-br from-blue-400 to-blue-700 rounded-xl"></div>
+              <div className="group  flex justify-center items-center absolute -top-1  card-3  -left-1 w-full h-full overflow-hidden  bg-gradient-to-br cursor-pointer from-indigo-500 via-fuchsia-500 to-purple-500 rounded-xl">
                 <span className="absolute  top-[-100%] group-hover:top-0 transition-all duration-300 cursor-pointer left-0 w-full h-full bg-white/20 backdrop:blur-md flex justify-center items-center text-xl font-semibold text-white">
                   + Fund
                 </span>
@@ -623,18 +641,28 @@ function Expense() {
         {/* =================================== Total section ====================================================== */}
         <div className="col-span-10      ">
           <div className="py-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4  rounded-xl  md:min-w-[300px]">
-            <div className="card relative shadow-md bg-base-100 flex-1 overflow-hidden px-8 py-5 flex flex-col gap-2 ">
+            <div
+              className={`card relative shadow-md bg-gradient-to-t ${
+                isDark ? "from-sky-300" : "from-sky-800"
+              } from-0% to-transparent flex-1 overflow-hidden px-8 py-5 flex flex-col gap-2 `}
+            >
+              <span className="absolute w-28 h-28 bg-red-500/20 rounded-full -top-8 -right-8"></span>
               <img src={card1} className="absolute -right-8 w-40" alt="" />
               <p className="w-12 h-12 rounded-xl flex justify-center items-center bg-red-500/10">
                 <HiMiniArrowTrendingDown className="w-7 h-7 text-red-500" />
               </p>
               <p>Total spent</p>
-              <p className="text-3xl font-bold  text-base-content">
+              <p className="text-3xl font-semibold  text-base-content">
                 ${fiterTotalMoney}
               </p>
-              <h2 className=" font-medium ">All expenses</h2>
+              <h2 className="  ">All expenses</h2>
             </div>
-            <div className="card overflow-hidden shadow-md relative bg-base-100 flex-1  px-8 py-5 flex flex-col gap-2 ">
+            <div
+              className={`card relative shadow-md bg-gradient-to-t ${
+                isDark ? "from-sky-300" : "from-sky-800"
+              } from-0% to-transparent flex-1 overflow-hidden px-8 py-5 flex flex-col gap-2 `}
+            >
+              <span className="absolute w-28 h-28 bg-orange-500/20 rounded-full -top-8 -right-8"></span>
               <img
                 src={card2}
                 className="absolute -right-10 bottom-3 w-40"
@@ -644,13 +672,18 @@ function Expense() {
                 <MdOutlineErrorOutline className="w-7 h-7 text-orange-500" />
               </p>
               <p>Total spent</p>
-              <p className="text-3xl font-bold  text-base-content">
+              <p className="text-3xl font-semibold  text-base-content">
                 ${filterMaxMoney || "0.00"}
               </p>
-              <h2 className=" font-medium ">The high priority</h2>
+              <h2 className="  ">The high priority</h2>
             </div>
 
-            <div className="card overflow-hidden relative shadow-md bg-base-100 flex-1  px-8 py-5 flex flex-col gap-2 ">
+            <div
+              className={`card relative shadow-md bg-gradient-to-t ${
+                isDark ? "from-sky-300" : "from-sky-800"
+              } from-0% to-transparent flex-1 overflow-hidden px-8 py-5 flex flex-col gap-2 `}
+            >
+              <span className="absolute w-28 h-28 bg-blue-500/20 rounded-full -top-8 -right-8"></span>
               <img
                 src={card3}
                 className="absolute -right-10 bottom-3 w-48"
@@ -660,21 +693,26 @@ function Expense() {
                 <IoCalendarClearOutline className="w-7 h-7 text-blue-500" />
               </p>
               <p>Monthly Spent</p>
-              <p className="text-3xl font-bold  text-base-content">
+              <p className="text-3xl font-semibold  text-base-content">
                 ${monthlyExpense}
               </p>
-              <h2 className=" font-medium ">This month</h2>
+              <h2 className="  ">This month</h2>
             </div>
-            <div className="card overflow-hidden shadow-md bg-base-100 flex-1  px-8 relative py-5 flex flex-col gap-2 ">
+            <div
+              className={`card relative shadow-md bg-gradient-to-t ${
+                isDark ? "from-sky-300" : "from-sky-800"
+              } from-0% to-transparent flex-1 overflow-hidden px-8 py-5 flex flex-col gap-2 `}
+            >
+              <span className="absolute w-28 h-28 bg-green-500/20 rounded-full -top-8 -right-8"></span>
               <img src={card4} className="absolute -right-10 w-48" alt="" />
               <p className="w-12 h-12 rounded-xl flex justify-center items-center bg-green-500/10">
                 <FaArrowTrendUp className="w-7 h-7 text-green-500" />
               </p>
               <p>Period Income</p>
-              <p className="text-3xl font-bold  text-base-content">
+              <p className="text-3xl font-semibold  text-base-content">
                 ${periodIncome}
               </p>
-              <h2 className=" font-medium ">Filtered period</h2>
+              <h2 className="  ">Filtered period</h2>
             </div>
           </div>
 
