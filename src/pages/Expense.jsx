@@ -24,6 +24,7 @@ import { MdOutlineCurrencyExchange } from "react-icons/md";
 import { IoCardOutline } from "react-icons/io5";
 import { BiWallet } from "react-icons/bi";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { IoCheckmarkCircle } from "react-icons/io5";
 
 //animationn
 import { motion } from "framer-motion";
@@ -98,7 +99,7 @@ function Expense() {
   const lastHandledAction = useRef(null);
   const modalFormRef = useRef();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [expenseData, setExpenseData] = useState(null);
+  const [expenseData, setExpenseData] = useState("");
   const [totalSum, setTotalSum] = useState(0);
   const [maxSum, setMaxSum] = useState(0);
 
@@ -118,6 +119,11 @@ function Expense() {
   const [periodIncome, setPeriodIncome] = useState(0);
   const [fiterTotalMoney, setFilterTotalMoney] = useState(0);
   const [filterMaxMoney, setFilterMaxMoney] = useState(0);
+  const [incomeType, setIncomeType] = useState("");
+  const [incomeNote, setIncomeNote] = useState("");
+  const [currentMonthIncome, setCurrentMonthIncome] = useState(0);
+  const [balance, setBalance] = useState(0);
+  const [percent, setPercent] = useState(0);
   const { incomes } = useContext(MainIncomContext);
 
   useEffect(() => {
@@ -348,23 +354,67 @@ function Expense() {
     setNullishData(null);
     await addDocument("Incomes", {
       income,
+      incomeType,
+      incomeNote,
       timeStamp: new Date(),
       userId: user.uid,
     });
     setIncome("");
+    setIncomeType("");
+    setIncomeNote("");
     document.getElementById("add-money").close();
   };
   // get total income
-  useEffect(() => {
+  const calculateIncome = () => {
     if (!incomes || incomes.length === 0) return;
     let income = 0;
+
     incomes.forEach((i) => {
       income += Number(i.income);
     });
 
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    const filteredIncomes = incomes.filter((i) => {
+      const date = i.timeStamp.toDate();
+
+      return (
+        date.getMonth() === currentMonth && date.getFullYear() === currentYear
+      );
+    });
+
+    let currentIncome = 0;
+    filteredIncomes.forEach((i) => {
+      currentIncome += Number(i.income);
+    });
+
+    const filteredExpenses = collectionData.filter(
+      (collect) =>
+        collect.month === currentMonth && collect.year === currentYear
+    );
+    let forBalance = 0;
+    filteredExpenses.forEach((expense) => {
+      forBalance += Number(expense.amaunt);
+    });
+
+    let balance = currentIncome - forBalance;
+    let balancePercentage = (forBalance / currentIncome) * 100;
+
+    setBalance(balance);
+    setPercent(balancePercentage.toFixed(2));
+    setCurrentMonthIncome(currentIncome);
     setTotalIncomes(income);
     setPeriodIncome(income);
-  }, [incomes]);
+  };
+  useEffect(() => {
+    calculateIncome();
+    const intervalId = setInterval(() => {
+      calculateIncome();
+
+      return () => clearInterval(intervalId);
+    }, 3600000);
+  }, [incomes, collectionData]);
 
   //delete Incomes
   const deleteIncomes = async () => {
@@ -574,7 +624,12 @@ function Expense() {
                 alt=""
               />
               <div className="group">
-                <div className="absolute btn p-0 btn-sm border-none  top-2 right-2 w-8 h-8 cursor-pointer flex justify-center items-center rounded-xl bg-gradient-to-t from-blue-400 to-fuchsia-500">
+                <div
+                  onClick={() =>
+                    document.getElementById("add-money").showModal()
+                  }
+                  className="absolute btn p-0 btn-sm border-none  top-2 right-2 w-8 h-8 cursor-pointer flex justify-center items-center rounded-xl bg-gradient-to-t from-blue-400 to-fuchsia-500"
+                >
                   <FiPlusCircle className="text-white w-5 h-5 " />
                 </div>
                 <span className="absolute -top-1 bg-base-100 border border-gray-400/20  text-base-content px-2 rounded-full right-5 text-[11px] opacity-0 group-hover:opacity-100 transition-all duration-700">
@@ -584,12 +639,16 @@ function Expense() {
               <p className="text-gray-300 text-[12px] font-thin">
                 This month earn
               </p>
-              <p className="font-semibold text-gray-100 text-xl">$18000.0</p>
+              <p className="font-semibold text-gray-100 text-xl">
+                ${currentMonthIncome > 0 ? currentMonthIncome : "0.00"}
+              </p>
               <p className="flex items-center gap-2">
                 <span className="text-gray-300 text-[10px]">
-                  Balance: $1084/Dec
+                  Balance: ${balance > 0 ? balance : "0.00"}/Dec
                 </span>
-                <span className="text-gray-300 text-[9px]">0% spent</span>
+                <span className="text-gray-300 text-[9px]">
+                  {percent > 0 ? percent : "0"}% spent
+                </span>
                 {/* <FaArrowTrendUp className="text-gray-200 w-3 h-3" />{" "}
                 <span className="text-gray-200 text-[11px] font-thin">
                   +87.1%
@@ -1260,32 +1319,57 @@ function Expense() {
         </div>
       </dialog>
       <dialog id="add-money" className="modal">
-        <div className="modal-box max-w-sm py-10 flex flex-col gap-8">
-          <label className="flex flex-col gap-2">
-            <span className="text-gray-400 text-sm">
-              Please enter how much did you earn today
+        <div className="modal-box max-w-sm py-6 flex flex-col gap-3 rounded-md">
+          <span className=" flex items-center gap-1 font-medium">
+            <IoCheckmarkCircle className="w-5 h-5 text-green-500" />
+            Please enter your income!
+          </span>
+          <div className="flex flex-col gap-2">
+            <label className="flex-1 flex flex-col ">
+              <span className="text-sm ">Money you earn</span>
+              <input
+                type="number"
+                step="any"
+                value={income}
+                onChange={(e) => setIncome(e.target.value)}
+                className="input input-sm border-2 border-slate-200/80 focus:outline-none w-full rounded-sm "
+                placeholder="Enter number"
+              />
+            </label>
+            <label className="flex-1 flex flex-col ">
+              <span className="text-sm ">From where?</span>
+              <input
+                onChange={(e) => setIncomeType(e.target.value)}
+                type="text"
+                className="input input-sm  border-2 border-slate-200/80 w-full focus:outline-none rounded-sm"
+                placeholder="Salary/business a.c."
+              />
+            </label>
+          </div>
+          <label className="flex flex-col">
+            <span className="text-sm">
+              Description <span className="italic">(optional)</span>
             </span>
-            <input
-              type="number"
-              step="any"
-              value={income}
-              onChange={(e) => setIncome(e.target.value)}
-              className="input input-bordered w-full "
-              placeholder="Enter number"
-            />
+            <textarea
+              onChange={(e) => setIncomeNote(e.target.value)}
+              name="textarea"
+              id="textarea"
+              className="textarea border-2 border-slate-200/80 focus:outline-none rounded-sm"
+              placeholder="Enter note"
+            ></textarea>
           </label>
-          <div className="flex gap-5 justify-center">
+          <div className="flex gap-5 justify-end">
             <button
               onClick={() => document.getElementById("add-money").close()}
-              className="btn btn-sm btn-outline btn-success"
+              className="btn btn-sm btn-outline rounded-sm border-slate-200 font-normal"
             >
               Cancel
             </button>
             <button
               onClick={addIncome}
-              className="btn btn-sm bg-transparent border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-600"
+              className="btn btn-sm rounded-sm border-none bg-indigo-600 text-white font-normal hover:bg-indigo-700"
             >
-              Save
+              Save income
             </button>
           </div>
         </div>
