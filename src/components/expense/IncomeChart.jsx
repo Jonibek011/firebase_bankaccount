@@ -215,14 +215,14 @@ export default function IncomeChart() {
     <div
       className={`w-full h-[130px] border border-gray-400/10 bg-gradient-to-t    ${
         isDark ? "from-purple-200" : "from-slate-800"
-      } to-transparent rounded-xl py-4`}
+      } to-transparent rounded-xl  pb-4`}
     >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}
           barSize={18}
           barGap={2}
-          margin={{ left: -10, bottom: -15 }}
+          margin={{ left: -10, bottom: -15, top: 10 }}
         >
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
 
