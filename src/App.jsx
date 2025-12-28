@@ -12,7 +12,7 @@ import useGlobalContext from "./hooks/useGlobalContext";
 //firebase
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebaseConfig";
-
+import { lazy, Suspense, useEffect } from "react";
 //pages
 import {
   Home,
@@ -22,11 +22,14 @@ import {
   Login,
   Register,
   Profile,
-  Dashboard,
-  Tasks,
-  Expense,
-  Chat,
 } from "./pages";
+
+const Fund = lazy(() => import("./pages/expense/Fund"));
+const Statistics = lazy(() => import("./pages/expense/Statistics"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Tasks = lazy(() => import("./pages/Tasks"));
+const Expense = lazy(() => import("./pages/Expense"));
+const Chat = lazy(() => import("./pages/Chat"));
 
 //action
 import { action as RegisterAction } from "./pages/Register";
@@ -35,7 +38,7 @@ import { action as LoginAction } from "./pages/login";
 import { action as TaskAction } from "./pages/Tasks";
 import { action as ExpenseAction } from "./pages/Expense";
 //react
-import { useEffect } from "react";
+
 function App() {
   const { user, dispatch, readyState } = useGlobalContext();
 
@@ -67,21 +70,89 @@ function App() {
         },
         {
           path: "dashboard",
-          element: <Dashboard />,
+          element: (
+            <Suspense
+              fallback={
+                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                  <span className="loading loading-spinner loading-lg"></span>
+                </div>
+              }
+            >
+              <Dashboard />
+            </Suspense>
+          ),
         },
         {
           path: "tasks",
-          element: <Tasks />,
+          element: (
+            <Suspense
+              fallback={
+                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                  <span className="loading loading-spinner loading-lg"></span>
+                </div>
+              }
+            >
+              <Tasks />
+            </Suspense>
+          ),
           action: TaskAction,
         },
         {
           path: "expense",
-          element: <Expense />,
+          element: (
+            <Suspense
+              fallback={
+                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                  <span className="loading loading-spinner loading-lg"></span>
+                </div>
+              }
+            >
+              <Expense />
+            </Suspense>
+          ),
           action: ExpenseAction,
         },
         {
           path: "chat",
-          element: <Chat />,
+          element: (
+            <Suspense
+              fallback={
+                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                  <span className="loading loading-spinner loading-lg"></span>
+                </div>
+              }
+            >
+              <Chat />
+            </Suspense>
+          ),
+        },
+        {
+          path: "expense/fund",
+          element: (
+            <Suspense
+              fallback={
+                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                  <span className="loading loading-spinner loading-lg"></span>
+                </div>
+              }
+            >
+              <Fund />
+            </Suspense>
+          ),
+        },
+        {
+          path: "expense/statistics",
+          element: (
+            <Suspense
+              fallback={
+                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                  <span className="loading loading-spinner loading-lg"></span>
+                </div>
+              }
+            >
+              <Statistics />
+            </Suspense>
+          ),
         },
       ],
     },

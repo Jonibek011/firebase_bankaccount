@@ -1,4 +1,4 @@
-import { Form } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 import { CiMenuKebab } from "react-icons/ci";
 import { useActionData } from "react-router-dom";
 //icons
@@ -545,10 +545,13 @@ function Expense() {
               <span className="text-sm text-white ">
                 {nullishData ?? totlaIncomes}$
               </span>
-              Total
+              Total/2026
             </span>
 
-            <span className="bg-gradient-to-r from-blue-400 cursor-pointer to-fuchsia-500 text-white flex items-center gap-1 rounded-full px-2 py-1 text-sm">
+            <Link
+              to="/expense/statistics"
+              className="bg-gradient-to-r from-blue-400 cursor-pointer to-fuchsia-500 text-white flex items-center gap-1 rounded-full px-2 py-1 text-sm"
+            >
               <SiCodefresh /> Statistics{" "}
               <motion.span
                 initial={{ x: 0 }}
@@ -561,46 +564,53 @@ function Expense() {
               >
                 <FaArrowRightLong />
               </motion.span>
-            </span>
+            </Link>
           </div>
           <div className="flex justify-between items-center gap-6 sm:gap-10">
             <div className="relative min-w-[150px] overflow-hidden w-full p-4 rounded-xl bg-gradient-to-b from-indigo-400 to-purple-700">
               <img
                 src={incomeImage}
-                className="hidden sm:flex w-36 absolute -top-4 right-8 lg:top-4 lg:-right-2 2xl:-top-4 2xl:right-8"
+                className="hidden sm:flex w-36 absolute -top-4 right-8 lg:top-4 lg:-right-9 2xl:-top-4 2xl:right-8"
                 alt=""
               />
               <div className="group">
                 <div className="absolute btn p-0 btn-sm border-none  top-2 right-2 w-8 h-8 cursor-pointer flex justify-center items-center rounded-xl bg-gradient-to-t from-blue-400 to-fuchsia-500">
                   <FiPlusCircle className="text-white w-5 h-5 " />
                 </div>
-                <span className="absolute -top-3 bg-base-100 border border-gray-400/20  text-base-content px-2 rounded-full -right-5 text-[11px] opacity-0 group-hover:opacity-100 transition-all duration-700">
+                <span className="absolute -top-1 bg-base-100 border border-gray-400/20  text-base-content px-2 rounded-full right-5 text-[11px] opacity-0 group-hover:opacity-100 transition-all duration-700">
                   + Add income
                 </span>
               </div>
               <p className="text-gray-300 text-[12px] font-thin">
                 This month earn
               </p>
-              <p className="font-semibold text-gray-100 text-xl">$00.0</p>
+              <p className="font-semibold text-gray-100 text-xl">$18000.0</p>
               <p className="flex items-center gap-2">
-                <FaArrowTrendUp className="text-gray-200 w-3 h-3" />{" "}
+                <span className="text-gray-300 text-[10px]">
+                  Balance: $1084/Dec
+                </span>
+                <span className="text-gray-300 text-[9px]">0% spent</span>
+                {/* <FaArrowTrendUp className="text-gray-200 w-3 h-3" />{" "}
                 <span className="text-gray-200 text-[11px] font-thin">
                   +87.1%
                 </span>{" "}
                 <span className="text-[10px] font-thin text-gray-200">
                   last month
-                </span>
+                </span> */}
               </p>
             </div>
             <div className=" h-full relative min-w-[150px] perspect">
               <div className="absolute top-1 card-1 -left-5 w-full h-full transform rotate-x-12  bg-gradient-to-br from-cyan-400 to-green-700 rounded-xl"></div>
               <div className="absolute top-0 card-2 -left-3 w-full h-full  bg-gradient-to-br from-blue-400 to-blue-700 rounded-xl"></div>
-              <div className="group  flex justify-center items-center absolute -top-1  card-3  -left-1 w-full h-full overflow-hidden  bg-gradient-to-br cursor-pointer from-indigo-500 via-fuchsia-500 to-purple-500 rounded-xl">
+              <Link
+                to="/expense/fund"
+                className="group  flex justify-center items-center absolute -top-1  card-3  -left-1 w-full h-full overflow-hidden  bg-gradient-to-br cursor-pointer from-indigo-500 via-fuchsia-500 to-purple-500 rounded-xl"
+              >
                 <span className="absolute  top-[-100%] group-hover:top-0 transition-all duration-300 cursor-pointer left-0 w-full h-full bg-white/20 backdrop:blur-md flex justify-center items-center text-xl font-semibold text-white">
                   + Fund
                 </span>
                 <img src={fundImage} className="w-24" alt="" />
-              </div>
+              </Link>
             </div>
           </div>
           <div>

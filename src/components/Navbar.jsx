@@ -55,9 +55,9 @@ function Navbar() {
         <div className="toggle-button">
           <button
             onClick={() => setToggleBtn(true)}
-            className="p-2 bg-base-200 rounded-lg md:hidden "
+            className="p-2 border-2 border-cyan-400 shadow shadow-cyan-400  rounded-lg md:hidden "
           >
-            <RxHamburgerMenu className="w-5 h-5" />
+            <RxHamburgerMenu className="w-5 h-5 text-cyan-500" />
           </button>
         </div>
         <div className="flex gap-3 md:gap-5 ">
@@ -107,14 +107,14 @@ function Navbar() {
           </Link> */}
 
           {/* ================ Notification ======================== */}
-          {/* <div className="notification">
+          <div className="notification">
             <Link className="relative">
               <IoNotifications className="w-6 h-6 text-gray-400 " />
-              <div className="badge badge-ghost badge-xs absolute -top-2 -right-2">
-                {uncompletedTasks?.length}
+              <div className="badge badge-ghost badge-xs absolute -top-2 -right-2 bg-green-500 text-white py-2">
+                1
               </div>
             </Link>
-          </div> */}
+          </div>
           {/* ================= Profile =========================================== */}
           <div className="dropdown dropdown-end">
             <div
