@@ -385,8 +385,10 @@ function Dashboard() {
             {minute < 10 ? "0" + minute : minute} AM
           </p>
         </div>
+
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-5 md:flex-row lg:flex-col ">
+            {/* ================ First card ================================================== */}
             <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-orange-400/5 shadow-md shadow-purple-400/20">
               <div className="border-b border-base-content/10 flex justify-between items-center py-2">
                 <h3 className="font-medium">Income</h3>
@@ -412,7 +414,7 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-
+            {/* ================ Second card ================================================== */}
             <div className="card md:flex-1 lg:flex-none rounded-lg px-5 py-3 bg-base-100 shadow-md bg-green-400/5  shadow-green-400/20">
               <div className="border-b border-base-content/10 flex justify-between items-center py-2">
                 <h3 className="font-medium">Expenses</h3>
@@ -439,7 +441,7 @@ function Dashboard() {
               </div>
             </div>
           </div>
-
+          {/* ================ third card ================================================== */}
           <div className="chart rounded-lg px-5 py-3  flex flex-col gap-5 bg-pink-400/5 shadow-md shadow-pink-400/20">
             <h2 className="py-3 border-b border-base-content/10 font-medium flex flex-col text-center ">
               <span>Where do you spend money? </span>{" "}
@@ -454,8 +456,11 @@ function Dashboard() {
                 <span className="font-medium text-base-content/70">Food</span>
               </div>{" "}
               <div className="relative w-full flex-1  h-2">
-                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%]">
-                  {getExByCategory("Food") || 0} /{limitData?.Food ?? 100}
+                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%] w-full">
+                  <span>
+                    {" "}
+                    {getExByCategory("Food") || 0} /{limitData?.Food ?? 100}
+                  </span>
                 </span>{" "}
                 <span className=" bg-gray-200 rounded-full w-full h-full absolute top-0 left-0  overflow-x-hidden">
                   <span

@@ -271,7 +271,7 @@ export default function IncomeChart() {
               position="top"
               formatter={formatK}
               fill={isDark ? "#313647" : "#FFFFFF"}
-              fontSize={10}
+              fontSize={8}
             />
           </Bar>
 
