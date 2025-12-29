@@ -4,9 +4,15 @@ import { BiWallet } from "react-icons/bi";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { LuTarget } from "react-icons/lu";
 import { GoTrash } from "react-icons/go";
+//hooks
+import { useRef } from "react";
+//images
+import rasm from "../../assets/images/chat/diego-ph-5LOhydOtTKU-unsplash.jpg";
+import { IoCheckmarkCircle } from "react-icons/io5";
 function Fund() {
+  const fileRef = useRef();
   return (
-    <div className="w-full h-full px-2 md:px-[5%] lg:px-[10%] xl:px-[10%] 2xl:px-[15%] flex flex-col gap-5 py-10">
+    <div className="w-full min-h-[100vh] px-2 md:px-[5%]  lg:px-[10%] xl:px-[10%] 2xl:px-[15%] flex flex-col gap-5 pt-10 pb-10">
       <div className="flex items-center gap-5">
         <div className="w-16 h-16 bg-gradient-to-br flex justify-center items-center from-indigo-500 to-purple-700 from-0% rounded-2xl">
           <BiWallet className="w-10 h-10 text-white" />
@@ -51,17 +57,22 @@ function Fund() {
 
       <div className="md:mt-4 flex justify-between items-center">
         <p className="text-[#18181B]">My funds</p>
-        <button className="rounded-md px-8 py-2 bg-[#18181B] hover:bg-[#303036] text-white">
+        <button
+          onClick={() => document.getElementById("add-fund").showModal()}
+          className="rounded-md px-8 py-2 bg-[#18181B] hover:bg-[#303036] text-white"
+        >
           + New fund
         </button>
       </div>
 
-      <div className="fund-cards grid gap-3 md:gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+      <div className="fund-cards  grid gap-5  grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         <div className="card overflow-hidden relative shadow-xl pt-12 px-3 md:px-4 xl:px-5 pb-6 rounded-2xl bg-base-100 flex flex-col gap-6">
           <span className="absolute w-full h-3 left-0 top-0 bg-blue-500 "></span>
           <div className="card-header flex justify-between items-center gap-5">
             <div className="flex gap-4 items-center">
-              <div className="image w-14 h-14 rounded-md bg-slate-100 "></div>
+              <div className="image overflow-hidden w-14 h-14 rounded-md bg-slate-100 ">
+                <img src={rasm} className="object-cover" alt="" />
+              </div>
               <div>
                 <h2 className="font-medium">For electro car</h2>
                 <p>30.0% completed</p>
@@ -189,6 +200,82 @@ function Fund() {
           </div>
         </div>
       </div>
+      <dialog id="add-fund" className="modal">
+        <div className="modal-box max-w-sm py-6 flex flex-col gap-3 rounded-md">
+          <span className=" flex items-center gap-1 font-medium">
+            <IoCheckmarkCircle className="w-5 h-5 text-green-500" />
+            Create new fund!
+          </span>
+          <div className="flex flex-col gap-2">
+            <label className="flex-1 flex flex-col ">
+              <span className="text-sm ">Fund title</span>
+              <input
+                type="text"
+                step="any"
+                className="input input-sm border-2 border-slate-200/80 focus:outline-none w-full rounded-sm "
+                placeholder="Enter goal name"
+              />
+            </label>
+            <label className="flex-1 flex flex-col ">
+              <span className="text-sm ">How much are you goin to gain?</span>
+              <input
+                type="number"
+                className="input input-sm  border-2 border-slate-200/80 w-full focus:outline-none rounded-sm"
+                placeholder="Enter number"
+              />
+            </label>
+          </div>
+
+          <label className="flex-1 flex flex-col ">
+            <span className="text-sm ">
+              Initial value <span className="italic">(optional)</span>
+            </span>
+            <input
+              type="number"
+              className="input input-sm  border-2 border-slate-200/80 w-full focus:outline-none rounded-sm"
+              placeholder="Enter number"
+            />
+          </label>
+          <label className="flex flex-col">
+            <span className="text-sm">
+              Create some note! <span className="italic">(optional)</span>
+            </span>
+            <textarea
+              name="textarea"
+              id="textarea"
+              placeholder="Notes..."
+              className="textarea  border-2 border-slate-200/80 w-full focus:outline-none rounded-sm"
+            ></textarea>
+          </label>
+
+          <label>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+            />
+            <button
+              onClick={() => fileRef.current.click()}
+              className="w-full h-10 rounded-sm bg-[#18181B] text-sm text-white"
+            >
+              Add photo <span className="italic">(optional)</span>
+            </button>
+          </label>
+
+          <div className="flex gap-5 justify-end">
+            <button
+              onClick={() => document.getElementById("add-fund").close()}
+              className="btn btn-sm btn-outline rounded-sm border-slate-200 font-normal"
+            >
+              Cancel
+            </button>
+            <button className="btn btn-sm rounded-sm border-none bg-[#18181B] text-white font-normal hover:bg-[#3a3a41]">
+              Save income
+            </button>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 }
