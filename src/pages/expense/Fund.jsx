@@ -138,7 +138,7 @@ function Fund() {
     return text.length > max ? text.slice(0, max) + "..." : text;
   };
   return (
-    <div className="w-full min-h-[100vh] px-2 md:px-[5%]  lg:px-[10%] xl:px-[10%] 2xl:px-[15%] flex flex-col gap-5 pt-10 pb-10">
+    <div className="w-full min-h-[100vh] h-auto px-2 md:px-[5%]  lg:px-[10%] xl:px-[10%] 2xl:px-[15%] flex flex-col gap-5 pt-10 pb-10">
       <div className="flex items-center gap-5">
         <div className="w-16 h-16 bg-gradient-to-br flex justify-center items-center from-indigo-500 to-purple-700 from-0% rounded-2xl">
           <BiWallet className="w-10 h-10 text-white" />

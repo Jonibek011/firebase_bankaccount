@@ -232,7 +232,7 @@ function Tasks() {
     setCompletedTasks(filterCompleted.length ? filterCompleted.length : 0);
   }, [collectionData]);
   return (
-    <div className="w-full min-h-[70vh] pb-6  bg-base-10  relative flex flex-col gap-5 ">
+    <div className="w-full min-h-[70vh] pb-6  bg-base-100  relative flex flex-col gap-8 ">
       <div>
         <div className="w-full h-64 bg-purple-500 overflow-hidden relative">
           <img
@@ -292,7 +292,7 @@ function Tasks() {
         </div>
       </div>
 
-      <div className="cards  px-1 md:px-0 max-w-screen-2xl w-full mx-auto  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="cards  px-3 md:px-5 max-w-screen-2xl w-full mx-auto  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="card shadow-md transition-all hover:scale-105 duration-500 p-4 bg-base-100 flex flex-col gap-4 relative">
           <img src={card1} className="w-20 absolute right-0 top-0" alt="" />
           <div>
@@ -316,7 +316,8 @@ function Tasks() {
           </div>
         </div>
       </div>
-      <div className="flex max-w-screen-2xl w-full mx-auto justify-start  items-center pe-3 ">
+      {/* =============================== FILTER ================================================= */}
+      <div className="flex max-w-screen-2xl w-full mx-auto justify-start  items-center px-3 md:px-5 ">
         <div className="flex gap-4 items-center">
           <div className="shadow-sm rounded-xl shadow-cyan-800 p-1">
             <button
@@ -363,176 +364,165 @@ function Tasks() {
           </div>
         </div>
       </div>
-
-      <div className=" bg-base-100 max-w-screen-2xl w-full mx-auto relative border border-base-content/10 rounded-xl overflow-y-hidden overflow-x-auto max-w-[100vw] pb-16 min-h-[50vh]   ">
-        <table className="table min-w-[1200px]   ">
-          <thead>
-            <tr className="">
-              <th className=" max-w-14 md:max-w-28  lg:font-bold lg:text-xl  w-14 "></th>
-              <th className=" lg:text-lg font-medium text-base-content/80">
-                Task
-              </th>
-              <th className="lg:text-lg font-medium text-base-content/80 ">
-                Status
-              </th>
-              <th className="lg:text-lg font-medium text-base-content/80 ">
-                Priority
-              </th>
-              <th className="lg:text-lg font-medium text-base-content/80 ">
-                Category
-              </th>
-              <th className=" lg:text-lg font-medium text-base-content/80">
-                Created
-              </th>
-              <th className=" lg:text-lg font-medium text-base-content/80 ">
-                Due Date
-              </th>
-              <th className="lg:text-lg font-medium text-base-content/80">
-                Options
-              </th>
-            </tr>
-          </thead>
-          <tbody className="">
-            {mapData?.length > 0 &&
-              mapData?.map((task) => {
-                return (
-                  <tr
-                    key={task.taskId}
-                    className={` hover:bg-base-content/5  ${
-                      task.status === "Completed" ? "bg-base-100" : ""
-                    }`}
-                  >
-                    <td className=" ">
-                      <div className="flex flex-col gap-1 items-start">
-                        <input
-                          type="checkbox"
-                          checked={task.status === "Completed"}
-                          onChange={() => changeStatus(task._id, task.status)}
-                          className={`checkbox ${
-                            task.status === "completed" ? "opasity-50" : ""
-                          } checkbox-xs md:checkbox-md `}
-                        />
-                      </div>
-                    </td>
-                    <td
-                      className={`lg:font-semibold text-lg ${
-                        task.status === "Completed" && "opacity-50"
-                      } `}
+      {/* =================================== TASKS ============================================ */}
+      <div className="px-3  md:px-5 md:w-[calc(100vw-70px)]  max-w-screen-2xl mx-auto ">
+        <div className=" bg-base-100  w-[calc(100vw-20px)] md:w-[calc(100vw-120px)]  max-w-full   overflow-x-auto mx-auto relative border border-base-content/10 rounded-xl  pb-16 min-h-[50vh]   ">
+          <table className="table min-w-[1200px]">
+            <thead>
+              <tr className="">
+                <th className=" max-w-14 md:max-w-28  lg:font-bold lg:text-xl  w-14 "></th>
+                <th className=" lg:text-lg font-medium text-base-content/80">
+                  Task
+                </th>
+                <th className="lg:text-lg font-medium text-base-content/80 ">
+                  Status
+                </th>
+                <th className="lg:text-lg font-medium text-base-content/80 ">
+                  Priority
+                </th>
+                <th className="lg:text-lg font-medium text-base-content/80 ">
+                  Category
+                </th>
+                <th className=" lg:text-lg font-medium text-base-content/80">
+                  Created
+                </th>
+                <th className=" lg:text-lg font-medium text-base-content/80 ">
+                  Due Date
+                </th>
+                <th className="lg:text-lg   text-base-content/80">Options</th>
+              </tr>
+            </thead>
+            <tbody className="">
+              {mapData?.length > 0 &&
+                mapData?.map((task) => {
+                  return (
+                    <tr
+                      key={task.taskId}
+                      className={` hover:bg-base-content/5  ${
+                        task.status === "Completed" ? "bg-base-100" : ""
+                      }`}
                     >
-                      <p>{shortenText(task.taskTitle, 40)}</p>
-                      <p className="text-sm font-normal">
-                        {task?.taskBody || ""}
-                      </p>
-                    </td>
-                    <td
-                      className={`table-cell lg:font-semibold lg:text-lg  ${
-                        task.status === "Completed"
-                          ? "opacity-100"
-                          : "opacity-100"
-                      } `}
-                    >
-                      <span
-                        className={`badge ${
-                          task.status === "Completed"
-                            ? "rounded-md px-3 py-2 text-green-500 border-none bg-[#5dfa6538]"
-                            : "px-3 py-2 rounded-md text-purple-500 border-none bg-[#ec0bc72f]"
-                        }`}
-                      >
-                        {task.status}
-                      </span>
-                    </td>
-                    <td className="text-center">
-                      {task?.taskPriority ? (
-                        <p
-                          className={`py-1 flex items-center justify-center gap-3 font-semibold ${
-                            task.taskPriority == "High"
-                              ? "text-red-700 bg-[#ec4a4a3b]"
-                              : task.taskPriority == "Low"
-                              ? "bg-[#1e60db48] text-blue-500"
-                              : "text-orange-700 bg-[#ffab2c5b]"
-                          }  px-3 rounded-md `}
-                        >
-                          <GrFlag /> <span>{task?.taskPriority}</span>
-                        </p>
-                      ) : (
-                        <span>-</span>
-                      )}
-                    </td>
-                    <td className="text-center">
-                      <span className="badge border-base-content/20 font-medium">
-                        {task?.taskCategory || "-"}
-                      </span>
-                    </td>
-                    <td className={`   font-medium text-[10px] md:text-sm   `}>
-                      {task.date}
-                    </td>
-                    <td className=" table-cell font-medium whitespace-nowrap text-[10px] md:text-sm">
-                      {task.taskTime ? (
-                        <span className={`flex flex-col `}>
-                          <span>{task.taskTime},</span>{" "}
-                          <span> {task.taskDate}</span>
-                        </span>
-                      ) : (
-                        "----"
-                      )}
-                    </td>
-                    <td className=" flex justify-center items-center w-full  gap-5">
-                      {/* <div>
-                    {task.status === "Completed" ? (
-                      <span>
-                        <IoEyeOffOutline className="w-4 h-4 md:w-5 md:h-5 opacity-50" />
-                      </span>
-                    ) : (
-                      <button
-                        onClick={() => {
-                          document.getElementById("my_modal_3").showModal();
-                          setEditingData(task);
-                        }}
-                      >
-                        <MdOutlineRemoveRedEye className="w-4 h-4 md:w-5 md:h-5 opacity-75" />
-                      </button>
-                    )}
-                  </div> */}
-                      <div className="dropdown dropdown-end">
-                        <div tabIndex={0} role="button" className=" mt-5 ">
-                          <CiMenuKebab className="w-4 h-4 lg:w-5 lg:h-5 " />
+                      <td className=" ">
+                        <div className="flex flex-col gap-1 items-start">
+                          <input
+                            type="checkbox"
+                            checked={task.status === "Completed"}
+                            onChange={() => changeStatus(task._id, task.status)}
+                            className={`checkbox ${
+                              task.status === "completed" ? "opasity-50" : ""
+                            } checkbox-xs md:checkbox-md `}
+                          />
                         </div>
-
-                        <ul
-                          tabIndex={-1}
-                          className="dropdown-content menu bg-base-100 rounded-box z-[100] w-32 p-2 shadow"
+                      </td>
+                      <td
+                        className={`lg:font-semibold text-lg ${
+                          task.status === "Completed" && "opacity-50"
+                        } `}
+                      >
+                        <p>{shortenText(task.taskTitle, 40)}</p>
+                        <p className="text-sm font-normal">
+                          {task?.taskBody || ""}
+                        </p>
+                      </td>
+                      <td
+                        className={`table-cell lg:font-semibold lg:text-lg  ${
+                          task.status === "Completed"
+                            ? "opacity-100"
+                            : "opacity-100"
+                        } `}
+                      >
+                        <span
+                          className={`badge ${
+                            task.status === "Completed"
+                              ? "rounded-md px-3 py-2 text-green-500 border-none bg-[#5dfa6538]"
+                              : "px-3 py-2 rounded-md text-purple-500 border-none bg-[#ec0bc72f]"
+                          }`}
                         >
-                          {task.status !== "Completed" && (
-                            <li>
-                              <button onClick={() => editFunction(task)}>
-                                <GrEdit className="text-warning" /> Edit
-                              </button>
-                            </li>
-                          )}
-                          <li>
-                            <button onClick={() => deleteTask(task._id)}>
-                              <IoTrashOutline className="text-warning" /> Delete
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
-        {!collectionData && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="loading loading-spinner loading-lg"></span>
-          </div>
-        )}
-        {collectionData?.length === 0 && (
-          <div className="w-full h-[400px] flex flex-col items-center justify-center opacity-40">
-            <img src={emptyBox} className="w-20 mb-2" alt="Empty" />
-            <p className="font-semibold">No tasks yet</p>
-          </div>
-        )}
+                          {task.status}
+                        </span>
+                      </td>
+                      <td className="text-center">
+                        {task?.taskPriority ? (
+                          <p
+                            className={`py-1 flex items-center justify-center gap-3 font-semibold ${
+                              task.taskPriority == "High"
+                                ? "text-red-700 bg-[#ec4a4a3b]"
+                                : task.taskPriority == "Low"
+                                ? "bg-[#1e60db48] text-blue-500"
+                                : "text-orange-700 bg-[#ffab2c5b]"
+                            }  px-3 rounded-md `}
+                          >
+                            <GrFlag /> <span>{task?.taskPriority}</span>
+                          </p>
+                        ) : (
+                          <span>-</span>
+                        )}
+                      </td>
+                      <td className="text-center">
+                        <span className="badge border-base-content/20 font-medium">
+                          {task?.taskCategory || "-"}
+                        </span>
+                      </td>
+                      <td
+                        className={`   font-medium text-[10px] md:text-sm   `}
+                      >
+                        {task.date}
+                      </td>
+                      <td className=" table-cell font-medium whitespace-nowrap text-[10px] md:text-sm">
+                        {task.taskTime ? (
+                          <span className={`flex flex-col `}>
+                            <span>{task.taskTime},</span>{" "}
+                            <span> {task.taskDate}</span>
+                          </span>
+                        ) : (
+                          "----"
+                        )}
+                      </td>
+                      <td className="text-center ">
+                        <div className="flex justify-center items-center w-full  gap-5">
+                          <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className=" mt-5 ">
+                              <CiMenuKebab className="w-4 h-4 lg:w-5 lg:h-5 " />
+                            </div>
+
+                            <ul
+                              tabIndex={-1}
+                              className="dropdown-content menu bg-base-100 rounded-box z-[100] w-32 p-2 shadow"
+                            >
+                              {task.status !== "Completed" && (
+                                <li>
+                                  <button onClick={() => editFunction(task)}>
+                                    <GrEdit className="text-warning" /> Edit
+                                  </button>
+                                </li>
+                              )}
+                              <li>
+                                <button onClick={() => deleteTask(task._id)}>
+                                  <IoTrashOutline className="text-warning" />{" "}
+                                  Delete
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+          {!collectionData && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
+          )}
+          {collectionData?.length === 0 && (
+            <div className="w-full h-[400px] flex flex-col items-center justify-center opacity-40">
+              <img src={emptyBox} className="w-20 mb-2" alt="Empty" />
+              <p className="font-semibold">No tasks yet</p>
+            </div>
+          )}
+        </div>
       </div>
       {/* Modal */}
       <dialog ref={modalRef} id="my_modal_2" className="modal ">

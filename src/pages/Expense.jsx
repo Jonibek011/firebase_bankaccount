@@ -937,7 +937,7 @@ function Expense() {
                   <th className="table-cell text-lg">Date</th>
                   <th className="table-cell text-lg">Time</th>
 
-                  <th className="md:text-lg">Options</th>
+                  <th className="table-cell text-center text-lg">Options</th>
                 </tr>
               </thead>
               {/* =============== table body =================================================== */}
@@ -1031,55 +1031,57 @@ function Expense() {
                           : {collect.min < 10 ? "0" + collect.min : collect.min}
                         </span>
                       </td>
-                      <td className="relative flex justify-start ps-10 gap-5 items-center">
-                        <div className="dropdown  dropdown-left">
-                          <div tabIndex={0} role="button" className="m-1">
-                            <CiMenuKebab className="w-5 h-5 " />
-                          </div>
+                      <td className="relative ">
+                        <div className="flex justify-center gap-5 items-center">
+                          <div className="dropdown  dropdown-left">
+                            <div tabIndex={0} role="button" className="m-1">
+                              <CiMenuKebab className="w-5 h-5 " />
+                            </div>
 
-                          <ul
-                            tabIndex={-1}
-                            className="dropdown-content overflow-auto z-50 menu bg-base-100 rounded-box w-32 p-2 shadow absolute"
-                          >
-                            <li>
-                              <button
-                                onClick={() => {
-                                  setExpenseData(collect);
-                                  document
-                                    .getElementById("expense_view")
-                                    .showModal();
-                                }}
-                              >
-                                <PiEyeBold className="w-4 h-4" />{" "}
-                                <span>view</span>
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                onClick={() => {
-                                  document
-                                    .getElementById("expense_modal")
-                                    .showModal();
-                                  setExpenseData(collect);
-                                }}
-                              >
-                                <GrEdit className="text-warning" /> Edit
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                onClick={() => {
-                                  setDeleteItem(collect);
-                                  document
-                                    .getElementById("expense-delete")
-                                    .showModal();
-                                }}
-                              >
-                                <IoTrashOutline className="text-warning" />{" "}
-                                Delete
-                              </button>
-                            </li>
-                          </ul>
+                            <ul
+                              tabIndex={-1}
+                              className="dropdown-content overflow-auto z-50 menu bg-base-100 rounded-box w-32 p-2 shadow absolute"
+                            >
+                              <li>
+                                <button
+                                  onClick={() => {
+                                    setExpenseData(collect);
+                                    document
+                                      .getElementById("expense_view")
+                                      .showModal();
+                                  }}
+                                >
+                                  <PiEyeBold className="w-4 h-4" />{" "}
+                                  <span>view</span>
+                                </button>
+                              </li>
+                              <li>
+                                <button
+                                  onClick={() => {
+                                    document
+                                      .getElementById("expense_modal")
+                                      .showModal();
+                                    setExpenseData(collect);
+                                  }}
+                                >
+                                  <GrEdit className="text-warning" /> Edit
+                                </button>
+                              </li>
+                              <li>
+                                <button
+                                  onClick={() => {
+                                    setDeleteItem(collect);
+                                    document
+                                      .getElementById("expense-delete")
+                                      .showModal();
+                                  }}
+                                >
+                                  <IoTrashOutline className="text-warning" />{" "}
+                                  Delete
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </td>
                     </tr>

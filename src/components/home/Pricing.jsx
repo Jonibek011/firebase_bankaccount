@@ -18,7 +18,7 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "49,000",
+    price: "5,000",
     description: "For professional users",
     features: [
       "Unlimited tasks",
@@ -33,7 +33,7 @@ const plans = [
   },
   {
     name: "Business",
-    price: "99,000",
+    price: "19,000",
     description: "For large groups",
     features: [
       "All Pro opportunities",
@@ -132,7 +132,7 @@ function PricingCard({ plan, index }) {
               : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
           }`}
         >
-          Boshlash
+          Start
         </button>
 
         <div className="space-y-4">
