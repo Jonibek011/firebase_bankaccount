@@ -191,7 +191,7 @@ function Dashboard() {
       });
     }
 
-    return allSum;
+    return allSum.toFixed(0);
   };
   //firebase dan tasklarni olish
   const filterData = useMemo(() => ["userId", "==", user.uid], [user.uid]);
@@ -376,7 +376,7 @@ function Dashboard() {
 
   return (
     <section className="flex max-w-[1500px] mx-auto flex-col lg:flex-row w-full md:w-[calc(100vw-70px)] lg:h-[calc(100vh-70px)] bg-base-100/80">
-      <div className="flex order-2 lg:order-1 flex-col gap-5 min-w-64 lg:h-[calc(100vh-70px)] overflow-y-auto bg-base-100 lg:border-r border-base-content/10 p-6">
+      <div className="flex order-2 lg:order-1 flex-col gap-5 min-w-56 lg:h-[calc(100vh-70px)] overflow-y-auto bg-base-100 lg:border-r border-base-content/10 p-6">
         <div>
           <h2 className="font-medium text-lg">Monthly Statistics</h2>
           <p className="text-sm text-gray-400">
@@ -456,7 +456,7 @@ function Dashboard() {
                 <span className="font-medium text-base-content/70">Food</span>
               </div>{" "}
               <div className="relative w-full flex-1  h-2">
-                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%] w-full">
+                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%] w-full text-center">
                   <span>
                     {" "}
                     {getExByCategory("Food") || 0} /{limitData?.Food ?? 100}
@@ -628,7 +628,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="lg:flex-1 order-1 lg:order-2  p-5 flex flex-col gap-4 w-full    md:pb-10 lg:min md:h-[calc(100vh-70px)] overflow-y-auto bg-purple-400/5">
+      <div className="lg:flex-1 order-1 lg:order-2  p-5 flex flex-col gap-4 w-full    md:pb-10 md:h-[calc(100vh-70px)] overflow-y-auto bg-purple-400/5">
         {/* ============================ High section ================================= */}
         <div className="w-full flex gap-10 justify-between items-center">
           <h2 className="text-lg font-medium">
@@ -652,7 +652,7 @@ function Dashboard() {
           </div>
         </div>
         {/* ================================== Middle section ============================= */}
-        <div className="       max-w-full lg:max-w-full   lg:w-[calc(100vw-410px)]  gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 ">
+        <div className="  w-full     max-w-full lg:max-w-full   lg:w-[calc(100vw-410px)]  gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 ">
           <div className="flex-1 shadow-md bg-base-100 py-4  min-h-[150px] rounded-2xl relative  overflow-hidden    lg:pe-2  ">
             <img
               src={card5}
@@ -667,7 +667,9 @@ function Dashboard() {
               </p>
               <div className="flex items-center justify-center flex-col gap-1">
                 <p className="text-gray-400">Monthly Savings</p>
-                <h2 className={`text-3xl  font-bold`}>${monthlySaving}</h2>
+                <h2 className={`text-3xl  font-bold`}>
+                  ${monthlySaving.toFixed(2)}
+                </h2>
                 <p>
                   <span className="text-green-600 font-medium">16% </span>this
                   month

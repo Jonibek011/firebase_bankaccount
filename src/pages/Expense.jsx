@@ -368,14 +368,18 @@ function Expense() {
   const calculateIncome = () => {
     if (!incomes || incomes.length === 0) return;
     let income = 0;
-
-    incomes.forEach((i) => {
-      income += Number(i.income);
-    });
-
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
+
+    const filterForAllSum = incomes.filter((item) => {
+      const date = item.timeStamp.toDate();
+      return date.getFullYear() === currentYear;
+    });
+    filterForAllSum.forEach((i) => {
+      income += Number(i.income);
+    });
+
     const filteredIncomes = incomes.filter((i) => {
       const date = i.timeStamp.toDate();
 
@@ -428,6 +432,9 @@ function Expense() {
       console.error("Xatolik:", err.message);
     }
   };
+
+  const newDate = new Date();
+  const thisYear = newDate.getFullYear();
 
   return (
     <div className="w-full pt-5 px-3 h-auto mb-5 max-w-screen-2xl mx-auto">
@@ -482,7 +489,7 @@ function Expense() {
                       type="button"
                       className="font-medium"
                     >
-                      Food
+                      🍔Food
                     </button>
                   </li>
                   <li>
@@ -491,7 +498,7 @@ function Expense() {
                       type="button"
                       className="font-medium"
                     >
-                      Transport
+                      🚗Transport
                     </button>
                   </li>
                   <li>
@@ -500,7 +507,7 @@ function Expense() {
                       type="button"
                       className="font-medium"
                     >
-                      Entertainment
+                      🎪Entertainment
                     </button>
                   </li>
                   <li>
@@ -509,7 +516,7 @@ function Expense() {
                       type="button"
                       className="font-medium"
                     >
-                      Technology
+                      💻Technology
                     </button>
                   </li>
                   <li>
@@ -518,7 +525,7 @@ function Expense() {
                       type="button"
                       className="font-medium"
                     >
-                      Other
+                      ⚙Other
                     </button>
                   </li>
                 </ul>
@@ -595,7 +602,7 @@ function Expense() {
               <span className="text-sm text-white ">
                 {nullishData ?? totlaIncomes}$
               </span>
-              Total/2026
+              Total/{thisYear}
             </span>
 
             <Link
@@ -644,18 +651,11 @@ function Expense() {
               </p>
               <p className="flex items-center gap-2">
                 <span className="text-gray-300 text-[10px]">
-                  Balance: ${balance > 0 ? balance : "0.00"}/Dec
+                  Balance: ${balance > 0 ? balance.toFixed(2) : "0.00"}/Dec
                 </span>
                 <span className="text-gray-300 text-[9px]">
                   {percent > 0 ? percent : "0"}% spent
                 </span>
-                {/* <FaArrowTrendUp className="text-gray-200 w-3 h-3" />{" "}
-                <span className="text-gray-200 text-[11px] font-thin">
-                  +87.1%
-                </span>{" "}
-                <span className="text-[10px] font-thin text-gray-200">
-                  last month
-                </span> */}
               </p>
             </div>
             <div className=" h-full relative min-w-[150px] perspect">
@@ -675,38 +675,6 @@ function Expense() {
           <div>
             <IncomeChart />
           </div>
-          {/* <div className="w-full p-5  flex flex-col justify-between  rounded-xl h-[300px] md:h-[200px]  relative overflow-hidden ">
-            <img
-              src={dollar}
-              alt=""
-              className=" absolute scale-150 z-0 top-0 left-0 w-full h-full "
-            />
-            <div className="flex justify-between items-center relative z-10 ">
-              <p className="text-gray-300 text-sm font-medium">Total earn</p>
-              <h2 className="text-4xl font-semibold text-white">
-                <span className="text-xl">$</span>
-                {nullishData ?? totlaIncomes}
-              </h2>
-            </div>
-            <div className="relative z-10 flex justify-between items-center gap-4">
-              <p className="text-gray-300 flex gap-2 items-center">
-                <button
-                  onClick={() =>
-                    document.getElementById("clean-money").showModal()
-                  }
-                >
-                  Clean
-                </button>
-                <SiCodefresh className="" />
-              </p>
-              <button
-                onClick={() => document.getElementById("add-money").showModal()}
-                className="btn text-black btn-sm bg-gradient-to-r from-yellow-400 to-white border-none "
-              >
-                +Add money
-              </button>
-            </div>
-          </div> */}
         </div>
 
         {/* =================================== Total section ====================================================== */}
@@ -742,7 +710,7 @@ function Expense() {
               <p className="w-12 h-12 rounded-xl flex justify-center items-center bg-orange-500/10">
                 <MdOutlineErrorOutline className="w-7 h-7 text-orange-500" />
               </p>
-              <p>Total spent</p>
+              <p>Highest spent</p>
               <p className="text-3xl font-semibold  text-base-content">
                 ${filterMaxMoney || "0.00"}
               </p>
@@ -814,7 +782,7 @@ function Expense() {
                     onClick={() => filterByCategory("Food")}
                     className="font-medium"
                   >
-                    Food
+                    🍔Food
                   </button>
                 </li>
                 <li>
@@ -822,7 +790,7 @@ function Expense() {
                     onClick={() => filterByCategory("Transport")}
                     className="font-medium"
                   >
-                    Transport
+                    🚗Transport
                   </button>
                 </li>
                 <li>
@@ -830,7 +798,7 @@ function Expense() {
                     onClick={() => filterByCategory("Entertainment")}
                     className="font-medium"
                   >
-                    Entertainment
+                    🏖 Entertainment
                   </button>
                 </li>
                 <li>
@@ -838,7 +806,7 @@ function Expense() {
                     onClick={() => filterByCategory("Technology")}
                     className="font-medium"
                   >
-                    Technology
+                    📱Technology
                   </button>
                 </li>
                 <li>
@@ -846,7 +814,7 @@ function Expense() {
                     onClick={() => filterByCategory("Other")}
                     className="font-medium"
                   >
-                    Other
+                    ⚙Other
                   </button>
                 </li>
               </ul>

@@ -62,6 +62,7 @@ export default function IncomeChart() {
         count += Number(item.income);
       });
     }
+
     return count;
   };
   //oyma oy expenselarni hisoblash
@@ -123,9 +124,7 @@ export default function IncomeChart() {
         return { ...prev, expense: filterDec };
       });
     }
-  }, [collectionData]);
 
-  useEffect(() => {
     if (Array.isArray(incomes) && incomes.length > 0) {
       const now = new Date();
       const currentYear = now.getFullYear();
@@ -148,7 +147,7 @@ export default function IncomeChart() {
       const filterDec = getMonthlyIncome(filteredData, 11);
 
       setJan((prev) => {
-        return { ...prev, expense: filterJan };
+        return { ...prev, income: filterJan };
       });
 
       setFeb((prev) => {
@@ -185,7 +184,69 @@ export default function IncomeChart() {
         return { ...prev, income: filterDec };
       });
     }
-  }, [incomes]);
+  }, [collectionData, incomes]);
+
+  // useEffect(() => {
+  //   if (Array.isArray(incomes) && incomes.length > 0) {
+  //     const now = new Date();
+  //     const currentYear = now.getFullYear();
+  //     const filteredData = incomes.filter((income) => {
+  //       const date = income.timeStamp.toDate();
+  //       return date.getFullYear() === currentYear;
+  //     });
+
+  //     const filterJan = getMonthlyIncome(filteredData, 0);
+  //     const filterFeb = getMonthlyIncome(filteredData, 1);
+  //     const filterMar = getMonthlyIncome(filteredData, 2);
+  //     const filterApr = getMonthlyIncome(filteredData, 3);
+  //     const filterMay = getMonthlyIncome(filteredData, 4);
+  //     const filterJun = getMonthlyIncome(filteredData, 5);
+  //     const filterJul = getMonthlyIncome(filteredData, 6);
+  //     const filterAug = getMonthlyIncome(filteredData, 7);
+  //     const filterSep = getMonthlyIncome(filteredData, 8);
+  //     const filterOkt = getMonthlyIncome(filteredData, 9);
+  //     const filterNov = getMonthlyIncome(filteredData, 10);
+  //     const filterDec = getMonthlyIncome(filteredData, 11);
+  //     console.log(filterJan);
+  //     setJan((prev) => {
+  //       return { ...prev, expense: filterJan };
+  //     });
+
+  //     setFeb((prev) => {
+  //       return { ...prev, income: filterFeb };
+  //     });
+  //     setMar((prev) => {
+  //       return { ...prev, income: filterMar };
+  //     });
+  //     setApr((prev) => {
+  //       return { ...prev, income: filterApr };
+  //     });
+  //     setMay((prev) => {
+  //       return { ...prev, income: filterMay };
+  //     });
+  //     setJun((prev) => {
+  //       return { ...prev, income: filterJun };
+  //     });
+  //     setJul((prev) => {
+  //       return { ...prev, income: filterJul };
+  //     });
+  //     setAug((prev) => {
+  //       return { ...prev, income: filterAug };
+  //     });
+  //     setSep((prev) => {
+  //       return { ...prev, income: filterSep };
+  //     });
+  //     setOkt((prev) => {
+  //       return { ...prev, income: filterOkt };
+  //     });
+  //     setNov((prev) => {
+  //       return { ...prev, income: filterNov };
+  //     });
+  //     setDec((prev) => {
+  //       return { ...prev, income: filterDec };
+  //     });
+  //   }
+  // }, [incomes]);
 
   const data = [
     { month: "Jan", income: jan.income, expense: jan.expense },
