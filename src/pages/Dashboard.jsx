@@ -424,7 +424,9 @@ function Dashboard() {
               </div>
               <div className="flex flex-col gap-3">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-3xl font-bold">$ {monthlyExpense}</h2>
+                  <h2 className="text-3xl font-bold">
+                    $ {monthlyExpense.toFixed(2)}
+                  </h2>
                   {expenseCompare && (
                     <span className="text-green-500 self-end">
                       {expenseCompare}%
@@ -558,20 +560,20 @@ function Dashboard() {
               <div className="flex  items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-blue-500 "></span>
                 <span className="font-medium text-base-content/70">
-                  Technology
+                  Shopping
                 </span>
               </div>
               <div className="relative w-full flex-1  h-2">
                 <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%]">
-                  {getExByCategory("Technology") || 0}/
-                  {limitData?.Technology ?? 100}
+                  {getExByCategory("Shopping") || 0}/
+                  {limitData?.Shopping ?? 100}
                 </span>{" "}
                 <span className=" bg-gray-200 rounded-full w-full h-full absolute top-0 left-0  overflow-x-hidden">
                   <span
                     style={{
                       width: `${(
-                        ((getExByCategory("Technology") || 0) /
-                          (limitData?.Technology ?? 100)) *
+                        ((getExByCategory("Shopping") || 0) /
+                          (limitData?.Shopping ?? 100)) *
                         100
                       ).toFixed(0)}%`,
                     }}
@@ -581,8 +583,72 @@ function Dashboard() {
               </div>
               <span className="text-sm font-medium">
                 {(
-                  ((getExByCategory("Technology") || 0) /
-                    (limitData?.Technology ?? 100)) *
+                  ((getExByCategory("Shopping") || 0) /
+                    (limitData?.Shopping ?? 100)) *
+                  100
+                ).toFixed(0)}
+                %
+              </span>
+            </div>
+            <div className="flex gap-3 justify-between items-center">
+              <div className="flex  items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-blue-500 "></span>
+                <span className="font-medium text-base-content/70">
+                  Housing
+                </span>
+              </div>
+              <div className="relative w-full flex-1  h-2">
+                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%]">
+                  {getExByCategory("Housing") || 0}/{limitData?.Housing ?? 100}
+                </span>{" "}
+                <span className=" bg-gray-200 rounded-full w-full h-full absolute top-0 left-0  overflow-x-hidden">
+                  <span
+                    style={{
+                      width: `${(
+                        ((getExByCategory("Housing") || 0) /
+                          (limitData?.Housing ?? 100)) *
+                        100
+                      ).toFixed(0)}%`,
+                    }}
+                    className="absolute left-0 h-full  bg-blue-500"
+                  ></span>{" "}
+                </span>{" "}
+              </div>
+              <span className="text-sm font-medium">
+                {(
+                  ((getExByCategory("Housing") || 0) /
+                    (limitData?.Housing ?? 100)) *
+                  100
+                ).toFixed(0)}
+                %
+              </span>
+            </div>
+            <div className="flex gap-3 justify-between items-center">
+              <div className="flex  items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-blue-500 "></span>
+                <span className="font-medium text-base-content/70">Health</span>
+              </div>
+              <div className="relative w-full flex-1  h-2">
+                <span className="text-[11px] font-medium text-gray-400 absolute top-[-200%] left-[50%] translate-x-[-50%]">
+                  {getExByCategory("Health") || 0}/{limitData?.Health ?? 100}
+                </span>{" "}
+                <span className=" bg-gray-200 rounded-full w-full h-full absolute top-0 left-0  overflow-x-hidden">
+                  <span
+                    style={{
+                      width: `${(
+                        ((getExByCategory("Health") || 0) /
+                          (limitData?.Health ?? 100)) *
+                        100
+                      ).toFixed(0)}%`,
+                    }}
+                    className="absolute left-0 h-full  bg-blue-500"
+                  ></span>{" "}
+                </span>{" "}
+              </div>
+              <span className="text-sm font-medium">
+                {(
+                  ((getExByCategory("Health") || 0) /
+                    (limitData?.Health ?? 100)) *
                   100
                 ).toFixed(0)}
                 %
@@ -691,7 +757,9 @@ function Dashboard() {
               </p>
               <div className="flex flex-col gap-1">
                 <p className="text-gray-400">Weakly expense</p>
-                <h2 className={`text-3xl font-bold`}>${weeklyExpense}</h2>
+                <h2 className={`text-3xl font-bold`}>
+                  ${weeklyExpense.toFixed(2)}
+                </h2>
                 <p>
                   <span className="text-red-600 font-medium">14% </span>this
                   week
@@ -713,7 +781,9 @@ function Dashboard() {
               </p>
               <div className="flex flex-col gap-1">
                 <p className="text-gray-400">Highest Expense</p>
-                <h2 className={`text-3xl  font-bold`}>${maxExpense}</h2>
+                <h2 className={`text-3xl  font-bold`}>
+                  ${maxExpense.toFixed(2)}
+                </h2>
                 <p className="text-green-500 flex items-center gap-3">
                   <span className="inline-block w-2 h-2 rounded-full bg-green-500"></span>{" "}
                   {maxCategory}

@@ -1,0 +1,50 @@
+{
+  "navbar": {
+    "tasks": "Vazifalar",
+    "chat": "Chat",
+    "logout": "Chiqish"
+  },
+  "dashboard": {
+    "welcome": "Xush kelibsiz"
+  },
+  "expense": {
+    "addNew": "Qo'shish"
+  },
+  "statistics": {
+    "upperTitle": "Moliyaviy statistika",
+    "upperSubtitle": "To'liq moliyaviy tahlil va statistika ma'lumotlari",
+    "selectYear": "Yilni tanlang"
+  },
+  "subStat": {
+    "all": "Jami",
+    "income": "Daromad",
+    "expense": "Xarajat",
+    "saved": "Tejaldi",
+    "rate": "stavkada",
+    "average": "O'rtacha",
+    "monthlyExpense": "Oylik xarajat",
+    "barTitle": "Yillik daromad va xarajatlar",
+    "pieTitle": "Xarajatlar taxlili",
+    "food": "Oziq-ovqat",
+    "entertainment": "O'yin-kulgu",
+    "housing": "Uy-joy",
+    "health": "Sog'liq",
+    "other": "Boshqalar",
+    "lineTitle": "Qo'shimcha statistika",
+    "lineTitle2": "Xarajat tendensiyasi (6 oy)",
+    "card1Title": "Oylik o'rtacha daromad",
+    "card2Title": "Eng ko'p xarajat qilingan oy",
+    "card3Title": "Tejash darajasi",
+    "card4Title": "Eng katta xarajat kategoriyasi",
+    "tableTitle": "Oylik taqqoslash",
+    "month": "Oy",
+    "distance": "Farq",
+    "positive": "Ijobiy",
+    "negative": "Salbiy",
+    "description": "Tavsif",
+    "quantity": "Miqdor",
+    "source": "Manbaa",
+    "time": "Vaqt",
+    "date": "Sana"
+  }
+}

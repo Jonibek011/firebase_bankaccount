@@ -7,7 +7,8 @@ import {
 import RootLayout from "./layouts/Rootlayout";
 
 import useGlobalContext from "./hooks/useGlobalContext";
-
+//tarjima fayllar
+import "./i18n";
 //toastify
 //firebase
 import { onAuthStateChanged } from "firebase/auth";
@@ -30,6 +31,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Tasks = lazy(() => import("./pages/Tasks"));
 const Expense = lazy(() => import("./pages/Expense"));
 const Chat = lazy(() => import("./pages/Chat"));
+const SubStatistics = lazy(() => import("./pages/expense/SubStatistics"));
 
 //action
 import { action as RegisterAction } from "./pages/Register";
@@ -153,6 +155,22 @@ function App() {
               <Statistics />
             </Suspense>
           ),
+          children: [
+            {
+              path: ":year",
+              element: (
+                <Suspense
+                  fallback={
+                    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                      <span className="loading loading-spinner loading-lg"></span>
+                    </div>
+                  }
+                >
+                  <SubStatistics />
+                </Suspense>
+              ),
+            },
+          ],
         },
       ],
     },

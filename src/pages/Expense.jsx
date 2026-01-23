@@ -3,7 +3,6 @@ import { CiMenuKebab } from "react-icons/ci";
 import { useActionData } from "react-router-dom";
 //icons
 
-import { RiMoneyPoundCircleLine } from "react-icons/ri";
 import box from "../assets/images/folder.png";
 import { PiEyeBold } from "react-icons/pi";
 import { FaFilter } from "react-icons/fa6";
@@ -41,7 +40,6 @@ import { useAllCollection } from "../hooks/useAllCollection";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 
-import dollar from "../assets/images/credit-bg.png";
 import card1 from "../assets/images/dashboard/3d-hand-take-out-paper-money-cash-from-wallet-removebg-preview.png";
 import card2 from "../assets/expense/2211.w018.n002.1412A.p30.1412-removebg-preview.png";
 import card3 from "../assets/expense/man-hand-with-money-bag-with-dollar-sign-removebg-preview.png";
@@ -88,7 +86,10 @@ export const action = async ({ request }) => {
     submitted: true,
   };
 };
-//main function
+
+//i18next imports
+import { useTranslation } from "react-i18next";
+//main function=====================================
 function Expense() {
   const { user, dispatch, isDark } = useGlobalContext();
   //action data
@@ -125,6 +126,9 @@ function Expense() {
   const [balance, setBalance] = useState(0);
   const [percent, setPercent] = useState(0);
   const { incomes } = useContext(MainIncomContext);
+
+  //useTranslation
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (debouncedValue && debouncedValue.length > 2) {
@@ -289,7 +293,7 @@ function Expense() {
   //category filterni dinamic qilish
   const filterByCategory = (category) => {
     const newData = originalData.filter((item) => {
-      return item.category === category;
+      return item?.category === category;
     });
     let filteredTotalSum = 0;
     newData?.forEach((item) => {
@@ -442,7 +446,8 @@ function Expense() {
         {/* ==================== Add card ====================================================== */}
         <div className="add-card shadow-md flex flex-col justify-between   bg-base-100 w-full rounded-xl  col-span-10 lg:col-span-5 xl:col-span-6 h-auto">
           <h3 className="text-lg px-6 pt-4 sm:text-lg font-semibold text-base-content  flex items-center gap-2">
-            <FiPlusCircle className="w-6 h-6 text-purple-500 " /> Add new
+            <FiPlusCircle className="w-6 h-6 text-purple-500 " />{" "}
+            {t("expense.addNew")}
           </h3>
           <div className="p-2 sm:px-8 sm:py-12 rounded-xl bg-base-100">
             <Form
@@ -512,11 +517,29 @@ function Expense() {
                   </li>
                   <li>
                     <button
-                      onClick={() => setCategory("Technology")}
+                      onClick={() => setCategory("Shopping")}
                       type="button"
                       className="font-medium"
                     >
-                      💻Technology
+                      🛒Shopping
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setCategory("Housing")}
+                      type="button"
+                      className="font-medium"
+                    >
+                      🏡Housing
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setCategory("Health")}
+                      type="button"
+                      className="font-medium"
+                    >
+                      🏥Health
                     </button>
                   </li>
                   <li>
@@ -803,10 +826,26 @@ function Expense() {
                 </li>
                 <li>
                   <button
-                    onClick={() => filterByCategory("Technology")}
+                    onClick={() => filterByCategory("Shopping")}
                     className="font-medium"
                   >
-                    📱Technology
+                    🛒Shopping
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => filterByCategory("Housing")}
+                    className="font-medium"
+                  >
+                    🏡Housing
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => filterByCategory("Health")}
+                    className="font-medium"
+                  >
+                    🏥Health
                   </button>
                 </li>
                 <li>
@@ -952,7 +991,11 @@ function Expense() {
                               ? "btn-success btn-outline"
                               : collect.category === "Food"
                               ? "btn-warning btn-outline"
-                              : "btn-secondary btn-outline"
+                              : collect.category === "Hausing"
+                              ? "btn-neutral btn-outline"
+                              : collect.category === "Health"
+                              ? "btn-secondary btn-outline"
+                              : "btn-accent btn-outline"
                           }`}
                         >
                           {collect.category}

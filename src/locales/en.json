@@ -1,0 +1,51 @@
+{
+  "navbar": {
+    "tasks": "Tasks",
+    "chat": "Chat",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "welcome": "Welcome back"
+  },
+
+  "expense": {
+    "addNew": "Add new"
+  },
+  "statistics": {
+    "upperTitle": "Financial statistic",
+    "upperSubtitle": "Complete financial analysis and statistical data",
+    "selectYear": "Select year"
+  },
+  "subStat": {
+    "all": "All",
+    "income": "Income",
+    "expense": "Expense",
+    "saved": "Saved",
+    "rate": "rate",
+    "average": "Average",
+    "monthlyExpense": "Monthly expense",
+    "barTitle": "Annual income and expenses",
+    "pieTitle": "Cost analysis",
+    "food": "Food",
+    "entertainment": "Entertainment",
+    "housing": "Housing",
+    "health": "Health",
+    "other": "Other",
+    "lineTitle": "Additional statistic",
+    "lineTitle2": "Expenditure trend (6 month)",
+    "card1Title": "Average monthly income",
+    "card2Title": "The month with the most expenses",
+    "card3Title": "Savings rate",
+    "card4Title": "Largest expense category",
+    "tableTitle": "Monthly comparison",
+    "month": "Month",
+    "distance": "Distance",
+    "positive": "Positive",
+    "negative": "Negative",
+    "description": "Description",
+    "quantity": "Quantity",
+    "source": "Source",
+    "time": "Time",
+    "date": "Date"
+  }
+}

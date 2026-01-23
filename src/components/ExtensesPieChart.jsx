@@ -22,11 +22,13 @@ const ExpensesPieChart = ({ mapDataForChart = [] }) => {
   const data = [
     { name: "Food", value: obj?.Food ? obj.Food : 0 },
     { name: "Transport", value: obj?.Transport ? obj.Transport : 0 },
-    { name: "Technologiya", value: obj?.Technologia ? obj.Technologia : 0 },
+    { name: "Shopping", value: obj?.Shopping ? obj.Shopping : 0 },
     {
       name: "Entertainment",
       value: obj?.Entertainment ? obj.Entertainment : 0,
     },
+    { name: "Housing", value: obj?.Housing ? obj.Housing : 1 },
+    { name: "Health", value: obj?.Health ? obj.Health : 1 },
     { name: "Other", value: obj?.Other ? obj.Other : 1 },
   ];
 

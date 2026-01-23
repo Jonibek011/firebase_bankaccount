@@ -9,10 +9,11 @@ import { useEffect, useMemo, useState } from "react";
 //useLogout
 import { useLogout } from "../hooks/useLogout";
 import MdNavMenu from "./MdNavMenu";
-
+//language switcher
+import LanguageSwitcher from "./translate/LanguageSwitcher";
 //Data from localstorage
 const themeFromLocal = localStorage.getItem("dark_mode") || "light";
-//Main function
+//Main function ==========================================
 function Navbar() {
   const [toggleBtn, setToggleBtn] = useState(false);
   const [theme, setTheme] = useState(themeFromLocal);
@@ -115,6 +116,9 @@ function Navbar() {
               </div>
             </Link>
           </div>
+
+          {/* ======================= Language switcher ================================ */}
+          <LanguageSwitcher />
           {/* ================= Profile =========================================== */}
           <div className="dropdown dropdown-end">
             <div
