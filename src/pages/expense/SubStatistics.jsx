@@ -243,7 +243,10 @@ function SubStatistics() {
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-xl lg:text-2xl xl:text-3xl text-white font-medium">
-                ${(allExpenseSum / incomeMonths.length).toFixed(1) || "0.00"}
+                $
+                {isNaN((allExpenseSum / incomeMonths?.length).toFixed(1))
+                  ? "0.00"
+                  : (allExpenseSum / incomeMonths?.length).toFixed(1)}
               </p>
               <p className="text-white/80">{t("subStat.monthlyExpense")}</p>
             </div>
@@ -293,7 +296,10 @@ function SubStatistics() {
                 <div className="flex flex-col gap-1">
                   <p>{t("subStat.card1Title")}</p>
                   <p className="text-blue-600 font-medium">
-                    ${(allIncomesSum / incomeMonths.length).toFixed(1)}
+                    $
+                    {isNaN((allIncomesSum / incomeMonths?.length).toFixed(1))
+                      ? "0.0"
+                      : allIncomesSum / incomeMonths?.length}
                   </p>
                 </div>
               </div>
@@ -317,10 +323,17 @@ function SubStatistics() {
                 <div className="flex flex-col gap-1">
                   <p>{t("subStat.card3Title")}</p>
                   <p className="text-green-600 font-medium">
-                    {(
-                      ((allIncomesSum - allExpenseSum) / allIncomesSum) *
-                      100
-                    ).toFixed(1)}
+                    {isNaN(
+                      (
+                        ((allIncomesSum - allExpenseSum) / allIncomesSum) *
+                        100
+                      ).toFixed(1)
+                    )
+                      ? "00.0"
+                      : (
+                          ((allIncomesSum - allExpenseSum) / allIncomesSum) *
+                          100
+                        ).toFixed(1)}
                     %
                   </p>
                 </div>

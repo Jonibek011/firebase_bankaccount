@@ -47,5 +47,16 @@
     "source": "Source",
     "time": "Time",
     "date": "Date"
+  },
+  "noStat": {
+    "title": "Data is being generated.",
+    "description": "You are a new user! Statistics are being collected. Soon you will be able to see full reports about your activity here.",
+    "card1Title": "Data is being collected.",
+    "card1Description": "Activity is being monitored",
+    "card2Title": "Analyzing",
+    "card2Description": "Data is being processed.",
+    "card3Title": "Will be ready",
+    "card3Description": "See you soon.",
+    "tip": "Tip: Start using the system and your statistics will be automatically generated."
   }
 }

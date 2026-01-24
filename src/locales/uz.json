@@ -46,5 +46,16 @@
     "source": "Manbaa",
     "time": "Vaqt",
     "date": "Sana"
+  },
+  "noStat": {
+    "title": "Ma'lumotlar shakllantirilmoqda",
+    "description": "Siz yangi foydalanuvchisiz! Statistika ma'lumotlari to'planmoqda. Tez orada bu yerda sizning faoliyatingiz haqida to'liq hisobotlarni ko'rishingiz mumkin bo'ladi.",
+    "card1Title": "Ma'lumotlar yig'ilmoqda",
+    "card1Description": "Faoliyat kuzatilmoqda",
+    "card2Title": "Taxlil qilinmoqda",
+    "card2Description": "Ma'lumotlar qayta ishlanmoqda.",
+    "card3Title": "Tayyor bo'ladi",
+    "card3Description": "Tez orada ko'rish mumkin.",
+    "tip": "Maslahat: Tizimdan foydalanishni boshlang va statistikangiz avtomatik shakllanadi."
   }
 }

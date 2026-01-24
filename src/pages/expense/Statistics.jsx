@@ -26,6 +26,12 @@ function Statistics() {
     user.uid,
   ]);
 
+  const { data: allIncomes } = useAllCollection("Incomes", [
+    "userId",
+    "==",
+    user.uid,
+  ]);
+
   // collectiondan qaysi yillar malumoti borligini olish
   const years = useMemo(() => {
     if (!collectionData) return [];
@@ -101,6 +107,71 @@ function Statistics() {
         </div>
 
         <div className="full-statistics">
+          {(collectionData?.length == 0 || allIncomes?.length == 0) && (
+            <>
+              <div className="rounded-lg  bg-base-100 w-full shadow-lg p-8 flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <div className="text-center">
+                    <span className="loading loading-ring loading-lg text-info"></span>
+                  </div>
+                  <h2 className="text-center text-2xl lg:text-3xl font-semibold">
+                    {t("noStat.title")}
+                  </h2>
+                  <p className="lg:text-lg max-w-lg mx-auto text-center">
+                    {t("noStat.description")}
+                  </p>
+                </div>
+                <div className="cards max-w-xl mx-auto w-full grid grid-cols-3 gap-4 ">
+                  <div className="card p-4 rounded-xl bg-blue-500/10 flex flex-row gap-3">
+                    <div className="w-6 h-6 min-w-6 rounded-full bg-blue-600 flex justify-center items-center ">
+                      <span className="text-white ">1</span>
+                    </div>
+                    <div>
+                      <h2 className="font-semibold">
+                        {t("noStat.card1Title")}
+                      </h2>
+                      <p className="text-[12px]">
+                        {t("noStat.card1Description")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="card p-4 rounded-xl bg-purple-500/10 flex flex-row gap-3">
+                    <div className="w-6 h-6 min-w-6 rounded-full bg-purple-600 flex justify-center items-center ">
+                      <span className="text-white ">2</span>
+                    </div>
+                    <div>
+                      <h2 className="font-semibold">
+                        {t("noStat.card2Title")}
+                      </h2>
+                      <p className="text-[12px]">
+                        {t("noStat.card2Description")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="card p-4 rounded-xl bg-green-500/10 flex flex-row gap-3">
+                    <div className="w-6 h-6 min-w-6 rounded-full bg-green-600 flex justify-center items-center ">
+                      <span className="text-white ">3</span>
+                    </div>
+                    <div>
+                      <h2 className="font-semibold">
+                        {t("noStat.card3Title")}
+                      </h2>
+                      <p className="text-[12px]">
+                        {t("noStat.card3Description")}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <span className="loading loading-dots loading-lg text-primary"></span>
+                </div>
+              </div>
+              <p className="text-sm text-center mt-3">💡 {t("noStat.tip")}</p>
+            </>
+          )}
           <Outlet />
         </div>
       </div>

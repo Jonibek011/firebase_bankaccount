@@ -8,6 +8,7 @@ import { TbSettings } from "react-icons/tb";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import { IoStatsChartOutline } from "react-icons/io5";
 
 //react-router-dom
 import { Link, Navigate } from "react-router-dom";
@@ -78,6 +79,18 @@ function Sidebar() {
               </Link>
             </li>
             <li>
+              <Link to="/expense">
+                <RiMoneyDollarCircleLine className="icons" />
+                <span
+                  className={`transition-all duration-200 font-semibold text-[16px] ${
+                    isOpenSidebar ? "opacity-100 ml-2" : "opacity-0 w-0 ml-0"
+                  } whitespace-nowrap`}
+                >
+                  Tracker
+                </span>
+              </Link>
+            </li>
+            <li>
               <Link to="tasks">
                 <TbSubtask className="icons" />
                 <span
@@ -89,18 +102,7 @@ function Sidebar() {
                 </span>
               </Link>
             </li>
-            <li>
-              <Link to="/expense">
-                <RiMoneyDollarCircleLine className="icons" />
-                <span
-                  className={`transition-all duration-200 font-semibold text-[16px] ${
-                    isOpenSidebar ? "opacity-100 ml-2" : "opacity-0 w-0 ml-0"
-                  } whitespace-nowrap`}
-                >
-                  Expense Tracker
-                </span>
-              </Link>
-            </li>
+
             <li>
               <div onClick={checkUserVerify}>
                 <BsChatSquareDots className="icons" />
@@ -112,6 +114,18 @@ function Sidebar() {
                   Chat
                 </span>
               </div>
+            </li>
+            <li>
+              <Link to="/expense/statistics">
+                <IoStatsChartOutline className="icons" />
+                <span
+                  className={`transition-all duration-200 font-semibold text-[16px] ${
+                    isOpenSidebar ? "opacity-100 ml-2" : "opacity-0 w-0 ml-0"
+                  } whitespace-nowrap`}
+                >
+                  Statistics
+                </span>
+              </Link>
             </li>
             <li>
               <Link to="/profile">

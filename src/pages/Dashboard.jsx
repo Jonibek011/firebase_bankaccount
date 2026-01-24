@@ -1002,8 +1002,14 @@ function Dashboard() {
                     <li onClick={() => setCategory("Entertainment")}>
                       <a className="font-medium text-[15px]">Entertainment</a>
                     </li>
-                    <li onClick={() => setCategory("Technology")}>
-                      <a className="font-medium text-[15px]">Technology</a>
+                    <li onClick={() => setCategory("Shopping")}>
+                      <a className="font-medium text-[15px]">Shopping</a>
+                    </li>
+                    <li onClick={() => setCategory("Housing")}>
+                      <a className="font-medium text-[15px]">Housing</a>
+                    </li>
+                    <li onClick={() => setCategory("Health")}>
+                      <a className="font-medium text-[15px]">Health</a>
                     </li>
                     <li onClick={() => setCategory("Other")}>
                       <a className="font-medium text-[15px]">Other</a>
